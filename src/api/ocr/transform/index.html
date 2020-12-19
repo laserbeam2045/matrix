@@ -1,0 +1,122 @@
+<canvas id="c" width="40" height="40"></canvas>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+  // 中央配置かつ白背景にする処理？
+	foo();
+
+	function foo() {
+		$.ajax({
+			type: "get",
+			url: "http://have-a-go.moo.jp/handwriting_2/transform_1.php",
+			error: function() {
+				console.log("error");
+			},
+			success: function(result) {
+				if (result == "") {
+					console.log("finish")
+				} else {
+					//transform(id);
+					list = JSON.parse(result);
+					for (let i = 0; i < list.length; i++) {
+						transform(list[i]);
+					}
+				}
+			}
+		})	
+	}
+
+	function transform(id) {
+		let image = new Image();
+		image.src = "http://have-a-go.moo.jp/handwriting_2/edit/image?id=" + id;
+		image.onload = () => {
+			let canvas = document.getElementById("c");
+			let ctx = canvas.getContext("2d");
+
+			ctx.drawImage(image, 0, 0);
+
+			const center = ctx.getCenter(),
+					center_of_g = ctx.getCenterOfGravity(),
+					x = center.x - center_of_g.x,
+					y = center.y - center_of_g.y;
+
+			const tmpCanvas = new Canvas(40, 40);
+			tmpCanvas.ctx.fillStyle = "white";
+			tmpCanvas.ctx.fillRect(0, 0, 40, 40);
+			tmpCanvas.ctx.drawImage(canvas, 0, 0, 40, 40, x, y, 40, 40);
+
+			ctx.drawImage(tmpCanvas, 0, 0);
+
+			sendImage(id, canvas);
+		}
+	}
+
+	// サーバーに画像を送信する処理
+	function sendImage(id, canvas) {
+	  // canvasデータからblobオブジェクトを作成
+	  canvas.toBlob(blob => {
+	    const oReq = new XMLHttpRequest();
+	    const url = "http://have-a-go.moo.jp/handwriting_2/transform_2.php";
+	    const fd = new FormData();
+
+	    // FormDataに画像とラベルを追加
+	    fd.append("id", id);
+	    fd.append("image", blob);
+
+	    // メソッドと送信先を指定
+	    oReq.open("POST", url, true);
+
+	    // 送信
+	    oReq.send(fd);
+	  }, "image/png");
+	}
+
+	function Canvas(width, height) {
+	  const canvas = document.createElement("canvas");
+	  canvas.ctx = canvas.getContext("2d");
+	  canvas.width = width;
+	  canvas.height = height;
+	  return canvas;
+	}
+
+	// 中心の座標を取得する
+	CanvasRenderingContext2D.prototype.getCenter = function() {
+	  return {
+	    x: this.canvas.width / 2,
+	    y: this.canvas.height / 2
+	  };
+	};
+
+	// 重心の座標を取得する
+	CanvasRenderingContext2D.prototype.getCenterOfGravity = function() {
+	  const width = this.canvas.width,
+	        height = this.canvas.height,
+	        data = this.getImageData(0, 0, width, height).data;
+	  let area = 0, xk = 0, yk = 0;
+
+	  for (let x = 0; x < width; x++) {
+	    let k = 0;
+	    for (let y = 0; y < height; y++) {
+	      const index = (width * y + x) * 4,
+	            alpha = data[index + 3];
+	      if (alpha) k += (255 - data[index]);
+	    }
+	    area += k;
+	    xk += x * k;
+	  }
+	  for (let y = 0; y < height; y++) {
+	    let k = 0;
+	    for (let x = 0; x < width; x++) {
+	      const index = (width * y + x) * 4,
+	            alpha = data[index + 3];
+	      if (alpha) k += (255 - data[index]);
+	    }
+	    yk += y * k;
+	  }
+
+	  return {
+	    x: xk / area,
+	    y: yk / area
+	  };
+	};
+</script>

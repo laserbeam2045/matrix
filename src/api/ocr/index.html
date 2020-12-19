@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>alphabet</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://rawgit.com/kangax/fabric.js/master/dist/fabric.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.3/dist/tf.min.js"></script>
+    <script type="module">
+      import {Handwriting} from "http://have-a-go.moo.jp/handwriting_2/src/handwriting.js?version=5";
+
+      let count = 0;
+
+      window.addEventListener("load", () => {
+        var hw = new Handwriting({
+          id: "c",
+          width: 160,
+          height: 160,
+        });
+
+        hw.fabricCanvas.on('mouse:up', () => console.log(hw.getChar()));
+        document.querySelector("#clear").addEventListener("click", () => hw.clear());
+
+        document.querySelector("#confirm").addEventListener("click", () => {
+          hw.send(document.querySelector("#label").value);
+          count += 1;
+          document.querySelector("#count").innerText = count;
+        });
+
+        document.querySelector("#label").addEventListener("change", () => {
+          count = 0;
+          document.querySelector("#count").innerText = "";
+        });
+      });
+    </script>
+    <style>
+      body {
+        text-align: center;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      #label {
+        width: 30px;
+      }
+
+      #count {
+        display: inline-block;
+        margin: 0 12px;
+      }
+
+      .canvas-container {
+        margin: auto;
+      }
+
+      #c {
+        border: 1px solid gray;
+        box-sizing: border-box;
+      }
+
+      button {
+        width: 80px;
+        height: 30px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <label>label: </label><input type="text" id="label"><p id="count"></p>
+    <canvas id="c"></canvas>
+    <button id="clear">clear</button>
+    <button id="confirm">confirm</button>
+  </body>
+</html>

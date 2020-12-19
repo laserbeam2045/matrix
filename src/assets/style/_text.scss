@@ -1,0 +1,19 @@
+@import './colors';
+
+
+$fontFamily1: Avenir, Helvetica, Arial, sans-serif;
+$fontFamily2: Electrolize, sans-serif;
+$fontFamily3: 'Orbitron', sans-serif;
+
+// input[type="text"], textarea
+$normalFont: normal 16px/1.5em $fontFamily2;
+
+
+@mixin textStyleA {
+  color: white;
+  text-shadow: $blueLikeColor1 0 0 3px;
+}
+
+@mixin textStyleB {
+  font: 16px/23px $fontFamily1;
+}

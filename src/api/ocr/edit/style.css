@@ -1,0 +1,94 @@
+body {
+  padding: 20px;
+}
+
+fieldset {
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+input[type="checkbox"], label, button, img {
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+}
+
+fieldset label {
+  min-width: 37px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+#limit {
+  margin-left: 15px;
+}
+
+#limit > input {
+  text-align: center;
+  width: 38px;
+}
+
+button {
+  margin-left: 20px;
+  padding: 8px 12px;
+}
+
+.files {
+  margin: 30px 0 50px 50px;
+  max-width: 1070px;
+}
+
+.file {
+  margin: 0 20px 20px 0;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+}
+
+.file div {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  over-flow: hidden;
+  cursor: pointer;
+  border: 1px solid #eeeeee;
+}
+
+.file div::before {
+  content: "";
+  height: 50%;
+  margin-top: 25%;
+  display: block;
+  border-top: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.file div::after {
+  content: "";
+  height: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  border-bottom: 1px dotted #eeeeee;
+}
+
+.file img {
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.files label {
+  font-size: 12px;
+  height: 20px;
+  display: inline-block;
+}
+
+.file input[type="text"] {
+  width: 20px;
+  height: 20px;
+  display: none;
+  text-align: center;
+}

@@ -1,0 +1,50 @@
+@import './colors';
+
+/* ウィンドウ関連のスタイル */
+
+// ウィンドウ右上のボタンのサイズ
+$windowHeaderItemSize: 40px;
+
+// ウィンドウのスクロールバーのスタイル
+$windowScrollbarWidth: 10px;
+$windowScrollbarBorderRadius: 4px;
+$windowScrollbarBoxShadow: white 0 0 3px inset;
+
+// ライトモード
+$windowLightTextColor         : $blueLikeColor6;
+$windowLightBackground        : $blackLikeColor3;
+$windowLightBackgroundEditor  : $blueLikeColor7;
+
+// ダークモード
+$windowDarkTextColor          : $blueLikeColor6;
+$windowDarkBackground         : $blackLikeColor1;
+$windowDarkBackgroundEditor   : $blueLikeColor7;
+
+body {
+  $outColor     : $whiteLikeColor1;
+  $out-H-Offset :  35px;
+  $out-V-Offset :  35px;
+  $outBlur      :  50px;
+  $outSpread    : -50px;
+
+  //$inColor      : $blueLikeColor4;
+  $inColor      : rgba(1, 136, 202, 0.2);
+  $in-H-Offset  :  70px;
+  $in-V-Offset  :  70px;
+  $inBlur       :  50px;
+  $inSpread     : -50px;
+
+  $legendBoxShadow:
+    $inColor $in-H-Offset 0 $inBlur $inSpread inset   // 内側左
+    !global;
+
+  $windowBoxShadow:
+    $outColor   $out-H-Offset    $out-V-Offset  $outBlur $outSpread,        // 外側右下
+    $outColor (-$out-H-Offset)   $out-V-Offset  $outBlur $outSpread,        // 外側左下
+    $outColor (-$out-H-Offset) (-$out-V-Offset) $outBlur $outSpread,        // 外側左上
+    $outColor   $out-H-Offset  (-$out-V-Offset) $outBlur $outSpread,        // 外側右上
+     $inColor    $in-H-Offset                0   $inBlur  $inSpread inset,  // 内側左
+     $inColor  (-$in-H-Offset)               0   $inBlur  $inSpread inset,  // 内側右
+     $inColor               0   (-$in-V-Offset)  $inBlur  $inSpread inset   // 内側下
+    !global;
+}
