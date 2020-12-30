@@ -1,23 +1,20 @@
 <template>
   <label>
     <input
-      type="radio"
       v-show="showInput"
+      type="radio"
       :value="value"
       :checked="checked"
       @change="$emit('change', $event.target.checked)"
       @keydown.enter.prevent=""
-    /><!--
- --><slot></slot>
+    ><!--
+ --><slot />
   </label>
 </template>
 
 <script>
 export default {
   name: 'BaseInputRadio',
-  emits: [
-    'change',
-  ],
   props: {
     value: {
       type: String,
@@ -34,15 +31,16 @@ export default {
       default: true,
     },
   },
+  emits: [
+    'change',
+  ],
 }
 </script>
 
 <style lang="scss" scoped>
 label {
   display: inline-block;
-  margin: 0;
-  padding: 0;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: $font-family-normal;
   cursor: pointer;
 
   input {

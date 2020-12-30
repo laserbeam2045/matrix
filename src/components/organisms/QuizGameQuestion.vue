@@ -1,5 +1,8 @@
 <template>
-  <pre>Q.&nbsp;{{ openedQuestion }}</pre>
+  <div class="quiz-game-question">
+    <span>Q.&nbsp;</span>
+    <div>{{ openedQuestion }}</div>
+  </div>
 </template>
 
 <script>
@@ -10,15 +13,15 @@ const OPEN_INTERVAL = 100
 
 export default defineComponent({
   name: 'QuizGameQuestion',
-  emits: [
-    'all-displayed',
-  ],
   props: {
     question: {
       type: String,
       required: true,
     },
   },
+  emits: [
+    'all-displayed',
+  ],
   setup(props, { emit }) {
     // 親コンポーネントから受け取る問題文
     const question = toRef(props, 'question')
@@ -75,10 +78,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/text';
-
-pre {
+.quiz-game-question {
   @include textStyleB;
+  display: flex;
   height: 176px;
   margin: 15px 0 0;
   text-align: left;

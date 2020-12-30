@@ -9,16 +9,19 @@
           v-model:height="windowState.height"
           v-model:position="windowState.position"
           v-model:draggable="windowState.draggable"
-          :contentsStyle="contentsStyle"
+          :contents-style="contentsStyle"
           :legend="legend"
         >
           <template #header>
             <HeaderItemBox>
-              <HeaderItem type="times" @click="hideModal" />
+              <HeaderItem
+                type="times"
+                @click="hideModal"
+              />
             </HeaderItemBox>
           </template>
           <template #default>
-            <slot></slot>
+            <slot />
           </template>
         </VirtualWindow>
       </div>
@@ -36,9 +39,6 @@ export default defineComponent({
   components: {
     Teleporter,
   },
-  emits: [
-    'close',
-  ],
   props: {
     level: {
       type: Number,
@@ -63,6 +63,9 @@ export default defineComponent({
       },
     },
   },
+  emits: [
+    'close',
+  ],
   setup(props, context) {
     const { playAudio } = useAudio()
 

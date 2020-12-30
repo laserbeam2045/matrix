@@ -10,15 +10,19 @@
         v-model:answer1="data.answer1"
         v-model:answer2="data.answer2"
       />
-      <ButtonBasicAtom @click="onClickSubmit">Submit</ButtonBasicAtom>
-      <ButtonBasicAtom @click="onClickCancel">Cancel</ButtonBasicAtom>
+      <ButtonBasicAtom @click="onClickSubmit">
+        Submit
+      </ButtonBasicAtom>
+      <ButtonBasicAtom @click="onClickCancel">
+        Cancel
+      </ButtonBasicAtom>
     </div>
   </ModalWindow>
 </template>
 
 <script>
 import { defineComponent, ref, reactive } from 'vue'
-import ButtonBasicAtom from '@/components/atoms/button-basic-atom'
+import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 import TemplateFormQuiz from '@/components/organisms/TemplateFormQuiz'
 
 export default defineComponent({

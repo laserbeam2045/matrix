@@ -19,6 +19,9 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: [
+    'update:value',
+  ],
   setup() {
     const textareaRef = ref(null)
 
@@ -31,8 +34,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/colors';
-@import '@/assets/style/text';
 
 textarea {
   width: 347px;
@@ -42,7 +43,6 @@ textarea {
   background: transparent;
   border: 1px solid $def-wrap-c2;
   transition: $neutral-transition;
-  box-sizing: border-box;
   font: $normalFont;
 
   &:focus {

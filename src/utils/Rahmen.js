@@ -99,6 +99,7 @@ export default class Rahmen {
       const area = tensor2.sum()
       const sumX = tensor2.sum(0).mul(tf.range(0, width, 1)).sum()
       const sumY = tensor2.sum(1).mul(tf.range(0, height, 1)).sum()
+      // wasm@2.8.1ではdivがエラーとなる(12/22/2020)
       const x = tf.div(sumX, area).dataSync()
       const y = tf.div(sumY, area).dataSync()
       return { x, y }

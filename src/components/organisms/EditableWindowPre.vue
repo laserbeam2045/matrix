@@ -1,29 +1,23 @@
 <template>
   <pre
-    v-if="htmlString"
-    v-html="htmlString"
-    ref="pre1"
+    ref="root"
+    v-focus
+    contenteditable
     :spellcheck="spellcheck"
     v-on="listeners"
-  ></pre>
-  <pre
-    v-else
-    ref="pre2"
-    :spellcheck="spellcheck"
-    v-on="listeners"
-  ><slot></slot></pre>
+    v-text="htmlString"
+  />
 </template>
 
 <script>
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'EditableWindowPre',
   props: {
     htmlString: {
-      type: [String, Boolean],
-      required: false,
-      default: false,
+      type: String,
+      required: true,
     },
     spellcheck: {
       type: Boolean,
@@ -38,26 +32,20 @@ export default defineComponent({
       }
     },
   },
-  setup(props) {
-    const pre1 = ref(null)
-    const pre2 = ref(null)
+  setup() {
+    const root = ref(null)
 
-    const realPre = computed(() => {
-      return props.htmlString ? pre1.value : pre2.value
-    })
-
-    const blur            = () => realPre.value.blur()
-    const focus           = () => realPre.value.focus()
-    const getInnerText    = () => realPre.value.innerText
-    const getInnerHTML    = () => realPre.value.innerHTML
-    const getChildNodes   = () => realPre.value.childNodes
-    const getChildNodeAt  = idx => realPre.value.childNodes.item(idx)
-    const getTextContent  = () => realPre.value.textContent
-    const getScrollHeight = () => realPre.value.scrollHeight
+    const blur            = () => root.value.blur()
+    const focus           = () => root.value.focus()
+    const getInnerText    = () => root.value.innerText
+    const getInnerHTML    = () => root.value.innerHTML
+    const getChildNodes   = () => root.value.childNodes
+    const getChildNodeAt  = idx => root.value.childNodes.item(idx)
+    const getTextContent  = () => root.value.textContent
+    const getScrollHeight = () => root.value.scrollHeight
 
     return {
-      pre1,
-      pre2,
+      root,
       blur,
       focus,
       getInnerText,
@@ -67,13 +55,11 @@ export default defineComponent({
       getTextContent,
       getScrollHeight,
     }
-  },
+  }
 })
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/window';
-
 body.light-theme {
   pre {
     background: $windowLightBackgroundEditor;

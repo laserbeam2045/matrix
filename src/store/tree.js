@@ -1,5 +1,5 @@
 import { reactive, computed, readonly, provide, inject } from 'vue'
-import Aset from '@/utils/AsetClass'
+import Aset from '@/utils/Aset'
 
 const storeSymbol = Symbol('tree')
 

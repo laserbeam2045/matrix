@@ -146,8 +146,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import '@/assets/style/text';
-
 span.private {
   @include textStyleA;
   // margin-left: 0.1px;

@@ -12,7 +12,7 @@
       />
     </VueDraggableNext>
     <div class="tree-nodes">
-      <BaseAccordion :isOpen="isOpenChildren">
+      <BaseAccordion :is-open="isOpenChildren">
         <TreeBodyTypeB
           :data-id="value.id"
           :list="value.children"
@@ -36,9 +36,6 @@ export default defineComponent({
     VueDraggableNext,
     BaseAccordion,
   },
-  emits: [
-    'click-item',
-  ],
   props: {
     value: {
       type: Object,
@@ -49,6 +46,9 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: [
+    'click-item',
+  ],
   setup(props, { emit }) {
     const isOpenChildren = ref(true)
 
@@ -79,7 +79,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/colors';
 
 body.light-theme {
   li {
@@ -95,7 +94,6 @@ body.dark-theme {
 }
 
 li {
-  margin: 0;
   padding: 2px 10px 2px 20px;
   position: relative;         // 樹形図線の位置の基準にする目的
   white-space: nowrap;        // 開閉時のToggleButtonの改行を防ぐ目的
@@ -122,8 +120,7 @@ li {
   // }
   // 子要素のラッパー
   .tree-nodes {
-    padding: 0;
-    // overflow: hidden;
+    overflow: hidden;
   }
 }
 </style>

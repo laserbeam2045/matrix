@@ -4,11 +4,11 @@
     :class="legend.type"
     v-on="events"
   >
-    <div></div>
-    <div><div></div></div>
-    <div></div>
+    <div />
+    <div><div /></div>
+    <div />
     <div>{{ legend.text }}</div>
-    <div :class="handleClass"></div>
+    <div :class="handleClass" />
   </legend>
 </template>
 
@@ -41,11 +41,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/app';
-@import '@/assets/style/text';
-@import '@/assets/style/colors';
-@import '@/assets/style/window';
-
 $fontSize: 21px;
 $borderRadius: 8px 8px 0 0;
 $border: 1px solid $blueLikeColor6;
@@ -77,7 +72,7 @@ legend {
   height: 0;
   font-size  : $fontSize;
   line-height: $fontSize;
-  font-family: $fontFamily2;
+  font-family: $font-family-electrolize;
 
   // 内側に配置する場合のスタイル
   &.inside {
@@ -111,8 +106,6 @@ legend {
     // top: -(floor($fontSize / 2) + $paddingTop - 1);
     top: -($fontSize + $paddingTop + $paddingBottom + 1);
     left: -1px;
-    margin: 0;
-    padding: 0;
 
     // 背景色用
     & > div:nth-of-type(1) {

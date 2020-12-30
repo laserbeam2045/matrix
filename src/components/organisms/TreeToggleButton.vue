@@ -1,5 +1,7 @@
 <template>
-  <div :class="{ open: isOpen }">▼</div>
+  <div :class="{ open: isOpen }">
+    ▼
+  </div>
 </template>
 
 <script>
@@ -15,9 +17,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/app';
-@import '@/assets/style/text';
-
 div {
   @include unSelectable;
   display: inline-block;

@@ -10,8 +10,8 @@
       v-model:left="leftRef"
       v-model:width="widthRef"
       v-model:height="heightRef"
-      :useResizeV="useResizeV"
-      :useResizeH="useResizeH"
+      :use-resize-v="useResizeV"
+      :use-resize-h="useResizeH"
       :wrapper="root"
     >
       <component
@@ -24,17 +24,17 @@
         :wrapper="root"
       >
         <VirtualWindowContents
-          :handleClass="handleClass"
-          :contentsStyle="contentsStyle"
+          :handle-class="handleClass"
+          :contents-style="contentsStyle"
         >
           <template #header>
-            <slot name="header"></slot>
+            <slot name="header" />
           </template>
           <template #default>
-            <slot></slot>
+            <slot />
           </template>
           <template #footer>
-            <slot name="footer"></slot>
+            <slot name="footer" />
           </template>
         </VirtualWindowContents>
       </component>
@@ -42,7 +42,7 @@
 
     <VirtualWindowLegend
       :legend="legend"
-      :handleClass="handleClass"
+      :handle-class="handleClass"
     />
   </div>
 </template>
@@ -65,12 +65,6 @@ export default defineComponent({
     VirtualWindowLegend,
     VirtualWindowContents,
   },
-  emits: [
-    'update:top',
-    'update:left',
-    'update:width',
-    'update:height',
-  ],
   props: {
     top: {
       type: [Number, String],
@@ -126,6 +120,12 @@ export default defineComponent({
       },
     },
   },
+  emits: [
+    'update:top',
+    'update:left',
+    'update:width',
+    'update:height',
+  ],
   setup(props, context) {
     const matrix = useMatrix()
     const windowNum = matrix.getNextWindowNumber()
@@ -187,10 +187,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/app';
-@import '@/assets/style/colors';
-@import '@/assets/style/window';
-
 body.light-theme {
   .virtual-window {
     color: $windowLightTextColor;
@@ -207,12 +203,12 @@ body.dark-theme {
 // 外枠のスタイル
 .virtual-window {
   position: relative;
+  max-width: 100%;
   color: $blueLikeColor6;
   box-shadow: $windowBoxShadow;
   border: 1px solid $blueLikeColor6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  box-sizing: border-box;
 
   $BR: 8px;
   &.inside-legend {

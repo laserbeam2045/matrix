@@ -9,12 +9,21 @@
   >
     <template #header>
       <HeaderItemBox>
-        <HeaderItem type="times" @click="closeWindow" />
+        <HeaderItem
+          type="times"
+          @click="closeWindow"
+        />
       </HeaderItemBox>
     </template>
     <template #default>
-      <template v-for="(value, key) in AUDIOS" :key="key">
-        <template v-for="(value2, key2) in value" :key="key2">
+      <template
+        v-for="(value, key) in AUDIOS"
+        :key="key"
+      >
+        <template
+          v-for="(value2, key2) in value"
+          :key="key2"
+        >
           <ButtonBasicAtom @[MOUSE_TOUCH_EVENT.START]="playAudio(value2)">
             {{ key2 }}
           </ButtonBasicAtom>
@@ -30,7 +39,7 @@ import { defineComponent, reactive } from 'vue'
 import { MOUSE_TOUCH_EVENT } from '@/store/constants'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
-import ButtonBasicAtom from '@/components/atoms/button-basic-atom'
+import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 
 export default defineComponent({
   name: 'TheAudios',
@@ -72,7 +81,7 @@ export default defineComponent({
       closeWindow,
       MOUSE_TOUCH_EVENT,
     }
-  },
+  }
 })
 </script>
 

@@ -12,12 +12,12 @@
       />
       <TreeToggleButton
         v-if="value.children.length"
-        :isOpen="isOpenChildren"
+        :is-open="isOpenChildren"
         @click="onClickToggleButton"
       />
     </VueDraggableNext>
     <div class="tree-nodes">
-      <BaseAccordion :isOpen="isOpenChildren">
+      <BaseAccordion :is-open="isOpenChildren">
         <TreeBodyTypeA
           :data-id="value.id"
           :list="value.children"
@@ -43,11 +43,6 @@ export default defineComponent({
     TreeToggleButton,
     BaseAccordion,
   },
-  emits: [
-    'mousedown',
-    'mouseup',
-    'click',
-  ],
   props: {
     value: {
       type: Object,
@@ -58,6 +53,11 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: [
+    'mousedown',
+    'mouseup',
+    'click',
+  ],
   setup(props, { emit }) {
     const { playAudio } = useSound()
     const { state: treeState, dragOptionSingle } = useTree()
@@ -93,9 +93,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/app';
-@import '@/assets/style/colors';
-
 body.light-theme {
   li {
     border: 1px solid $blueLikeColor1;
@@ -111,7 +108,6 @@ body.dark-theme {
 
 li {
   @include unSelectable;
-  margin: 0;
   padding: 4px 7px 0px;
   position: relative;         // 樹形図線の位置の基準にする目的
   white-space: nowrap;        // 開閉時のToggleButtonの改行を防ぐ目的

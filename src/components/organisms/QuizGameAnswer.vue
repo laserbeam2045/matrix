@@ -8,6 +8,7 @@
 <script>
 import { defineComponent, toRefs, ref, computed } from 'vue'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
+import { GAME_STATE } from '@/composables/useQuizGame'
 import { hira2kata } from '@/utils/string_functions'
 
 export default defineComponent({
@@ -21,53 +22,43 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    isAnswered: {
-      type: Boolean,
+    gameData: {
+      type: Object,
       required: true,
     },
   },
   setup(props) {
     const { playAudio } = useSound()
 
-    const refProps = toRefs(props)
+    const { answer1, answer2, gameData } = toRefs(props)
 
     // 表示しているヒントの文字数
     const currentHintPosition = ref(0)
 
-    // answer1（ひらがなをカタカナに変換したもの）
-    const answer1AsKatakana = computed(() => {
-      return hira2kata(refProps.answer1.value)
-    })
-    // answer2（ひらがなをカタカナに変換したもの）
-    const answer2AsKatakana = computed(() => {
-      return hira2kata(refProps.answer2.value)
-    })
     // 完全回答と回答が異なるかどうか
-    const isDiffAnswer = computed(() => {
-      return answer1AsKatakana.value !== answer2AsKatakana.value
-    })
+    const isDiffAnswer = computed(() => hira2kata(answer1.value) !== hira2kata(answer2.value))
+
+    // ユーザーの回答が終了した状態かどうか
+    const isAnswered = computed(() => gameData.value.state === GAME_STATE.RESPONDED)
+
     // 表示させる答え（上部分）
-    const answer1ToShow = computed(() => {
-      return refProps.isAnswered.value ?
-             ('A. ' + refProps.answer1.value) : ''
-    })
+    const answer1ToShow = computed(() => isAnswered.value ? ('A. ' + answer1.value) : '')
+
     // 表示させる答え（下部分）
     const answer2ToShow = computed(() => {
-      if (refProps.isAnswered.value) {
-        return isDiffAnswer.value ? refProps.answer2.value : ''
+      if (isAnswered.value) {
+        return isDiffAnswer.value ? answer2.value : ''
       } else {
-        return refProps.answer2.value.slice(0, currentHintPosition.value)
+        return answer2.value.slice(0, currentHintPosition.value)
       }
     })
+
     // ヒントを全て表示したかどうか
-    const isAnswerOpened = computed(() => {
-      return refProps.answer2.value.length <= currentHintPosition.value
-    })
+    const isAnswerOpened = computed(() => answer2.value.length <= currentHintPosition.value)
 
     // 位置変数を初期化する関数
-    const initialize = () => {
-      currentHintPosition.value = 0
-    }
+    const initialize = () => currentHintPosition.value = 0
+    
     // ヒントを一文字表示させる関数
     const openHint = () => {
       if (isAnswerOpened.value) return
@@ -81,12 +72,11 @@ export default defineComponent({
       initialize,
       openHint,
     }
-  },
+  }
 })
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/text';
 
 div {
   height: 50px;
@@ -96,8 +86,6 @@ div {
     @include textStyleA;
     display: inline-block;
     margin: 1px 20px 0 0;
-    padding: 0;
-    box-sizing: border-box;
   }
 }
 </style>

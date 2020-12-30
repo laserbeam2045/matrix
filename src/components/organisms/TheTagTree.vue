@@ -9,13 +9,16 @@
     >
       <template #header>
         <HeaderItemBox>
-          <HeaderItem type="times" @click="closeWindow" />
+          <HeaderItem
+            type="times"
+            @click="closeWindow"
+          />
         </HeaderItemBox>
       </template>
       <template #default>
         <Tree
           :root="tree"
-          :itemComponent="QuizTag"
+          :item-component="QuizTag"
           @mousedown="onTouchTag"
           @click="onClickTag"
         />
@@ -24,7 +27,7 @@
 
     <TheTagEditor
       ref="theTagEditor"
-      :tagId="editId"
+      :tag-id="editId"
       @updated="onUpdated"
       @deleted="onDeleted"
       @click-create="onClickCreate"
@@ -32,7 +35,7 @@
     />
     <TheTagCreator
       ref="theTagCreator"
-      :tagId="editId"
+      :tag-id="editId"
       @inserted="onInserted"
       @click-cancel="onClickCancelCreator"
     />
@@ -49,7 +52,7 @@ import { MOUSE_TOUCH_EVENT } from '@/store/constants'
 import TheTagCreator from '@/components/organisms/TheTagCreator'
 import TheTagEditor from '@/components/organisms/TheTagEditor'
 import TreeTypeA from '@/components/organisms/TreeTypeA'
-import QuizTag from '@/components/organisms/QuizTag'
+import QuizTag from '@/components/atoms/QuizTag'
 
 export default defineComponent({
   name: 'TheTagTree',

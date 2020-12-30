@@ -2,7 +2,8 @@ import { reactive, computed, readonly, provide, inject } from 'vue'
 import { postRequest } from '@/api/request_methods'
 import { API_ADDRESS } from '@/store/constants'
 import { splitByBlank, isOnlyBlank } from '@/utils/string_functions'
-import { lastOf, deepCopy } from '@/utils/array_functions'
+import { deepCopy } from '@/utils/array_functions'
+import Aset from '@/utils/Aset'
 
 const storeSymbol = Symbol('GPT-2')
 
@@ -40,13 +41,13 @@ const createStore = () => {
   })
 
   // 文章を空白文字により分割した配列
-  const textsArray = computed(() => splitByBlank(state.text))
+  const textsArray = computed(() => new Aset(splitByBlank(state.text)))
 
   // 全ての空白文字を半角スペースに変換した文章
   const preProcessedText = computed(() => textsArray.value.join(' '))
 
   // 文章の末尾の単語
-  const lastWord = computed(() => lastOf(textsArray.value) || '')
+  const lastWord = computed(() => textsArray.value.last || '')
 
   // 文章の末尾の文字
   const lastChar = computed(() => state.text.slice(-1))

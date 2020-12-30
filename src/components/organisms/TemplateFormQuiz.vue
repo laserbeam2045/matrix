@@ -2,7 +2,12 @@
   <table>
     <tr>
       <th><label>Question</label></th>
-      <td><BaseTextArea v-model:value="questionRef" ref="textarea" /></td>
+      <td>
+        <BaseTextArea
+          ref="textarea"
+          v-model:value="questionRef"
+        />
+      </td>
     </tr>
     <tr>
       <th><label>Answer1</label></th>
@@ -17,9 +22,9 @@
       <td>
         <QuizTag
           v-for="tagId of tagIdsRef"
-          :key="tagId"
           :id="tagId"
-          :showCount="false"
+          :key="tagId"
+          :show-count="false"
           @click="onClickTag"
         />
       </td>
@@ -32,7 +37,7 @@ import { defineComponent, ref } from 'vue'
 import useVModelRef from '@/utils/vmodel'
 import BaseTextArea from '@/components/atoms/BaseTextArea'
 import BaseInputText from '@/components/atoms/BaseInputText'
-import QuizTag from '@/components/organisms/QuizTag'
+import QuizTag from '@/components/atoms/QuizTag'
 
 export default defineComponent({
   name: 'TemplateFormQuiz',
@@ -41,12 +46,6 @@ export default defineComponent({
     BaseInputText,
     QuizTag,
   },
-  emits: [
-    'update:question',
-    'update:answer1',
-    'update:answer2',
-    'click',
-  ],
   props: {
     question: {
       type: String,
@@ -66,6 +65,12 @@ export default defineComponent({
       default: null,
     },
   },
+  emits: [
+    'update:question',
+    'update:answer1',
+    'update:answer2',
+    'click',
+  ],
   setup(props, context) {
     const textarea = ref(null)
 

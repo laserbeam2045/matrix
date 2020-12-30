@@ -1,9 +1,8 @@
 <template>
   <EditableWindowPre
     ref="root"
-    contenteditable
-    v-html="state.innerHTML"
     :listeners="listeners"
+    :html-string="state.innerHTML"
   />
 </template>
 
@@ -20,6 +19,13 @@ export default defineComponent({
   components: {
     EditableWindowPre,
   },
+  props: {
+    value: {
+      type: String,
+      required: true,
+      default: '',
+    },
+  },
   emits: [
     'mousedown',
     'mouseup',
@@ -29,13 +35,6 @@ export default defineComponent({
     'scroll',
     'update:scrollTop',
   ],
-  props: {
-    value: {
-      type: String,
-      required: true,
-      default: '',
-    },
-  },
   setup(props, { emit }) {
     const root = ref(null)
 
@@ -226,6 +225,6 @@ export default defineComponent({
       listeners,
       setLocalRangeBy,
     }
-  },
+  }
 })
 </script>

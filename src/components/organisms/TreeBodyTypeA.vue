@@ -10,7 +10,7 @@
       v-for="tag in realValue"
       :key="tag.id"
       :value="tag"
-      :isTopLevel="!!value"
+      :is-top-level="!!value"
       v-on="itemEvents"
     />
   </VueDraggableNext>
@@ -26,11 +26,6 @@ export default defineComponent({
   components: {
     VueDraggableNext,
   },
-  emits: [
-    'mousedown',
-    'mouseup',
-    'click',
-  ],
   props: {
     value: {  // MEMO: Tree(root)からはvalueとして受け取る
       type: Array,
@@ -43,6 +38,11 @@ export default defineComponent({
       default: null,
     },
   },
+  emits: [
+    'mousedown',
+    'mouseup',
+    'click',
+  ],
   setup(props, { emit }) {
     const { dragOptionUnit } = useTree()
     const dragOption = computed(() => dragOptionUnit.value)
@@ -81,18 +81,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/app';
-
 ul {
   @include unSelectable;
   margin: 0 0 0 40px;
-  padding: 0;
   display: flex;
   flex-direction: column;
 
   &.top-level {
     margin: 0 20px 20px;
-    padding: 0;
   }
 }
 </style>

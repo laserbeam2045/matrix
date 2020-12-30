@@ -10,7 +10,7 @@
       v-for="tag in realValue"
       :key="tag.id"
       :value="tag"
-      :isTopLevel="!!value"
+      :is-top-level="!!value"
       @click-item="onClickItem"
     />
   </VueDraggableNext>
@@ -26,9 +26,6 @@ export default defineComponent({
   components: {
     VueDraggableNext,
   },
-  emits: [
-    'click-item',
-  ],
   props: {
     value: {  // MEMO: Tree(root)からはvalueとして受け取る
       type: Array,
@@ -41,6 +38,9 @@ export default defineComponent({
       default: null,
     },
   },
+  emits: [
+    'click-item',
+  ],
   setup(props, { emit }) {
     const { dragOptionUnit } = useTree()
     const dragOption = computed(() => dragOptionUnit.value)
@@ -76,14 +76,12 @@ export default defineComponent({
 <style lang="scss" scoped>
 ul {
   margin: 0 auto 0 20px;
-  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: stretch;
 
   &.top-level {
     margin: 0 auto 30px 0;
-    padding: 0;
   }
 }
 </style>

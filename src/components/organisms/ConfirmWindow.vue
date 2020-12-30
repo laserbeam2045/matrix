@@ -2,29 +2,29 @@
   <ModalWindow
     ref="root"
     :level="1"
-    :windowState="windowState"
+    :window-state="windowState"
   >
     <div class="confirm-window">
       <p>{{ text }}</p>
-      <ButtonBasicAtom @click="onClickPositive">{{ positiveLabel }}</ButtonBasicAtom>
-      <ButtonBasicAtom @click="onClickNegative">{{ negativeLabel }}</ButtonBasicAtom>
+      <ButtonBasicAtom @click="onClickPositive">
+        {{ positiveLabel }}
+      </ButtonBasicAtom>
+      <ButtonBasicAtom @click="onClickNegative">
+        {{ negativeLabel }}
+      </ButtonBasicAtom>
     </div>
   </ModalWindow>
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue'
-import ButtonBasicAtom from '@/components/atoms/button-basic-atom'
+import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 
 export default defineComponent ({
   name: 'ConfirmWindow',
   components: {
     ButtonBasicAtom,
   },
-  emits: [
-    'positive',
-    'negative',
-  ],
   props: {
     text: {
       type: String,
@@ -57,6 +57,10 @@ export default defineComponent ({
       },
     },
   },
+  emits: [
+    'positive',
+    'negative',
+  ],
   setup(props, { emit }) {
     const root = ref(null)
 

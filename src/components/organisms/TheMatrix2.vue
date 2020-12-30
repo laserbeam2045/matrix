@@ -85,14 +85,6 @@ export default defineComponent({
       const command = cmdManager.currentCommand.value.toUpperCase()
 
       switch (command) {
-      case 'QUIZ':
-        openWindow(WINDOWS.THE_QUIZ_LIST)
-        cmdManager.execute()
-        break
-      case 'TAG':
-        openWindow(WINDOWS.THE_QUIZ_TAGS)
-        cmdManager.execute()
-        break
       case 'OCR':
         openWindow(WINDOWS.THE_READABLE)
         cmdManager.execute()
@@ -135,9 +127,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import '@/assets/style/window';
-@import '@/assets/style/text';
-
 body.light-theme {
   .wrapper {
     background: $windowLightBackgroundEditor;

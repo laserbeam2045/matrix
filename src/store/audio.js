@@ -58,7 +58,7 @@ const createStore = () => {
   // audio要素を作り、再生の準備をする関数
   const createAudio = audioData => {
     const { path, fileName, extension, volume } = audioData
-    const src = require(`../assets/${path}${fileName}.${extension}`)
+    const src = require(`../assets/audios/${path}${fileName}.${extension}`)
     const audio = new Audio(src)
     audio.volume = volume
     audio.load()

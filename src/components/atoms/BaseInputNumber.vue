@@ -1,11 +1,11 @@
 <template>
   <div>
     <input
-      type="number"
       v-show="false"
+      type="number"
       v-bind="settings"
       :value:number="value"
-    />
+    >
     <span>{{ animatedNumberRef }}</span>
   </div>
 </template>

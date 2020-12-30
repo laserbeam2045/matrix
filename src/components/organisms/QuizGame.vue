@@ -15,15 +15,17 @@
     >
       <template #header>
         <HeaderItemBox>
-          <HeaderItem type="times" @click="closeWindow" />
+          <HeaderItem
+            type="times"
+            @click="closeWindow"
+          />
         </HeaderItemBox>
       </template>
       <template #default>
         <QuizGameTimer
           ref="quizGameTimer"
-          :timeLimit="state.timeLimit"
-          :currentNumber="state.currentQuizNumber"
-          :maxNumber="maxQuizNumber"
+          :current-number="gameData.currentQuizNumber"
+          :max-number="maxQuizNumber"
           @timeover="checkAnswer"
         />
         <QuizGameQuestion
@@ -35,19 +37,14 @@
           ref="quizGameAnswer"
           :answer1="currentQuiz.answer1"
           :answer2="currentQuiz.answer2"
-          :isAnswered="state.isAnswered"
+          :game-data="gameData"
         />
-        <BaseInputText
-          ref="baseInputText"
-          :value="state.inputText"
-          :style="inputTextStyle"
-          @update:value="onUpdateText"
-          @keydown="pressKeyEvent"
-          @keydown.enter="pressEnterKeyEvent"
-        />
-        <ButtonBasicAtom
-          :style="buttonStyle"
-          @focus="openHint"
+        <QuizGameInput
+          ref="quizGameInput"
+          :answer="answer"
+          @push="onPush"
+          @tab="openHint"
+          @enter="checkAnswer"
         />
       </template>
     </VirtualWindow>
@@ -55,30 +52,23 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, computed, watch, onMounted, nextTick } from 'vue'
+import { defineComponent, ref, reactive, computed, onMounted } from 'vue'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { useStore as useSound, AUDIOS }   from '@/store/audio'
-import { useStore as useQuiz }            from '@/store/quiz'
 import { MOUSE_TOUCH_EVENT }              from '@/store/constants'
+import { default as useQuizGame, GAME_STATE } from '@/composables/useQuizGame'
 import QuizGameTimer    from '@/components/organisms/QuizGameTimer'
 import QuizGameQuestion from '@/components/organisms/QuizGameQuestion'
 import QuizGameAnswer   from '@/components/organisms/QuizGameAnswer'
+import QuizGameInput    from '@/components/organisms/QuizGameInput'
 import QuizGameInfo     from '@/components/organisms/QuizGameInfo'
-import BaseInputText   from '@/components/atoms/BaseInputText'
-import ButtonBasicAtom from '@/components/atoms/button-basic-atom'
-import { hira2kata }   from '@/utils/string_functions'
-import { shuffle }     from '@/utils/array_functions'
+import { shuffle }      from '@/utils/array_functions'
 
-const TIME_LIMIT = 10000         // 一問あたりの制限時間
 const PUSH_KEY_DELAY = 3000      // ボタンを押してからゲージが動き出すまでの待機時間
 const NEXT_QUIZ_DELAY = 2000     // 問題が終了してから次の問題までの待機時間
 const GAME_START_DELAY = 1000    // ゲーム開始までの待機時間
 const DISPLAY_Q_INTERVAL_1 = 100 // 問題文を一文字ごとに表示する間隔（通常時）
 const DISPLAY_Q_INTERVAL_2 = 5   // 問題文を一文字ごとに表示する間隔（回答後）
-
-const STATE_WAITING = 0   // 待機状態
-const STATE_PLAYING = 1   // ゲーム中の状態
-const STATE_ENDGAME = 2   // ゲームが終了した状態
 
 export default defineComponent({
   name: 'QuizGame',
@@ -86,32 +76,20 @@ export default defineComponent({
     QuizGameTimer,
     QuizGameAnswer,
     QuizGameQuestion,
+    QuizGameInput,
     QuizGameInfo,
-    BaseInputText,
-    ButtonBasicAtom,
   },
   emits: [
     'touch',
   ],
   setup(props, { emit }) {
     const matrix = useMatrix()
-    const quizStore = useQuiz()
     const { playAudio } = useSound()
-
-    const state = reactive({
-      stage: STATE_WAITING,     // 状態フラグ
-      isPressed: false,         // 現在の問題について、ボタンが押されたかどうか
-      isAnswered: false,        // 現在の問題について、回答済みかどうか
-      inputText: '',            // 回答者が入力した文字列
-      timeLimit: TIME_LIMIT,    // 制限時間
-      currentQuizNumber: 0,     // 現在の問題が何問目であるか
-      activeTagIds: [],
-    })
 
     const windowState = reactive({
       top: 'center',
       left: 'center',
-      width: '382px',
+      width: '352px',
       height: 'auto',
       draggable: true,
       legend: {
@@ -119,74 +97,37 @@ export default defineComponent({
         type: 'inside',
       },
       contentsStyle: {
-        padding: '0 30px 30px',
+        padding: '15px 20px 20px',
       },
     })
     const windowEvents = {
       [MOUSE_TOUCH_EVENT.START]() { emit('touch') },
     }
-    const inputTextStyle = {
-      'width' : '100%',
-      'margin': '30px 0 0',
-    }
-    const buttonStyle = {
-      'position': 'absolute',
-      'z-index' : -1,
-      'opacity' : 0,
-    }
 
-    // 選択タグが０ならなし、０以外なら選択タグに絞る
     const quizzes = computed(() => {
-      if (state.activeTagIds.size) {
-        return shuffle(quizStore.data.value.map(quiz =>
-          (quiz.tagIds.some(id => state.activeTagIds.has(id))) && quiz
-        )
-        .filter(elm => elm))
-      } else {
-        return []
-      }
+      return shuffle(matrix.state[WINDOWS.THE_QUIZ_LIST].quizzes)
     })
-    // 総問題数
-    const maxQuizNumber = computed(() => {
-      return quizzes.value.length
-    })
-    // 現在の問題
-    const currentQuiz = computed(() => {
-      return quizzes.value[state.currentQuizNumber - 1]
-    })
-    // 次の問題
-    const nextQuiz = computed(() => {
-      return quizzes.value[state.currentQuizNumber]
-    })
-    // 答えの文字列（ひらがなをカタカナに変換したもの）
-    const answerAsKatakana = computed(() => {
-      return hira2kata(currentQuiz.value.answer2)
-    })
-    // 入力された文字列（ひらがなをカタカナに変換したもの）
-    const inputTextAsKatakana = computed(() => {
-      return hira2kata(state.inputText)
-    })
-    // 現在入力されている文字列が、正解と等しいかどうか
-    const isCorrect = computed(() => {
-      const exp = new RegExp(`^${answerAsKatakana.value}.*`)
-      return inputTextAsKatakana.value.match(exp)
-    })
-    // 正誤に応じたサウンド名
-    const resultSound = computed(() => {
-      return isCorrect.value ? AUDIOS.QUIZ.CORRECT : AUDIOS.QUIZ.WRONG
-    })
+
+    const {
+      gameData,
+      maxQuizNumber,
+      currentQuiz,
+      nextQuiz,
+      isCorrect,
+    } = useQuizGame(quizzes)
+
+    // 正解の文字列
+    const answer = computed(() => currentQuiz.value.answer2)
 
     // コンポーネントの参照用
     const quizGameTimer = ref(null)
     const quizGameAnswer = ref(null)
     const quizGameQuestion = ref(null)
-    const baseInputText = ref(null)
+    const quizGameInput = ref(null)
 
     // 各種状態変数を初期化する関数
     const initialize = () => {
-      state.isPressed = false
-      state.isAnswered = false
-      state.inputText = ''
+      quizGameInput.value.initialize()
       quizGameTimer.value.initialize()
       quizGameAnswer.value.initialize()
       quizGameQuestion.value.initialize()
@@ -194,15 +135,15 @@ export default defineComponent({
     // ゲームを開始する関数
     const startGame = () => {
       if (maxQuizNumber.value) {
-        state.stage = STATE_PLAYING
-        state.currentQuizNumber = 0
+        gameData.state = GAME_STATE.WAITING
+        gameData.currentQuizNumber = 0
         startNextGame()
-        setTimeout(() => baseInputText.value.focus(), 100)
+        setTimeout(() => quizGameInput.value.focus(), 100)
       }
     }
     // 次の問題を開始する関数
     const startNextGame = () => {
-      state.currentQuizNumber++
+      gameData.currentQuizNumber++
       playAudio(AUDIOS.QUIZ.QUESTION)
       setTimeout(startOpenQuestion, GAME_START_DELAY)
     }
@@ -213,48 +154,28 @@ export default defineComponent({
     }
     // タイマーを始動させるメソッド
     const startTimer = (delay = 0) => {
-      if (!state.isAnswered) {
-        quizGameTimer.value.pause()
-        quizGameTimer.value.start(delay)
-      }
+      quizGameTimer.value.pause()
+      quizGameTimer.value.start(delay)
+    }
+    // 回答ボタン押下時の処理
+    const onPush = () => {
+      quizGameQuestion.value.stopOpen()
+      startTimer(PUSH_KEY_DELAY)
+      playAudio(AUDIOS.QUIZ.PRESS_BUTTON)
     }
     // ヒントを表示させるメソッド
     const openHint = () => {
       quizGameAnswer.value.openHint()
-      baseInputText.value.focus()
-    }
-
-    // 回答欄に変化が生じたときのイベント
-    const onUpdateText = value => {
-      state.inputText = value
-      nextTick(() => state.inputText = value.trim())
-    }
-    // 何らかのキー押下時のイベント
-    const pressKeyEvent = () => {
-      if (!state.isPressed) {
-        state.isPressed = true
-        quizGameQuestion.value.stopOpen()
-        startTimer(PUSH_KEY_DELAY)
-        playAudio(AUDIOS.QUIZ.PRESS_BUTTON)
-      }
-    }
-    // エンターキー押下時のイベント
-    const pressEnterKeyEvent = () => {
-      if (state.isPressed && state.inputText) {
-        checkAnswer()
-      }
+      quizGameInput.value.focus()
     }
     // 正誤判定
     const checkAnswer = () => {
-      if (state.isAnswered) return
-      state.isAnswered = true
-      quizGameTimer.value.pause()
-      startOpenQuestion(DISPLAY_Q_INTERVAL_2)
-      playAudio(resultSound.value)
-      if (nextQuiz.value) {
-        loadNextGame()
-      } else {
-        state.stage = STATE_ENDGAME
+      if (gameData.state === GAME_STATE.RESPONDING) {
+        quizGameTimer.value.pause()
+        startOpenQuestion(DISPLAY_Q_INTERVAL_2)
+        playAudio(isCorrect(answer) ? AUDIOS.QUIZ.CORRECT : AUDIOS.QUIZ.WRONG)
+        gameData.state = nextQuiz.value ? GAME_STATE.WAITING : GAME_STATE.ENDING
+        if (nextQuiz.value) loadNextGame()
       }
     }
     // 次の問題へ移行する関数
@@ -266,39 +187,32 @@ export default defineComponent({
     }
     // ウィンドウを閉じる処理
     const closeWindow = () => {
-      matrix.deactivate(WINDOWS.THE_QUIZ_GAME)
+      // matrix.deactivate()
       playAudio(AUDIOS.ETC.CYBER_04_1)
     }
-
-    watch(() => matrix.isActive(WINDOWS.THE_QUIZ_GAME), isActive => {
-      if (isActive) startGame()
-    })
 
     onMounted(() => {
       startGame()
     })
 
     return {
-      state,
       windowState,
       windowEvents,
-      buttonStyle,
-      inputTextStyle,
-      onUpdateText,
-      maxQuizNumber,
       quizGameTimer,
       quizGameQuestion,
       quizGameAnswer,
-      baseInputText,
-      checkAnswer,
+      quizGameInput,
+      gameData,
+      maxQuizNumber,
       currentQuiz,
-      pressKeyEvent,
-      pressEnterKeyEvent,
+      answer,
+      onPush,
+      checkAnswer,
       openHint,
       startGame,
       startTimer,
       closeWindow,
     }
-  },
+  }
 })
 </script>

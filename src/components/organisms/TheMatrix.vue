@@ -9,8 +9,6 @@
   >
     <EditableWindow
       ref="editableWindow"
-      v-focus
-      v-quick-focus
       :value="command"
       @input="onInput"
       @keydown.up.exact="onKeydownUp"
@@ -30,8 +28,8 @@ import useCommand from '@/utils/command_manager'
 
 export default defineComponent({
   name: 'TheMatrix',
-  emits: [ 'touch' ],
   components: { EditableWindow },
+  emits: [ 'touch' ],
   
   setup(props, { emit }) {
     const editableWindow = ref(null)
@@ -98,12 +96,6 @@ export default defineComponent({
     const execCommand = () => {
       const command = cmdManager.execute()
       switch (command.trim().toUpperCase()) {
-      case 'QUIZ':
-        openWindow(WINDOWS.THE_QUIZ_LIST)
-        break
-      case 'TAG':
-        openWindow(WINDOWS.THE_QUIZ_TAGS)
-        break
       case 'AUDIO':
         openWindow(WINDOWS.THE_AUDIOS)
         break
@@ -136,6 +128,6 @@ export default defineComponent({
       onKeydownDown,
       onKeydownEnter,
     }
-  },
+  }
 })
 </script>

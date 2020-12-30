@@ -4,7 +4,7 @@
     :class="['draggable', { dragging }]"
     :style="style"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
@@ -17,10 +17,6 @@ import useWindow from '@/utils/windows'
 
 export default defineComponent({
   name: "DraggableWindow",
-  emits: [
-    'update:top',
-    'update:left',
-  ],
   props: {
     top: {
       type: [Number, String],
@@ -57,6 +53,10 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: [
+    'update:top',
+    'update:left',
+  ],
   setup(props, context) {
     const rootRef = ref(null)
     const topRef = useVModelRef(props, context, 'top')
@@ -167,9 +167,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import '@/assets/style/app';
-@import '@/assets/style/colors';
-
 .draggable {
   &.dragging {
     user-select: none;

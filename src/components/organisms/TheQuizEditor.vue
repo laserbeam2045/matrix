@@ -1,6 +1,6 @@
 <template>
   <ModalWindow
-    ref="modalWindowRef"
+    ref="modalWindow"
     v-bind="windowState"
   >
     <div id="quiz-editor">
@@ -11,14 +11,18 @@
         v-model:tagIds="data.tagIds"
         @click="onClickQuizTag"
       />
-      <ButtonBasicAtom @click="onClickUpdate">Update</ButtonBasicAtom>
-      <ButtonBasicAtom @click="onClickDelete">Delete</ButtonBasicAtom>
-      <ButtonBasicAtom @click="onClickCancel">Cancel</ButtonBasicAtom>
+      <ButtonBasicAtom
+        v-for="button in buttons"
+        :key="button.text"
+        v-on="button.events"
+      >
+        {{ button.text }}
+      </ButtonBasicAtom>
     </div>
   </ModalWindow>
 
   <ConfirmWindow
-    ref="confirmWindowRef"
+    ref="confirmWindow"
     @positive="onClickPositive"
     @negative="onClickNegative"
   />
@@ -28,7 +32,7 @@
 import { defineComponent, ref, reactive, watch } from 'vue'
 import { useStore as useQuiz } from '@/store/quiz'
 import ConfirmWindow from '@/components/organisms/ConfirmWindow'
-import ButtonBasicAtom from '@/components/atoms/button-basic-atom'
+import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 import TemplateFormQuiz from '@/components/organisms/TemplateFormQuiz'
 
 // 確認ダイアログがどのボタンによって表示されたかを表す定数
@@ -43,16 +47,16 @@ export default defineComponent({
     ButtonBasicAtom,
     TemplateFormQuiz,
   },
-  emits: [
-    'updated',
-    'deleted',
-  ],
   props: {
     quizId: {
       type: Number,
       required: true,
     },
   },
+  emits: [
+    'updated',
+    'deleted',
+  ],
   setup(props, { emit }) {
     const quizStore = useQuiz()
 
@@ -87,14 +91,14 @@ export default defineComponent({
     const tagIdRef = ref(null)
 
     // コンポーネントの参照用
-    const modalWindowRef = ref(null)
-    const confirmWindowRef = ref(null)
+    const modalWindow = ref(null)
+    const confirmWindow = ref(null)
 
     // ModalWindowの表示・非表示を行うラッパー関数
-    const showModal = () => modalWindowRef.value.showModal()
-    const hideModal = () => modalWindowRef.value.hideModal()
-    const showConfirm = () => confirmWindowRef.value.showModal()
-    const hideConfirm = () => confirmWindowRef.value.hideModal()
+    const showModal = () => modalWindow.value.showModal()
+    const hideModal = () => modalWindow.value.hideModal()
+    const showConfirm = () => confirmWindow.value.showModal()
+    const hideConfirm = () => confirmWindow.value.hideModal()
 
     // 関係を削除する処理
     // TODO: REST API呼び出しへの置き換え
@@ -164,17 +168,21 @@ export default defineComponent({
       hideConfirm()
     }
 
+    const buttons = [
+      { text: 'Update', events: { click: onClickUpdate }},
+      { text: 'Delete', events: { click: onClickDelete }},
+      { text: 'Cancel', events: { click: onClickCancel }},
+    ]
+
     return {
       windowState,
       data,
-      modalWindowRef,
-      confirmWindowRef,
+      modalWindow,
+      confirmWindow,
+      buttons,
       showModal,
       hideModal,
       onClickQuizTag,
-      onClickUpdate,
-      onClickDelete,
-      onClickCancel,
       onClickPositive,
       onClickNegative,
     }

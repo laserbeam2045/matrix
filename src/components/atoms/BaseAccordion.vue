@@ -5,9 +5,12 @@
     @enter="open"
     @after-enter="after"
   >
-    <div v-show="isOpen" ref="root">
-      <div class="sand-box"></div>
-      <slot></slot>
+    <div
+      v-show="isOpen"
+      ref="root"
+    >
+      <div class="sand-box" />
+      <slot />
     </div>
   </transition>
 </template>

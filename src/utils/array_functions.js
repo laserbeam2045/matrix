@@ -23,12 +23,19 @@ export const delFromArray = (arr, val) => {
   arr.splice(index, 1)
 }
 
-// 配列の最後の要素を返す関数
-export const lastOf = arr => {
-  return arr.slice(-1)[0]
+// 配列をディープコピーする関数
+export const deepCopy = array => {
+  const newArray = []
+  for (let item of array) {
+    if (Array.isArray(item))
+      newArray.push(deepCopy(item))
+    else
+      newArray.push(item)
+  }
+  return newArray
 }
 
 // オブジェクトをディーブコピーする関数
-export const deepCopy = (obj) => {
-  return JSON.parse(JSON.stringify(obj))
-}
+// export const deepCopy = (obj) => {
+//   return JSON.parse(JSON.stringify(obj))
+// }

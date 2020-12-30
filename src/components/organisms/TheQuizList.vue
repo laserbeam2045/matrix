@@ -9,13 +9,16 @@
     >
       <template #header>
         <HeaderItemBox>
-          <HeaderItem type="quora" @click="startQuiz" />
-          <HeaderItem type="plus"  @click="openCreator" />
-          <HeaderItem type="times" @click="closeWindow" />
+          <HeaderItem
+            v-for="item in headerItems"
+            :key="item.type"
+            :type="item.type"
+            v-on="item.events"
+          />
         </HeaderItemBox>
         <TheQuizListQueryBox
-          v-model:query="state.query"
-          :hitCount="quizzes.length"
+          v-model:query="searchQuery"
+          :hit-count="quizzes.length"
         />
       </template>
       <template #default>
@@ -32,7 +35,7 @@
     />
     <TheQuizEditor
       ref="theQuizEditor"
-      :quizId="state.quizId4Update"
+      :quiz-id="quizId4Update"
       @updated="onUpdateQuiz"
       @deleted="onDeleteQuiz"
     />
@@ -40,23 +43,31 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, computed } from 'vue'
+import { defineComponent, reactive, ref, toRefs, provide } from 'vue'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
-import { useStore as useQuiz } from '@/store/quiz'
 import { MOUSE_TOUCH_EVENT } from '@/store/constants'
+import useUserQuizzes from '@/composables/useUserQuizzes'
+import useQuizStringSearch from '@/composables/useQuizStringSearch'
+import useQuizFilters from '@/composables/useQuizFilters'
 import TheQuizListQueryBox from '@/components/organisms/TheQuizListQueryBox'
 import TemplateTableQuiz from '@/components/organisms/TemplateTableQuiz'
 import TheQuizCreator from '@/components/organisms/TheQuizCreator'
 import TheQuizEditor from '@/components/organisms/TheQuizEditor'
 
 export default defineComponent({
-  name: 'TheQuizList',
+  name: 'QuizList',
   components: {
     TheQuizListQueryBox,
     TemplateTableQuiz,
     TheQuizCreator,
     TheQuizEditor,
+  },
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
   },
   emits: [
     'touch',
@@ -65,13 +76,30 @@ export default defineComponent({
     const store = reactive({
       matrix: useMatrix(),
       sound: useSound(),
-      quiz: useQuiz(),
     })
+
+    const { user } = toRefs(props)
+
+    const { quizzes } = useUserQuizzes(user)
+
+    const {
+      searchQuery,
+      quizzesMatchingSearchQuery
+    } = useQuizStringSearch(quizzes)
+
+    const {
+      // filters,
+      // updateFilters,
+      activeTagIds,
+      filteredQuizzes,
+    } = useQuizFilters(quizzesMatchingSearchQuery)
+
+    provide('activeTagIds', activeTagIds)
 
     const windowState = reactive({
       top: 'center',
       left: 'center',
-      width: '100%',
+      width: 'auto',
       height: '95%',
       useResizeV: true,
       draggable: true,
@@ -88,68 +116,35 @@ export default defineComponent({
     const theQuizEditor = ref(null)
     const theQuizCreator = ref(null)
 
-    const state = reactive({
-      query: '',              // 検索ワード
-      quizId4Update: 0,       // 更新・削除の対象となるクイズのid
-      activeTagIds: [],
-    })
-
-    // 特定の文字列を含む問題に絞るフィルター
-    const filterByStr = (quizzes, str) => {
-      const exp = new RegExp('.?' + str + '.?')
-      return quizzes.filter(quiz => (
-        quiz.question.match(exp) ||
-        quiz.answer1.match(exp) ||
-        quiz.answer2.match(exp)
-      ))
-    }
-    // 特定のタグを持つ問題に絞るフィルター
-    const filterByTag = (quizzes, set) => {
-      return quizzes.filter(quiz => quiz.tagIds.some(id => set.has(id)))
-    }
-    // どのタグにも属さない問題に絞るフィルター
-    const filterByNotBelong = quizzes => {
-      return quizzes.filter(quiz => quiz.tagIds.length === 0)
-    }
-    // フィルタリングされた問題
-    const quizzes = computed(() => {
-      const strCondition = !!state.query
-      const tagCondition = !!state.activeTagIds.size
-      let quizzes = store.quiz.data
-
-      if (strCondition) quizzes = filterByStr(quizzes, state.query)
-      if (tagCondition) quizzes = filterByTag(quizzes, state.activeTagIds)
-      if (!strCondition && !tagCondition) quizzes = filterByNotBelong(quizzes)
-
-      return quizzes
-    })
+    // 更新・削除の対象となるクイズのid
+    const quizId4Update = ref(0)
 
     // 問題の作成ウィンドウを開く処理
     const openCreator = () => {
       theQuizCreator.value.showModal()
     }
-    // 問題の作成が完了した時の処理
-    const onInsertQuiz = () => {
-      store.quiz.load()
-    }
-
     // 問題の編集ウィンドウを開く処理
     const openEditor = id => {
-      state.quizId4Update = id
+      quizId4Update.value = id
       theQuizEditor.value.showModal()
+    }
+
+    // 問題の作成が完了した時の処理
+    const onInsertQuiz = () => {
+      // getUserQuizzes()
     }
     // 問題の編集が完了した時の処理
     const onUpdateQuiz = () => {
-      store.quiz.load()
+      // getUserQuizzes()
     }
     // 問題の削除が完了した時の処理
     const onDeleteQuiz = () => {
-      store.quiz.load()
+      // getUserQuizzes()
     }
 
     // クイズを開始する関数
     const startQuiz = () => {
-      store.matrix.activate(WINDOWS.THE_QUIZ_GAME)
+
     }
 
     // ウィンドウを閉じる処理
@@ -158,21 +153,27 @@ export default defineComponent({
       store.sound.playAudio(AUDIOS.ETC.CYBER_04_1)
     }
 
+    const headerItems = [
+      { type: 'quora', events: { click: startQuiz }},
+      { type: 'plus',  events: { click: openCreator }},
+      { type: 'times', events: { click: closeWindow }},
+    ]
+
     return {
-      state,
+      quizzes: filteredQuizzes,
+      searchQuery,
+      activeTagIds,
+      quizId4Update,
       windowState,
       windowEvents,
       theQuizEditor,
       theQuizCreator,
-      quizzes,
-      openCreator,
-      onInsertQuiz,
       openEditor,
+      onInsertQuiz,
       onUpdateQuiz,
       onDeleteQuiz,
-      startQuiz,
-      closeWindow,
+      headerItems,
     }
-  },
+  }
 })
 </script>

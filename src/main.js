@@ -11,6 +11,9 @@ import TreeBodyTypeB from '@/components/organisms/TreeBodyTypeB'
 import TreeBranchTypeA from '@/components/organisms/TreeBranchTypeA'
 import TreeBranchTypeB from '@/components/organisms/TreeBranchTypeB'
 
+import '@/assets/styles.css'
+require("@/assets/scss/app.scss")
+
 // v-scroll
 // MEMO: ウィンドウのスクロールイベント用
 const scrollDirective = {

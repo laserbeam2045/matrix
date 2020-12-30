@@ -8,8 +8,12 @@
         v-model:parentLabel="data.parentLabel"
         v-model:label="data.label"
       />
-      <ButtonBasicAtom @click="onClickSubmit">Submit</ButtonBasicAtom>
-      <ButtonBasicAtom @click="onClickCancel">Cancel</ButtonBasicAtom>
+      <ButtonBasicAtom @click="onClickSubmit">
+        Submit
+      </ButtonBasicAtom>
+      <ButtonBasicAtom @click="onClickCancel">
+        Cancel
+      </ButtonBasicAtom>
     </div>
   </ModalWindow>
 </template>
@@ -18,7 +22,7 @@
 import { defineComponent, reactive, ref, watch } from 'vue'
 import { useStore as useQuizTag } from '@/store/quiz_tag'
 import TemplateFormQuizTag from '@/components/organisms/TemplateFormQuizTag'
-import ButtonBasicAtom from '@/components/atoms/button-basic-atom'
+import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 
 export default defineComponent ({
   name: 'TheTagCreator',
@@ -26,16 +30,16 @@ export default defineComponent ({
     ButtonBasicAtom,
     TemplateFormQuizTag,
   },
-  emits: [
-    'inserted',
-    'click-cancel',
-  ],
   props: {
     tagId: {
       type: Number,
       required: true,
     },
   },
+  emits: [
+    'inserted',
+    'click-cancel',
+  ],
   setup(props, { emit }) {
     const quizTagStore = useQuizTag()
 

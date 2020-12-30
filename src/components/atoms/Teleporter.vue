@@ -1,6 +1,6 @@
 <template>
   <teleport :to="teleportTo">
-    <slot></slot>
+    <slot />
   </teleport>
 </template>
 

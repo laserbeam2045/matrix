@@ -1,10 +1,10 @@
 <template>
   <canvas
-    ref="canvas"
     id="fabric-canvas"
+    ref="canvas"
     :width="fabricProps.width"
     :height="fabricProps.height"
-  ></canvas>
+  />
 </template>
 
 <script>
@@ -14,10 +14,6 @@ import _ from 'lodash'
 
 export default defineComponent({
   name: 'Writable',
-  emits: [
-    'initialize',
-    'write',
-  ],
   props: {
     width: {
       type: Number,
@@ -28,6 +24,10 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: [
+    'initialize',
+    'write',
+  ],
   setup(props, { emit }) {
     const canvas = ref(null)
     const fabricCanvas = ref(null)

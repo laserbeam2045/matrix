@@ -1,8 +1,8 @@
 <template>
   <div
     ref="readable"
-    class="readable"
     v-resize="onResize"
+    class="readable"
   >
     <Writable
       ref="writable"
@@ -23,12 +23,12 @@ import _ from 'lodash'
 
 export default defineComponent({
   name: 'Readable',
-  emits: [
-    'predict',
-  ],
   components: {
     Writable,
   },
+  emits: [
+    'predict',
+  ],
   setup(props, { emit }) {
     const readable = ref(null)
     const writable = ref(null)

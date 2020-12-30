@@ -1,6 +1,6 @@
-import { unref } from 'vue'
 import * as tf from '@tensorflow/tfjs'
 import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
+import { unref } from 'vue'
 import { API_ROOT_2 } from '@/store/constants'
 import Rahmen from '@/utils/Rahmen'
 
@@ -53,13 +53,14 @@ export default class OCR {
     const rahmen2 = this.preprocessingStep2(rahmen1)
     const rahmen3 = this.preprocessingStep3(rahmen2)
     const { imageData } = rahmen3.getImageData()
+    // document.querySelector('#contents').appendChild(rahmen3.canvas)
 
-// document.querySelector('#contents').appendChild(rahmen3.canvas)
-
-    return tf.browser.fromPixels(imageData, 1)
-                     .reshape([1, INPUT_SIZE, INPUT_SIZE, 1])
-                     .cast('float32')
-                     .div(tf.scalar(255))
+    return tf.tidy(() => {
+      return tf.browser.fromPixels(imageData, 1)
+                       .cast('float32')
+                       .div(tf.scalar(255))
+                       .reshape([1, INPUT_SIZE, INPUT_SIZE, 1])
+    })
   }
 
   // 前処理その１(現在の状態に背景色をつける)

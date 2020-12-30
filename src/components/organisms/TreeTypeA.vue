@@ -11,11 +11,6 @@ import { defineComponent, provide } from 'vue'
 
 export default defineComponent({
   name: 'TreeTypeA',
-  emits: [
-    'mousedown',
-    'mouseup',
-    'click',
-  ],
   props: {
     root: {
       type: Object,
@@ -26,6 +21,11 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: [
+    'mousedown',
+    'mouseup',
+    'click',
+  ],
   setup(props, { emit }) {
     provide('itemComponent', props.itemComponent)
 

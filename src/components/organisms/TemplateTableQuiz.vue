@@ -1,18 +1,32 @@
 <template>
-  <table v-if="quizzes.length">
-    <tr>
-      <th>Question</th>
-      <th>Answer</th>
-    </tr>
-    <tr v-for="quiz in quizzes" :key="quiz.id">
-      <td @dblclick="onClickQuestion(quiz.id)">
+  <ul
+    v-if="quizzes.length"
+    class="quiz-list-template"
+  >
+    <li class="container">
+      <div class="question">
+        Question
+      </div>
+      <div class="tag">
+        Tags
+      </div>
+    </li>
+    <li
+      v-for="quiz in quizzes"
+      :key="quiz.id"
+      class="container"
+    >
+      <div
+        class="question"
+        @dblclick="onClickQuestion(quiz.id)"
+      >
         <pre>{{ quiz.question }}</pre>
-      </td>
-      <td>
+      </div>
+      <div class="tag">
         <TemplateTableQuizAnswer :quiz="quiz" />
-      </td>
-    </tr>
-  </table>
+      </div>
+    </li>
+  </ul>
 </template>
 
 <script>
@@ -24,15 +38,15 @@ export default defineComponent({
   components: {
     TemplateTableQuizAnswer,
   },
-  emits: [
-    'click-question',
-  ],
   props: {
     quizzes: {
       type: Array,
       required: true,
     },
   },
+  emits: [
+    'click-question',
+  ],
   setup(props, { emit }) {
     // 問題文をクリックした時の処理
     const onClickQuestion = quizId => {
@@ -47,9 +61,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/colors';
-@import '@/assets/style/window';
-
 body.light-theme {
   th, td {
     border-color: $blueLikeColor6;
@@ -76,37 +87,39 @@ body.dark-theme {
   }
 }
 
-table {
+.quiz-list-template {
   margin: 0 auto 30px;
+  max-width: 100%;
+  font-size: 16px;
+  font-family: $font-family-normal;
 
-  th, td {
-    text-align: center;
-    box-sizing: border-box;
+  .container {
+    display: flex;
+    width: 100%;
     border: 1px solid;
   }
-  th {
-    padding: 15px 20px;
-    font-weight: normal;
+
+  .question, .tag {
+    vertical-align: middle;
+    text-align: center;
+    user-select: none;
   }
-  td {
-    font-size: 16px;
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-  }
-  td:nth-child(1) {
-    width: 361px;
-    height: 100px;
+  .question {
+    width: 62%;
+    min-width: 240px;
+    max-width: 300px;
     padding: 15px 20px;
     text-align: left;
-    user-select: none;
 
     pre {
-      margin: 0;
       font-family: inherit;
       white-space: pre-wrap;
     }
   }
-  td:nth-child(2) {
-    max-width: 180px;
+  .tag {
+    width: 37%;
+    max-width: 250px;
+    border-left: 1px solid;
     overflow-x: scroll;
 
     // スクロールバーのスタイル

@@ -1,31 +1,27 @@
 <template>
   <div id="timer-box">
     <div id="time-gauge">
-      <div :style="timeGaugeStyle"></div>
+      <div :style="timeGaugeStyle" />
     </div>
-    <div id="quiz-number">{{ `${currentNumber}/${maxNumber}` }}</div>
+    <div id="quiz-number">
+      {{ `${currentNumber}／${maxNumber}` }}
+    </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, reactive, toRef, computed } from 'vue'
+import { defineComponent, reactive, computed } from 'vue'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import TWEEN from '@tweenjs/tween.js'
 import Color from 'color-js'
 
+const TIME_LIMIT = 10000         // 一問あたりの制限時間
 const INITIAL_COLOR = '#14e6fa'  // ゲージの初期状態の色
 const FINAL_COLOR = 'red'        // ゲージの最終状態の色
 
 export default defineComponent({
   name: 'QuizGameTimer',
-  emits: [
-    'timeover',
-  ],
   props: {
-    timeLimit: {
-      type: Number,
-      required: true,
-    },
     currentNumber: {
       type: Number,
       required: true,
@@ -35,10 +31,11 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: [
+    'timeover',
+  ],
   setup(props, { emit }) {
     const { playAudio, stopAudio } = useSound()
-
-    const timeLimit = toRef(props, 'timeLimit')
 
     const state = reactive({
       isInitial: true,   // 初期状態かどうか
@@ -52,7 +49,7 @@ export default defineComponent({
 
     // 残り時間(百分率)
     const timePercentage = computed(() => {
-      return (state.timer.timeLeft / timeLimit.value) * 100
+      return (state.timer.timeLeft / TIME_LIMIT) * 100
     })
     // タイムゲージの背景色
     const tweenedCSSColor = computed(() => {
@@ -75,7 +72,7 @@ export default defineComponent({
     const initialize = () => {
       TWEEN.removeAll()
       state.isInitial = true
-      state.timer.timeLeft = timeLimit.value
+      state.timer.timeLeft = TIME_LIMIT
       state.tweenedColor = new Color(INITIAL_COLOR).toRGB()
       state.finalColor = new Color(FINAL_COLOR).toRGB()
     }
@@ -109,10 +106,10 @@ export default defineComponent({
     // アニメーションを始動させる関数
     const startTween = () => {
       state.colorTween = new TWEEN.Tween(state.tweenedColor)
-        .to(state.finalColor, timeLimit.value)
+        .to(state.finalColor, TIME_LIMIT)
         .start()
       state.numberTween = new TWEEN.Tween(state.timer)
-        .to({timeLeft: 0}, timeLimit.value)
+        .to({timeLeft: 0}, TIME_LIMIT)
         .onComplete(() => emit('timeover'))
         .start()
       animate()
@@ -138,9 +135,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/colors';
-@import '@/assets/style/text';
-
 $height: 12px;  // タイムゲージの高さ(border含む)
 $radius: 5px;   // タイムゲージのborder-radius
 
@@ -154,7 +148,6 @@ $radius: 5px;   // タイムゲージのborder-radius
     border-radius: $radius;
     border: 1px solid white;
     box-shadow: white 0 0 3px;
-    box-sizing: border-box;
     overflow: hidden;
 
     div {
@@ -167,7 +160,7 @@ $radius: 5px;   // タイムゲージのborder-radius
     flex-shrink: 0;
     margin-left: 10px;
     color: $greenLikeColor4;
-    font: 17px/#{$height} $fontFamily3;
+    font: 17px/#{$height} $font-family-orbitron;
   }
 }
 </style>

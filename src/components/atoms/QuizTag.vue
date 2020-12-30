@@ -10,18 +10,12 @@
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, unref, inject } from 'vue'
 import { useStore as useQuizTag } from '@/store/quiz_tag'
-import { useStore as useTree } from '@/store/tree'
 import { MOUSE_TOUCH_EVENT } from '@/store/constants'
 
 export default defineComponent({
   name: 'QuizTag',
-  emits: [
-    'mousedown',
-    'mouseup',
-    'click',
-  ],
   props: {
     id: {
       type: Number,
@@ -33,12 +27,17 @@ export default defineComponent({
       default: true,
     },
   },
+  emits: [
+    'mousedown',
+    'mouseup',
+    'click',
+  ],
   setup(props, { emit }) {
     const data = useQuizTag().find(props.id)
 
-    const { state: treeState } = useTree()
+    const activeTagIds = inject('activeTagIds')
 
-    const active = computed(() => treeState.activeTagIds.has(props.id))
+    const active = computed(() => unref(activeTagIds).has(props.id))
 
     const text = computed(() => {
       if (props.showCount && data.quizCount)
@@ -64,8 +63,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/app';
-@import '@/assets/style/colors';
 $bgColor    : $blackLikeColor7;
 $textColor  : $blueLikeColor4;
 $borderColor: $blueLikeColor4;
@@ -75,7 +72,6 @@ $borderColor: $blueLikeColor6;
 div {
   @include unSelectable;
   display: inline-block;
-  margin: 0;
   padding: 7px 9px;
   font-size: 14px;
   line-height: 14px;
@@ -83,8 +79,7 @@ div {
   background: $bgColor;
   border-radius: 5px;
   border: 1px solid $borderColor;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  box-sizing: border-box;
+  font-family: $font-family-normal;
   white-space: nowrap;
   transition: all .2s;
 

@@ -1,5 +1,8 @@
 <template>
-  <div id="contents">
+  <div
+    id="contents"
+    @click.once="loadAudios"
+  >
     <Teleporter
       v-for="name in matrix.state.frontWindows"
       :key="name"
@@ -26,10 +29,9 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { provideStore as provideMatrix, useStore as useMatrix } from '@/store/matrix'
-import { provideStore as provideAudio, useStore as useAudio, AUDIOS } from '@/store/audio'
-import { provideStore as provideQuiz, useStore as useQuiz } from '@/store/quiz'
-import { provideStore as provideTag, useStore as useTag } from '@/store/quiz_tag'
+import { useStore as useMatrix } from '@/store/matrix'
+import { useStore as useAudio, AUDIOS } from '@/store/audio'
+import { useStore as useTag } from '@/store/quiz_tag'
 import VirtualWindowLegend from '@/components/organisms/VirtualWindowLegend'
 import Teleporter from '@/components/atoms/Teleporter'
 
@@ -40,26 +42,21 @@ export default defineComponent({
     Teleporter,
   },
   async setup() {
-    provideMatrix()
-    provideAudio()
-    provideQuiz()
-    provideTag()
-
     const store = {
       matrix: useMatrix(),
       audio: useAudio(),
-      quiz: useQuiz(),
       tag: useTag(),
     }
 
-    // await store.audio.loadAudio(AUDIOS.AVALON)
-    await store.audio.loadAudio(AUDIOS.QUIZ)
-    await store.audio.loadAudio(AUDIOS.ETC)
-    await store.quiz.load()
     await store.tag.load()
 
+    const loadAudios = () => {
+      store.audio.loadAudio(AUDIOS.QUIZ)
+      store.audio.loadAudio(AUDIOS.ETC)
+    }
+
     const teleportToFront = name => {
-      if (store.matrix.state.frontWindows.tail !== name) {
+      if (store.matrix.state.frontWindows.last !== name) {
         store.audio.playAudio(AUDIOS.ETC.CYBER_15_3)
         store.matrix.teleportToFront(name)
       }
@@ -68,8 +65,9 @@ export default defineComponent({
     return {
       matrix: store.matrix,
       teleportToFront,
+      loadAudios,
     }
-  },
+  }
 })
 </script>
 

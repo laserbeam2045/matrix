@@ -4,21 +4,14 @@
     v-quick-focus
     v-bind="props"
     @input="onInput"
-    @change="onChange"
-    @keydown="onKeydown"
-  />
+  >
 </template>
- 
+
 <script>
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'BaseInputText',
-  emits: [
-    'update:value',
-    'change',
-    'keydown',
-  ],
   props: {
     value: {
       type: [String, Number],
@@ -45,39 +38,34 @@ export default defineComponent({
       default: 'off',
     },
   },
+  emits: [
+    'update:value',
+  ],
   setup(props, { emit }) {
     const input = ref(null)
 
     const focus = () => input.value.focus()
     const onInput = e => emit('update:value', e.target.value)
-    const onChange = e => emit('change', e.target.value)
-    const onKeydown = e => emit('keydown', e)
 
     return {
       props,
       input,
       focus,
       onInput,
-      onChange,
-      onKeydown
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/colors';
-@import '@/assets/style/text';
 
 input {
   width: auto;
-  margin: 0;
   padding: 6px 12px;
   color: $blueLikeColor6;
   background: transparent;
   border: 1px solid $def-wrap-c2;
   transition: $neutral-transition;
-  box-sizing: border-box;
   font: $normalFont;
 
   &::placeholder {

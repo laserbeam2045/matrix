@@ -5,7 +5,7 @@
     :class="{ resizing: activeResizer.className }"
     :style="style"
   >
-    <slot></slot>
+    <slot />
     <div
       v-for="(eventHandler, className) in resizers"
       :key="className"
@@ -28,12 +28,6 @@ const MIN_HEIGHT = 30
 
 export default defineComponent({
   name: 'ResizableWindow',
-  emits: [
-    'update:top',
-    'update:left',
-    'update:width',
-    'update:height',
-  ],
 
   props: {
     position: {
@@ -77,6 +71,12 @@ export default defineComponent({
       default: true,
     }
   },
+  emits: [
+    'update:top',
+    'update:left',
+    'update:width',
+    'update:height',
+  ],
 
   setup(props, context) {
     const rootRef = ref(null)
@@ -239,10 +239,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/app';
-@import '@/assets/style/colors';
-@import '@/assets/style/window';
-
 @function _fn($value) {
   @return -($value + 1) / 2;
 }

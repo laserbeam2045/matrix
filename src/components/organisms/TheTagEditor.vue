@@ -8,10 +8,13 @@
         v-model:id="data.id"
         v-model:label="data.label"
       />
-      <ButtonBasicAtom @click="onClickUpdate">Update</ButtonBasicAtom>
-      <ButtonBasicAtom @click="onClickDelete">Delete</ButtonBasicAtom>
-      <ButtonBasicAtom @click="onClickCreate">Create</ButtonBasicAtom>
-      <ButtonBasicAtom @click="onClickCancel">Cancel</ButtonBasicAtom>
+      <ButtonBasicAtom
+        v-for="button in buttons"
+        :key="button.text"
+        v-on="button.events"
+      >
+        {{ button.text }}
+      </ButtonBasicAtom>
     </div>
   </ModalWindow>
 
@@ -27,7 +30,7 @@ import { defineComponent, reactive, ref, watch } from 'vue'
 import { useStore as useQuizTag } from '@/store/quiz_tag'
 import TemplateFormQuizTag from '@/components/organisms/TemplateFormQuizTag'
 import ConfirmWindow from '@/components/organisms/ConfirmWindow'
-import ButtonBasicAtom from '@/components/atoms/button-basic-atom'
+import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 
 // 確認ダイアログがどのボタンによって表示されたかを表す定数
 const UPDATE_MODE = 0
@@ -40,18 +43,18 @@ export default defineComponent({
     ButtonBasicAtom,
     TemplateFormQuizTag,
   },
-  emits: [
-    'updated',
-    'deleted',
-    'click-create',
-    'click-cancel',
-  ],
   props: {
     tagId: {
       type: Number,
       required: true,
     },
   },
+  emits: [
+    'updated',
+    'deleted',
+    'click-create',
+    'click-cancel',
+  ],
   setup(props, { emit }) {
     const quizTagStore = useQuizTag()
 
@@ -142,6 +145,33 @@ export default defineComponent({
       hideConfirm()
     }
 
+    const buttons = [
+      {
+        text: 'Update',
+        events: {
+          click: onClickUpdate,
+        },
+      },
+      {
+        text: 'Delete',
+        events: {
+          click: onClickDelete,
+        },
+      },
+      {
+        text: 'Create',
+        events: {
+          click: onClickCreate,
+        },
+      },
+      {
+        text: 'Cancel',
+        events: {
+          click: onClickCancel,
+        },
+      },
+    ]
+
     return {
       windowState,
       data,
@@ -149,12 +179,9 @@ export default defineComponent({
       confirmWindow,
       showModal,
       hideModal,
-      onClickUpdate,
-      onClickDelete,
-      onClickCreate,
-      onClickCancel,
       onClickPositive,
       onClickNegative,
+      buttons,
     }
   },
 })

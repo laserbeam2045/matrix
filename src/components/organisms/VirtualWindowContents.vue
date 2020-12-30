@@ -1,19 +1,19 @@
 <template>
   <div class="virtual-wrapper">
     <header :class="handleClass">
-      <slot name="header"></slot>
+      <slot name="header" />
     </header>
-    <div ref="root" :style="contentsStyle">
-      <slot></slot>
+    <div :style="contentsStyle">
+      <slot />
     </div>
     <footer>
-      <slot name="footer"></slot>
+      <slot name="footer" />
     </footer>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'VirtualWindowContents',
@@ -27,19 +27,10 @@ export default defineComponent({
       required: true,
     },
   },
-  setup() {
-    const root = ref(null)
-
-    return { root }
-  }
 })
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/app';
-@import '@/assets/style/colors';
-@import '@/assets/style/window';
-
 // コンテンツラッパーのスタイル
 .virtual-wrapper {
   height: 100%;

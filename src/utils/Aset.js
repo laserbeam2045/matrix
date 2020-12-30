@@ -13,11 +13,11 @@ export default class Aset extends Array {
     return this.length
   }
 
-  get head() {
+  get first() {
     return this[0]
   }
 
-  get tail() {
+  get last() {
     return this[this.length - 1]
   }
 

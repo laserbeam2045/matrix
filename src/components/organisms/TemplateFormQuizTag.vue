@@ -2,7 +2,12 @@
   <table v-if="isEditMode">
     <tr>
       <th><label>Id</label></th>
-      <td><BaseInputText v-model:value="idRef" disabled /></td>
+      <td>
+        <BaseInputText
+          v-model:value="idRef"
+          disabled
+        />
+      </td>
     </tr>
     <tr>
       <th><label>Label</label></th>
@@ -13,7 +18,12 @@
   <table v-else>
     <tr>
       <th><label>Parent</label></th>
-      <td><BaseInputText v-model:value="parentLabelRef" disabled /></td>
+      <td>
+        <BaseInputText
+          v-model:value="parentLabelRef"
+          disabled
+        />
+      </td>
     </tr>
     <tr>
       <th><label>Label</label></th>
@@ -32,11 +42,6 @@ export default defineComponent({
   components: {
     BaseInputText,
   },
-  emits: [
-    'update:id',
-    'update:label',
-    'update:parentLabel',
-  ],
   props: {
     id: {
       type: Number,
@@ -53,6 +58,11 @@ export default defineComponent({
       default: null,
     },
   },
+  emits: [
+    'update:id',
+    'update:label',
+    'update:parentLabel',
+  ],
   setup(props, context) {
     const idRef = useVModelRef(props, context, 'id')
     const labelRef = useVModelRef(props, context, 'label')

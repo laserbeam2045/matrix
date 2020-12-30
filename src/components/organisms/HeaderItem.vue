@@ -1,5 +1,8 @@
 <template>
-  <div class="header-item" @click="$emit('click')">
+  <div
+    class="header-item"
+    @click="$emit('click')"
+  >
     <fa
       :icon="[set, type]"
       :class="{ active }"
@@ -22,9 +25,6 @@ library.add(
 
 export default defineComponent({
   name: 'HeaderItem',
-  emits: [
-    'click',
-  ],
   props: {
     type: {
       type: String,
@@ -36,6 +36,9 @@ export default defineComponent({
       default: false,
     },
   },
+  emits: [
+    'click',
+  ],
   setup(props) {
     const set = (() => {
       switch (props.type) {
@@ -62,12 +65,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/app';
-@import '@/assets/style/window';
-
 div {
   display: inline-block;
-  margin: 0;
   width: $windowHeaderItemSize;
   height: $windowHeaderItemSize;
   font-size: $windowHeaderItemSize * 0.6;

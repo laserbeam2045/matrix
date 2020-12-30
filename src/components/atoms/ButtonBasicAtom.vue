@@ -1,27 +1,24 @@
 <template>
-  <button>
+  <button class="button-basic-atom">
     <slot>Submit</slot>
   </button>
 </template>
 
 <script>
 export default {
-  name: 'button-basic-atom',
+  name: 'ButtonBasicAtom',
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/text';
-@import '@/assets/style/colors';
-
-button {
+.button-basic-atom {
   margin: 0 auto;
   padding: 4px 8px;
   color: $grayLikeColor3;
   background: transparent;
   border-radius: 5px;
   border: 1px solid $grayLikeColor3;
-  font-family: $fontFamily3;
+  font-family: $font-family-orbitron;
   transition: all .1;
   cursor: pointer;
 
