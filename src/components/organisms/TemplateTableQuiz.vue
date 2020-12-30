@@ -50,6 +50,7 @@ export default defineComponent({
   setup(props, { emit }) {
     // 問題文をクリックした時の処理
     const onClickQuestion = quizId => {
+      console.log(quizId)
       emit('click-question', quizId)
     }
 

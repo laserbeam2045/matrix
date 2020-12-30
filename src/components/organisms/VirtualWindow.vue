@@ -50,8 +50,8 @@
 <script>
 import { defineComponent, ref, computed, onMounted, nextTick } from 'vue'
 import { useStore as useMatrix } from '@/store/matrix'
-import useWindow from '@/utils/windows'
-import useVModelRef from '@/utils/vmodel'
+import useWindow from '@/composables/useWindow'
+import useVModel from '@/composables/useVModel'
 import ResizableWindow from '@/components/organisms/ResizableWindow'
 import DraggableWindow from '@/components/organisms/DraggableWindow'
 import VirtualWindowLegend from '@/components/organisms/VirtualWindowLegend'
@@ -131,10 +131,10 @@ export default defineComponent({
     const windowNum = matrix.getNextWindowNumber()
     const handleClass = `draggable-handle-${windowNum}`
 
-    const topRef = useVModelRef(props, context, 'top')
-    const leftRef = useVModelRef(props, context, 'left')
-    const widthRef = useVModelRef(props, context, 'width')
-    const heightRef = useVModelRef(props, context, 'height')
+    const topRef = useVModel(props, context, 'top')
+    const leftRef = useVModel(props, context, 'left')
+    const widthRef = useVModel(props, context, 'width')
+    const heightRef = useVModel(props, context, 'height')
 
     const root = ref(null)
     const rootClass = computed(() => {

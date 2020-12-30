@@ -1,16 +1,16 @@
 <template>
   <pre
     ref="root"
-    v-focus
-    contenteditable
+    class="editable-pre-atom"
+    :contenteditable="contenteditable"
     :spellcheck="spellcheck"
     v-on="listeners"
-    v-text="htmlString"
+    v-html="htmlString"
   />
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 
 export default defineComponent({
   name: 'EditableWindowPre',
@@ -37,6 +37,7 @@ export default defineComponent({
 
     const blur            = () => root.value.blur()
     const focus           = () => root.value.focus()
+    const getElement      = () => root.value
     const getInnerText    = () => root.value.innerText
     const getInnerHTML    = () => root.value.innerHTML
     const getChildNodes   = () => root.value.childNodes
@@ -44,16 +45,22 @@ export default defineComponent({
     const getTextContent  = () => root.value.textContent
     const getScrollHeight = () => root.value.scrollHeight
 
+    const contenteditable = ref(false)
+
+    onMounted(() => contenteditable.value = true)
+
     return {
       root,
       blur,
       focus,
+      getElement,
       getInnerText,
       getInnerHTML,
       getChildNodes,
       getChildNodeAt,
       getTextContent,
       getScrollHeight,
+      contenteditable,
     }
   }
 })
@@ -61,17 +68,17 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 body.light-theme {
-  pre {
+  .editable-pre-atom {
     background: $windowLightBackgroundEditor;
   }
 }
 body.dark-theme {
-  pre {
+  .editable-pre-atom {
     background: $windowDarkBackgroundEditor;
   }
 }
 
-pre {
+.editable-pre-atom {
   margin: 0 $windowScrollbarWidth $windowScrollbarWidth $windowScrollbarWidth;
   padding: 12px 15px 12px;
   text-align: left;

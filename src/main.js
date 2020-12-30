@@ -23,7 +23,7 @@ const scrollDirective = {
         window.removeEventListener('scroll', f)
       }
     }
-    window.addEventListener('scroll', f)
+    window.addEventListener('scroll', f, { passive: true })
   }
 }
 // v-focus
@@ -49,8 +49,8 @@ const quickFocusDirective = {
     const blur = evt => {
       if (evt.target !== el) el.blur()
     }
-    el.addEventListener(EVENT.START, focus)
-    window.addEventListener(EVENT.END, blur)
+    el.addEventListener(EVENT.START, focus, { passive: true })
+    window.addEventListener(EVENT.END, blur, { passive: true })
   }
 }
 // v-resize
@@ -61,7 +61,7 @@ const resizeDirective = {
         window.removeEventListener('resize', f)
       }
     }
-    window.addEventListener('resize', f)
+    window.addEventListener('resize', f, { passive: true })
   }
 }
 

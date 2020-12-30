@@ -18,7 +18,7 @@
 import { defineComponent, ref, reactive, onMounted } from 'vue'
 import { API_ROOT_2 } from '@/store/constants'
 import Writable from '@/components/organisms/Writable'
-import OCR from '@/utils/OCR'
+import OCR from '@/utilities/OCR'
 import _ from 'lodash'
 
 export default defineComponent({

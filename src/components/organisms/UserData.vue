@@ -72,7 +72,7 @@ export default defineComponent({
       },
     })
     const windowEvents = {
-      [MOUSE_TOUCH_EVENT.START]() { emit('touch') },
+      [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
 
     const closeWindow = () => emit('close')

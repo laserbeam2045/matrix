@@ -34,7 +34,7 @@
 
 <script>
 import { defineComponent, computed } from 'vue'
-import useVModelRef from '@/utils/vmodel'
+import useVModel from '@/composables/useVModel'
 import BaseInputText from '@/components/atoms/BaseInputText'
 
 export default defineComponent({
@@ -64,9 +64,9 @@ export default defineComponent({
     'update:parentLabel',
   ],
   setup(props, context) {
-    const idRef = useVModelRef(props, context, 'id')
-    const labelRef = useVModelRef(props, context, 'label')
-    const parentLabelRef = useVModelRef(props, context, 'parentLabel')
+    const idRef = useVModel(props, context, 'id')
+    const labelRef = useVModel(props, context, 'label')
+    const parentLabelRef = useVModel(props, context, 'parentLabel')
 
     const isEditMode = computed(() => parentLabelRef.value === null)
 

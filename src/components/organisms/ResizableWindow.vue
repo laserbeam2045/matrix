@@ -20,8 +20,8 @@
 <script>
 import { defineComponent, ref, reactive, computed, toRefs, onMounted, nextTick } from 'vue'
 import { MOUSE_TOUCH_EVENT } from '@/store/constants'
-import useVModelRef from '@/utils/vmodel'
-import useWindow from '@/utils/windows'
+import useVModel from '@/composables/useVModel'
+import useWindow from '@/composables/useWindow'
 
 const MIN_WIDTH = 200
 const MIN_HEIGHT = 30
@@ -80,10 +80,10 @@ export default defineComponent({
 
   setup(props, context) {
     const rootRef = ref(null)
-    const topRef = useVModelRef(props, context, 'top')
-    const leftRef = useVModelRef(props, context, 'left')
-    const widthRef = useVModelRef(props, context, 'width')
-    const heightRef = useVModelRef(props, context, 'height')
+    const topRef = useVModel(props, context, 'top')
+    const leftRef = useVModel(props, context, 'left')
+    const widthRef = useVModel(props, context, 'width')
+    const heightRef = useVModel(props, context, 'height')
     const propsAsRefs = toRefs(props)
 
     // ラッパーの有無によって、状態を更新する対象となる要素を決める
@@ -142,8 +142,8 @@ export default defineComponent({
     /* イベントハンドラ関連 */
 
     // リサイズ後の値を計算する関数
-    const getNewTop  = e => (getPageY(e) - state.frameY)
-    const getNewLeft = e => (getPageX(e) - state.frameX)
+    const getNewTop  = e => Math.max(0, getPageY(e) - state.frameY)
+    const getNewLeft = e => Math.max(0, getPageX(e) - state.frameX)
     const getNewWidth  = (e, dir) => (state.clientWidth + dir * getDiffX(e))
     const getNewHeight = (e, dir) => (state.clientHeight + dir * getDiffY(e))
 

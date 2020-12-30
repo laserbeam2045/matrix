@@ -24,7 +24,7 @@
           v-for="(value2, key2) in value"
           :key="key2"
         >
-          <ButtonBasicAtom @[MOUSE_TOUCH_EVENT.START]="playAudio(value2)">
+          <ButtonBasicAtom @[`${MOUSE_TOUCH_EVENT.START}Passive`]="playAudio(value2)">
             {{ key2 }}
           </ButtonBasicAtom>
         </template>
@@ -65,7 +65,7 @@ export default defineComponent({
       },
     })
     const windowEvents = {
-      [MOUSE_TOUCH_EVENT.START]() { emit('touch') },
+      [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
     // ウィンドウを閉じる処理
     const closeWindow = () => {

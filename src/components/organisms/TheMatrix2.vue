@@ -24,7 +24,7 @@ import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { PAGE_THEME, MOUSE_TOUCH_EVENT } from '@/store/constants'
 import Readable from '@/components/organisms/Readable'
-import useCommand from '@/utils/command_manager'
+import useCommand from '@/composables/useCommand'
 import { isAlphabet } from '@/utils/string_functions'
 
 export default defineComponent({
@@ -55,7 +55,7 @@ export default defineComponent({
       },
     })
     const windowEvents = {
-      [MOUSE_TOUCH_EVENT.START]() { emit('touch') },
+      [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
 
     const onPredict = ({ data, isFresh }) => {
@@ -126,7 +126,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 body.light-theme {
   .wrapper {
     background: $windowLightBackgroundEditor;

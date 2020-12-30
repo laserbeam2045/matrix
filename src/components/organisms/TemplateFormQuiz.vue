@@ -34,7 +34,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import useVModelRef from '@/utils/vmodel'
+import useVModel from '@/composables/useVModel'
 import BaseTextArea from '@/components/atoms/BaseTextArea'
 import BaseInputText from '@/components/atoms/BaseInputText'
 import QuizTag from '@/components/atoms/QuizTag'
@@ -74,10 +74,10 @@ export default defineComponent({
   setup(props, context) {
     const textarea = ref(null)
 
-    const questionRef = useVModelRef(props, context, 'question')
-    const answer1Ref  = useVModelRef(props, context, 'answer1')
-    const answer2Ref  = useVModelRef(props, context, 'answer2')
-    const tagIdsRef   = useVModelRef(props, context, 'tagIds')
+    const questionRef = useVModel(props, context, 'question')
+    const answer1Ref  = useVModel(props, context, 'answer1')
+    const answer2Ref  = useVModel(props, context, 'answer2')
+    const tagIdsRef   = useVModel(props, context, 'tagIds')
 
     const onClickTag = value => context.emit('click', value)
     const focusQuestion = () => textarea.value.focus()

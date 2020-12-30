@@ -9,7 +9,7 @@
 
 <script>
 import { defineComponent, ref, reactive, watch, onMounted } from 'vue'
-import fabric from '@/utils/CustomFabric'
+import fabric from '@/utilities/CustomFabric'
 import _ from 'lodash'
 
 export default defineComponent({

@@ -1,21 +1,23 @@
 <template>
-  <VirtualWindow
-    v-model:top="windowState.top"
-    v-model:left="windowState.left"
-    v-model:width="windowState.width"
-    v-model:height="windowState.height"
-    v-bind="windowState"
-    v-on="windowEvents"
-  >
-    <EditableWindow
-      ref="editableWindow"
-      :value="command"
-      @input="onInput"
-      @keydown.up.exact="onKeydownUp"
-      @keydown.down.exact="onKeydownDown"
-      @keydown.enter.exact="onKeydownEnter"
-    />
-  </VirtualWindow>
+  <div>
+    <VirtualWindow
+      v-model:top="windowState.top"
+      v-model:left="windowState.left"
+      v-model:width="windowState.width"
+      v-model:height="windowState.height"
+      v-bind="windowState"
+      v-on="windowEvents"
+    >
+      <EditableWindow
+        ref="editableWindow"
+        :value="command"
+        @input="onInput"
+        @keydown.up.exact="onKeydownUp"
+        @keydown.down.exact="onKeydownDown"
+        @keydown.enter.exact="onKeydownEnter"
+      />
+    </VirtualWindow>
+  </div>
 </template>
 
 <script>
@@ -24,7 +26,7 @@ import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { PAGE_THEME, MOUSE_TOUCH_EVENT } from '@/store/constants'
 import EditableWindow from '@/components/organisms/EditableWindow'
-import useCommand from '@/utils/command_manager'
+import useCommand from '@/composables/useCommand'
 
 export default defineComponent({
   name: 'TheMatrix',
@@ -60,7 +62,7 @@ export default defineComponent({
       },
     })
     const windowEvents = {
-      [MOUSE_TOUCH_EVENT.START]() { emit('touch') },
+      [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
 
     // ウィンドウを開く関数

@@ -9,8 +9,8 @@ export default function useCommand() {
 
   // 現在のコマンド
   const currentCommand = computed({
-    get()    { return state.commands[state.cursor] },
-    set(cmd) { state.commands[state.cursor] = cmd },
+    get: () => state.commands[state.cursor],
+    set: cmd => state.commands[state.cursor] = cmd,
   })
 
   // コマンドをセットする

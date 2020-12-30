@@ -12,8 +12,8 @@
 import { defineComponent, ref, toRef, computed, onMounted, nextTick } from 'vue'
 import { MOUSE_TOUCH_EVENT } from '@/store/constants'
 import { str2num } from '@/utils/string_functions'
-import useVModelRef from '@/utils/vmodel'
-import useWindow from '@/utils/windows'
+import useVModel from '@/composables/useVModel'
+import useWindow from '@/composables/useWindow'
 
 export default defineComponent({
   name: "DraggableWindow",
@@ -59,10 +59,10 @@ export default defineComponent({
   ],
   setup(props, context) {
     const rootRef = ref(null)
-    const topRef = useVModelRef(props, context, 'top')
-    const leftRef = useVModelRef(props, context, 'left')
-    const widthRef = useVModelRef(props, context, 'width')
-    const heightRef = useVModelRef(props, context, 'height')
+    const topRef = useVModel(props, context, 'top')
+    const leftRef = useVModel(props, context, 'left')
+    const widthRef = useVModel(props, context, 'width')
+    const heightRef = useVModel(props, context, 'height')
     const wrapperRef = toRef(props, 'wrapper')
     const positionRef = toRef(props, 'position')
 
@@ -127,7 +127,7 @@ export default defineComponent({
     }
     const updateTop = e => {
       const top = str2num(topRef.value)
-      topRef.value = Math.max(22, (top - getDiffY(e))) + 'px'
+      topRef.value = Math.max(0, (top - getDiffY(e))) + 'px'
     }
     const updateLeft = e => {
       const left = str2num(leftRef.value)
@@ -138,7 +138,7 @@ export default defineComponent({
       const handleElements = document.querySelectorAll(props.handle)
       handleElements.forEach(elm => {
         elm.classList.add('draggable-handle')
-        elm.addEventListener(MOUSE_TOUCH_EVENT.START, addDragEvent)
+        elm.addEventListener(MOUSE_TOUCH_EVENT.START, addDragEvent, { passive: false })
       })
     }
     // プロパティに応じて中央配置にする

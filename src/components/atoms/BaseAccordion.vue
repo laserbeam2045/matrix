@@ -9,7 +9,6 @@
       v-show="isOpen"
       ref="root"
     >
-      <div class="sand-box" />
       <slot />
     </div>
   </transition>
@@ -29,28 +28,33 @@ export default defineComponent({
   setup(props) {
     const root = ref(null)
 
-    const open = el => {
-      const { width, height } = getSize()
-      setSize(el, width + 'px', height + 'px')
-    }
+    const open  = el => setSize(el, ...getSize())
     const close = el => setSize(el, 0)
     const after = el => setSize(el, 'auto')
 
-    // MEMO: enter時に取得するscrollWidthがpadding-rightを含まないため、
+    const setSize = (el, width, height) => {
+      el.style.width = width
+      el.style.height = height !== undefined ? height : width
+    }
+
+    // MEMO: enter時に取得されるscrollWidthがpadding-rightを含まないため、
     //   ->: 複製した要素で正確なscroll(Width/Height)を取得している。
     const getSize = () => {
       const clone = root.value.cloneNode(true)
-      const sandBox = root.value.querySelector('.sand-box')
+      const sandBox = createSandBox()
       setSize(clone, 'auto')
       sandBox.appendChild(clone)
-      const width = clone.scrollWidth
-      const height = clone.scrollHeight
-      sandBox.removeChild(clone)
-      return { width, height }
+      root.value.appendChild(sandBox)
+      const { scrollWidth, scrollHeight } = clone
+      root.value.removeChild(sandBox)
+      return [ scrollWidth + 'px', scrollHeight + 'px' ]
     }
-    const setSize = (el, width, height) => {
-      el.style.width = width
-      el.style.height = (height === undefined) ? width : height
+
+    const createSandBox = () => {
+      const sandBox = document.createElement('div')
+      sandBox.style.position = 'absolute'
+      sandBox.style.opacity = 0
+      return sandBox
     }
 
     // MEMO: before-leaveではtransitionに間に合わないためonBeforeUpdateを使用している
@@ -58,20 +62,12 @@ export default defineComponent({
       if (!props.isOpen) open(root.value)
     })
 
-    return {
-      root,
-      open,
-      close,
-      after,
-    }
+    return { root, open, close, after }
   }
 })
 </script>
 
 <style scoped>
-.sand-box {
-  position: absolute;
-}
 .v-enter-active,
 .v-leave-active {
   transition: all .5s;

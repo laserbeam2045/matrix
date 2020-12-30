@@ -10,8 +10,9 @@
 import { defineComponent, ref, reactive, watch, onMounted } from 'vue'
 import { convert2LF, trimLastLF, doubleLastLF } from '@/utils/string_functions'
 import { getClipboardData } from '@/utils/event_functions'
+import { getRootElement } from '@/utils/dom_functions'
 import { LF } from '@/store/constants'
-import useSelection from '@/utils/selections'
+import useSelection from '@/composables/useSelection'
 import EditableWindowPre from '@/components/organisms/EditableWindowPre'
 
 export default defineComponent({
@@ -36,7 +37,8 @@ export default defineComponent({
     'update:scrollTop',
   ],
   setup(props, { emit }) {
-    const root = ref(null)
+    const root = ref(null)        // pre(コンポーネント)
+    const preElement = ref(null)  // pre(HTMLエレメント)
 
     const state = reactive({
       innerHTML: '',      // valueのコピー（キャレット位置をコントロールするために必要）
@@ -59,7 +61,7 @@ export default defineComponent({
       })
       .then(() => {
         adjustLocalRange()
-        applyLocalRange(root)
+        applyLocalRange(preElement.value)
         scrollByInput()
       })
     })
@@ -82,8 +84,9 @@ export default defineComponent({
 
     // 現在のキャレット位置にテキストを挿入する関数
     // MEMO: セレクション(見た目)上の範囲に、実際の文字数を合わせるために一時的にデコードする
+    // TODO: ペースト後にキャレットが挿入文字列の末尾になるようにしたい
     const insertText = input => {
-      recordLocalRange(root)
+      recordLocalRange(preElement.value)
 
       const innerText = getInnerText()
       let a = innerText.slice(0, localRange.startOffset)  // 選択範囲より前
@@ -110,7 +113,7 @@ export default defineComponent({
 
     // 上下矢印キー入力時にキャレット位置に変化がなければスクロールする関数
     const scrollByArrowKey = event => {
-      if (isNotCaretMoved(root)) {
+      if (isNotCaretMoved(preElement.value)) {
         if (event.key === 'ArrowUp') scrollToTop()
         if (event.key === 'ArrowDown') scrollToBottom()
       }
@@ -138,47 +141,40 @@ export default defineComponent({
     }
 
     // keydownイベントハンドラ
+    // MEMO: Enterキーの入力処理は特別に処理する（brやdivタグを作らせないようにするため）
     const onKeydown = () => {
-      emit('keydown', event)
-
-      // 全角入力の未確定、または、確定時
       if (event.key === 'Process') {
-        if (event.code === 'Enter') {
-          // 確定したのでinputイベントのemitを可能にする
-          state.isComposing = false
-        } else {
-          // 未確定なのでinputイベントのemitを不可能にする
-          state.isComposing = true
-        }
-      // 半角入力、または、改行時
+        // 全角入力の未確定時にtrue、確定時にfalseとなる
+        state.isComposing = (event.code !== 'Enter')        
       } else {
+        // 半角入力、または、改行時
         state.isComposing = false
-        // MEMO: Enterキーの入力処理は特別に処理する（brやdivタグを作らせないようにするため）
         if (event.key === 'Enter') {
           event.preventDefault()
           insertText(LF)
         }
         if (event.repeat) {
           scrollByArrowKey(event)
-          recordLocalRange(root)
+          recordLocalRange(preElement.value)
         }
       }
+      emit('keydown', event)
     }
 
     // keyupイベントハンドラ
     const onKeyup = () => {
-      emit('keyup', event)
       if (event.key !== 'Process') {
         scrollByArrowKey(event)
-        recordLocalRange(root)
+        recordLocalRange(preElement.value)
       }
+      emit('keyup', event)
     }
 
     // inputイベントハンドラ
     const onInput = () => {
       if (!state.isComposing) {
         event.preventDefault()
-        recordLocalRange(root)
+        recordLocalRange(preElement.value)
         emit('input', trimLastLF(getInnerText()))
       }
     }
@@ -214,6 +210,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
+      preElement.value = getRootElement(root)
       state.innerHTML = props.value
     })
 

@@ -40,7 +40,7 @@ import BaseInputText from '@/components/atoms/BaseInputText'
 import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 import { HIRAGANA, KATAKANA, ALPHABETS, NUMERICS, isHiragana, isKatakana, isAlphabet, isNumeric } from '@/utils/string_functions'
 import { shuffle } from '@/utils/array_functions'
-import Aset from '@/utils/Aset'
+import Aset from '@/utilities/Aset'
 
 // 選択肢候補から除外する文字リスト
 const EXCLUDE_HIRAGANA = ['ゎ', 'ゐ', 'ゑ', 'ゔ', 'ゕ', 'ゖ']

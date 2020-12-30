@@ -1,5 +1,5 @@
 import { ref, unref, computed } from 'vue'
-import Aset from '@/utils/Aset'
+import Aset from '@/utilities/Aset'
 
 export default function useQuizFilters(quizzes) {
   const filters = ref([

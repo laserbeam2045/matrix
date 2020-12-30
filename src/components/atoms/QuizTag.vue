@@ -47,8 +47,8 @@ export default defineComponent({
     })
 
     const events = {
-      [MOUSE_TOUCH_EVENT.START]: () => emit('mousedown', props.id),
-      [MOUSE_TOUCH_EVENT.END]: () => emit('mouseup', props.id),
+      [`${MOUSE_TOUCH_EVENT.START}Passive`]: () => emit('mousedown', props.id),
+      [`${MOUSE_TOUCH_EVENT.END}Passive`]  : () => emit('mouseup', props.id),
       click: () => emit('click', props.id),
     }
 
@@ -69,7 +69,7 @@ $borderColor: $blueLikeColor4;
 $textColor  : $blueLikeColor6;
 $borderColor: $blueLikeColor6;
 
-div {
+.tag {
   @include unSelectable;
   display: inline-block;
   padding: 7px 9px;

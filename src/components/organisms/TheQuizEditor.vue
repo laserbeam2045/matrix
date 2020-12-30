@@ -29,8 +29,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, watch } from 'vue'
-import { useStore as useQuiz } from '@/store/quiz'
+import { defineComponent, ref, reactive, watch, inject } from 'vue'
 import ConfirmWindow from '@/components/organisms/ConfirmWindow'
 import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 import TemplateFormQuiz from '@/components/organisms/TemplateFormQuiz'
@@ -58,7 +57,7 @@ export default defineComponent({
     'deleted',
   ],
   setup(props, { emit }) {
-    const quizStore = useQuiz()
+    const getUserQuiz = inject('getUserQuiz')
 
     // ModalWindowに渡すプロパティ
     const windowState = {
@@ -78,7 +77,7 @@ export default defineComponent({
 
     // 親コンポーネントから受け取るクイズIDを監視し、変化時にデータを更新する
     watch(() => props.quizId, (id) => {
-      const quiz = quizStore.find(id)
+      const quiz = getUserQuiz(id)
       if (quiz) {
         const { question, answer1, answer2, tagIds } = quiz
         Object.assign(data, { id, question, answer1, answer2, tagIds })

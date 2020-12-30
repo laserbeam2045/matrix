@@ -6,7 +6,7 @@ import TheMatrix2 from '@/components/organisms/TheMatrix2'
 import TheAudios from '@/components/organisms/TheAudios'
 import TheUserDataWindows from '@/components/organisms/TheUserDataWindows'
 import GPT2 from '@/components/organisms/GPT2'
-import Aset from '@/utils/Aset'
+import Aset from '@/utilities/Aset'
 
 const storeSymbol = Symbol('matrix')
 
@@ -20,6 +20,7 @@ export const WINDOWS = {
 const createStore = () => {
   const deviceType = getDeviceType()
   const matrixComponent = (deviceType === DEVICE_TYPE.PC) ? TheMatrix : TheMatrix2
+  // const matrixComponent = (deviceType === DEVICE_TYPE.PC) ? TheMatrix2 : TheMatrix
 
   const state = reactive({
     pageTheme: PAGE_THEME.DARK,

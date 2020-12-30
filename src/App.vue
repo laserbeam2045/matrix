@@ -21,7 +21,6 @@ import { defineComponent, ref } from 'vue'
 import AppContents from '@/pages/AppContents'
 import { provideStore as provideMatrix } from '@/store/matrix'
 import { provideStore as provideAudio } from '@/store/audio'
-import { provideStore as provideQuiz } from '@/store/quiz'
 import { provideStore as provideTag } from '@/store/quiz_tag'
 
 export default defineComponent({
@@ -33,7 +32,6 @@ export default defineComponent({
     
     provideAudio()
     provideMatrix()
-    provideQuiz()
     provideTag()
 
     // TODO: ErrorHandling

@@ -80,7 +80,10 @@ export default defineComponent({
 
     const { user } = toRefs(props)
 
-    const { quizzes } = useUserQuizzes(user)
+    const {
+      quizzes,
+      getUserQuiz,
+    } = useUserQuizzes(user)
 
     const {
       searchQuery,
@@ -94,7 +97,10 @@ export default defineComponent({
       filteredQuizzes,
     } = useQuizFilters(quizzesMatchingSearchQuery)
 
+    provide('quizzes', quizzes)
+    provide('getUserQuiz', getUserQuiz)
     provide('activeTagIds', activeTagIds)
+    provide('filteredQuizzes', filteredQuizzes)
 
     const windowState = reactive({
       top: 'center',
@@ -109,7 +115,7 @@ export default defineComponent({
       },
     })
     const windowEvents = {
-      [MOUSE_TOUCH_EVENT.START]() { emit('touch') },
+      [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
 
     // コンポーネントの参照用

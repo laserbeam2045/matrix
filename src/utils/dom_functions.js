@@ -19,7 +19,7 @@ export const getClosestElement = (element, conditionFunc, limit = 30) => {
 export const isElement = obj => {
   try {
     return obj instanceof HTMLElement
-  } catch(e) {
+  } catch (e) {
     return (
       (typeof obj === 'object') &&
       (obj.nodeType === Node.ELEMENT_NODE) &&
@@ -29,13 +29,12 @@ export const isElement = obj => {
   }
 }
 
-// HTML要素を得る糖衣構文
-export const getElement = obj => {
-  if (isElement(obj)) {
-    return obj
-  } else if (isRef(obj)) {
-    return unref(obj).$el
-  } else {
-    return obj.$el
-  }
+// rootを持つコンポーネントが渡される場合を想定している
+const getRootOrEl = obj => ('root' in obj) ? unref(obj.root) : obj.$el
+
+// ルートのHTML要素を得る糖衣構文
+export const getRootElement = obj => {
+  if (isElement(obj))  return obj
+  else if (isRef(obj)) return getRootOrEl(unref(obj))
+  else                 return getRootOrEl(obj)
 }

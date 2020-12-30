@@ -1,5 +1,4 @@
 import { reactive, readonly } from 'vue'
-import { getElement } from '@/utils/dom_functions'
 
 // セレクションの範囲を取得する関数
 const getSelectionRange = () => {
@@ -93,27 +92,21 @@ export default function useSelection() {
 
   // 現在のセレクションの範囲を、Textベースに変換して記録する関数
   const recordLocalRange = rootNode => {
-    const element = getElement(rootNode)
-    const { startOffset, endOffset } = getCurrentTextualOffset(element)
-
+    const { startOffset, endOffset } = getCurrentTextualOffset(rootNode)
     setLocalRangeTo(startOffset, endOffset)
   }
 
   // localRangeによる範囲を、セレクションに適用する関数
   const applyLocalRange = rootNode => {
-    const element = getElement(rootNode)
-    const [startContainer, startOffset] = getElementalOffset(element, localRange.startOffset)
-    const [endContainer,     endOffset] = getElementalOffset(element, localRange.endOffset)
-
+    const [startContainer, startOffset] = getElementalOffset(rootNode, localRange.startOffset)
+    const [endContainer,     endOffset] = getElementalOffset(rootNode, localRange.endOffset)
     setSelectionRange(startContainer, startOffset, endContainer, endOffset)
   }
 
   // キャレットの位置が前回記録時から変化していないときに真を返す関数
   const isNotCaretMoved = rootNode => {
-    const element = getElement(rootNode)
     const { startOffset: oldStart, endOffset: oldEnd } = localRange
-    const { startOffset: newStart, endOffset: newEnd } = getCurrentTextualOffset(element)
-
+    const { startOffset: newStart, endOffset: newEnd } = getCurrentTextualOffset(rootNode)
     return (oldStart === newStart && oldEnd === newEnd)
   }
 
