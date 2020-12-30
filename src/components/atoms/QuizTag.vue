@@ -11,7 +11,6 @@
 
 <script>
 import { defineComponent, computed, unref, inject } from 'vue'
-import { useStore as useQuizTag } from '@/store/quiz_tag'
 import { MOUSE_TOUCH_EVENT } from '@/store/constants'
 
 export default defineComponent({
@@ -33,7 +32,8 @@ export default defineComponent({
     'click',
   ],
   setup(props, { emit }) {
-    const data = useQuizTag().find(props.id)
+    const getQuizTag = inject('getQuizTag')
+    const data = getQuizTag(props.id)
 
     const activeTagIds = inject('activeTagIds')
 

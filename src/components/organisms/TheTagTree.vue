@@ -43,11 +43,10 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, computed } from 'vue'
+import { defineComponent, ref, reactive, inject } from 'vue'
 import { provideStore as provideTree, useStore as useTree, TREE_STATE } from '@/store/tree'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { useStore as useAudio, AUDIOS } from '@/store/audio'
-import { useStore as useTag } from '@/store/quiz_tag'
 import { MOUSE_TOUCH_EVENT } from '@/store/constants'
 import TheTagCreator from '@/components/organisms/TheTagCreator'
 import TheTagEditor from '@/components/organisms/TheTagEditor'
@@ -70,10 +69,9 @@ export default defineComponent({
     const store = {
       matrix: useMatrix(),
       tree: useTree(),
-      tag: useTag(),
     }
     const { playAudio } = useAudio()
-    const tree = computed(() => store.tag.tree.value)
+    const tree = inject('tree')
 
     const windowState = reactive({
       top: 'center',

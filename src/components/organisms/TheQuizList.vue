@@ -50,6 +50,7 @@ import { MOUSE_TOUCH_EVENT } from '@/store/constants'
 import useUserQuizzes from '@/composables/useUserQuizzes'
 import useQuizStringSearch from '@/composables/useQuizStringSearch'
 import useQuizFilters from '@/composables/useQuizFilters'
+import useQuizTags from '@/composables/useQuizTags'
 import TheQuizListQueryBox from '@/components/organisms/TheQuizListQueryBox'
 import TemplateTableQuiz from '@/components/organisms/TemplateTableQuiz'
 import TheQuizCreator from '@/components/organisms/TheQuizCreator'
@@ -97,10 +98,19 @@ export default defineComponent({
       filteredQuizzes,
     } = useQuizFilters(quizzesMatchingSearchQuery)
 
+    const {
+      tags,
+      tree,
+      getQuizTag,
+    } = useQuizTags(user)
+
     provide('quizzes', quizzes)
     provide('getUserQuiz', getUserQuiz)
     provide('activeTagIds', activeTagIds)
     provide('filteredQuizzes', filteredQuizzes)
+    provide('tags', tags)
+    provide('tree', tree)
+    provide('getQuizTag', getQuizTag)
 
     const windowState = reactive({
       top: 'center',

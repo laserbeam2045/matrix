@@ -31,7 +31,6 @@
 import { defineComponent } from 'vue'
 import { useStore as useMatrix } from '@/store/matrix'
 import { useStore as useAudio, AUDIOS } from '@/store/audio'
-import { useStore as useTag } from '@/store/quiz_tag'
 import VirtualWindowLegend from '@/components/organisms/VirtualWindowLegend'
 import Teleporter from '@/components/atoms/Teleporter'
 
@@ -45,10 +44,7 @@ export default defineComponent({
     const store = {
       matrix: useMatrix(),
       audio: useAudio(),
-      tag: useTag(),
     }
-
-    await store.tag.load()
 
     const loadAudios = () => {
       store.audio.loadAudio(AUDIOS.QUIZ)
