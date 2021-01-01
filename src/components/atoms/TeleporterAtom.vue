@@ -8,7 +8,7 @@
 import { defineComponent, toRef, computed } from 'vue'
 
 export default defineComponent({
-  name: 'Teleporter',
+  name: 'TeleporterAtom',
   props: {
     level: {
       type: Number,

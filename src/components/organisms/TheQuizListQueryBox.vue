@@ -1,9 +1,9 @@
 <template>
   <div id="query-box">
     <p id="hit-count">
-      HIT：<BaseInputNumber :value="hitCount" />
+      HIT：<InputNumberAtom :value="hitCount" />
     </p>
-    <BaseInputText
+    <InputTextAtom
       v-model:value="valueRef"
       placeholder="search"
       @keydown="onKeydown"
@@ -15,16 +15,10 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
-import BaseInputNumber from '@/components/atoms/BaseInputNumber'
-import BaseInputText from '@/components/atoms/BaseInputText'
 import _ from 'lodash'
 
 export default defineComponent({
   name: 'TheQuizListQueryBox',
-  components: {
-    BaseInputText,
-    BaseInputNumber,
-  },
   props: {
     hitCount: {
       type: Number,
@@ -35,9 +29,8 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: [
-    'update:query',
-  ],
+  emits: [ 'update:query' ],
+
   setup(props, { emit }) {
     const { playAudio } = useSound()
 

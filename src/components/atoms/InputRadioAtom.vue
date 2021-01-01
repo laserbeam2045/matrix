@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: 'BaseInputRadio',
+  name: 'InputRadioAtom',
   props: {
     value: {
       type: String,

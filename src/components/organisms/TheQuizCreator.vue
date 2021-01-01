@@ -22,13 +22,11 @@
 
 <script>
 import { defineComponent, ref, reactive } from 'vue'
-import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 import TemplateFormQuiz from '@/components/organisms/TemplateFormQuiz'
 
 export default defineComponent({
   name: 'TheQuizCreator',
   components: {
-    ButtonBasicAtom,
     TemplateFormQuiz,
   },
   emits: [

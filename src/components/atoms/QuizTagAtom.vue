@@ -14,7 +14,7 @@ import { defineComponent, computed, unref, inject } from 'vue'
 import { MOUSE_TOUCH_EVENT } from '@/store/constants'
 
 export default defineComponent({
-  name: 'QuizTag',
+  name: 'QuizTagAtom',
   props: {
     id: {
       type: Number,

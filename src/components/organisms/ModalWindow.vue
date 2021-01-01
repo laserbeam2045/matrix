@@ -1,6 +1,6 @@
 <template>
   <div v-if="isVisible">
-    <Teleporter :level="level">
+    <TeleporterAtom :level="level">
       <div class="modal-window">
         <VirtualWindow
           v-model:top="windowState.top"
@@ -25,20 +25,16 @@
           </template>
         </VirtualWindow>
       </div>
-    </Teleporter>
+    </TeleporterAtom>
   </div>
 </template>
 
 <script>
 import { defineComponent, ref, reactive, watch } from 'vue'
 import { useStore as useAudio, AUDIOS } from '@/store/audio'
-import Teleporter from '@/components/atoms/Teleporter'
 
 export default defineComponent({
   name: 'ModalWindow',
-  components: {
-    Teleporter,
-  },
   props: {
     level: {
       type: Number,

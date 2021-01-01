@@ -117,7 +117,7 @@ export default defineComponent({
       left: 'center',
       width: 'auto',
       height: '95%',
-      useResizeV: true,
+      resizableV: true,
       draggable: true,
       legend: {
         text: 'QUIZ LIST',

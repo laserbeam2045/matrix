@@ -10,8 +10,8 @@
       v-model:left="leftRef"
       v-model:width="widthRef"
       v-model:height="heightRef"
-      :use-resize-v="useResizeV"
-      :use-resize-h="useResizeH"
+      :use-resize-v="resizableV"
+      :use-resize-h="resizableH"
       :wrapper="root"
     >
       <component
@@ -49,7 +49,6 @@
 
 <script>
 import { defineComponent, ref, computed, onMounted, nextTick } from 'vue'
-import { useStore as useMatrix } from '@/store/matrix'
 import useWindow from '@/composables/useWindow'
 import useVModel from '@/composables/useVModel'
 import ResizableWindow from '@/components/organisms/ResizableWindow'
@@ -87,12 +86,12 @@ export default defineComponent({
       required: false,
       default: 'absolute',
     },
-    useResizeV: {
+    resizableV: {
       type: Boolean,
       required: false,
       default: false,
     },
-    useResizeH: {
+    resizableH: {
       type: Boolean,
       required: false,
       default: false,
@@ -127,9 +126,8 @@ export default defineComponent({
     'update:height',
   ],
   setup(props, context) {
-    const matrix = useMatrix()
-    const windowNum = matrix.getNextWindowNumber()
-    const handleClass = `draggable-handle-${windowNum}`
+    const { windowNumber, getCenterPosition } = useWindow()
+    const handleClass = `draggable-handle-${windowNumber}`
 
     const topRef = useVModel(props, context, 'top')
     const leftRef = useVModel(props, context, 'left')
@@ -151,14 +149,13 @@ export default defineComponent({
     })
 
     const ResizableWindowComponent = computed(() => {
-      return props.useResizeV || props.useResizeH ? ResizableWindow : 'div'
+      return props.resizableV || props.resizableH ? ResizableWindow : 'div'
     })
     const DraggableWindowComponent = computed(() => {
       return props.draggable ? DraggableWindow : 'div'
     })
 
     const centering = () => {
-      const { getCenterPosition } = useWindow()
       const { top, left } = getCenterPosition(root)
       if ('center' === topRef.value) topRef.value = top + 'px'
       if ('center' === leftRef.value) leftRef.value = left + 'px'

@@ -16,20 +16,21 @@
       </HeaderItemBox>
     </template>
     <template #default>
-      <template
+      <div
         v-for="(value, key) in AUDIOS"
         :key="key"
       >
-        <template
+        <div
           v-for="(value2, key2) in value"
           :key="key2"
+          class="sound"
         >
           <ButtonBasicAtom @[`${MOUSE_TOUCH_EVENT.START}Passive`]="playAudio(value2)">
             {{ key2 }}
           </ButtonBasicAtom>
-        </template>
+        </div>
         <br><br>
-      </template>
+      </div>
     </template>
   </VirtualWindow>
 </template>
@@ -39,16 +40,10 @@ import { defineComponent, reactive } from 'vue'
 import { MOUSE_TOUCH_EVENT } from '@/store/constants'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
-import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 
 export default defineComponent({
   name: 'TheAudios',
-  components: {
-    ButtonBasicAtom,
-  },
-  emits: [
-    'touch',
-  ],
+  emits: [ 'touch' ],
   setup(props, { emit }) {
     const { deactivate } = useMatrix()
     const { playAudio } = useSound()
@@ -61,7 +56,7 @@ export default defineComponent({
       draggable: true,
       legend: {
         text: 'Audios',
-        type: 'outside',
+        type: 'inside',
       },
     })
     const windowEvents = {
@@ -86,7 +81,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
-button {
-  margin: 3px;
+.sound {
+  display: inline-block;
+  margin: 5px;
 }
 </style>

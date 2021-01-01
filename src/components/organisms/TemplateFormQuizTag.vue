@@ -3,7 +3,7 @@
     <tr>
       <th><label>Id</label></th>
       <td>
-        <BaseInputText
+        <InputTextAtom
           v-model:value="idRef"
           disabled
         />
@@ -11,7 +11,7 @@
     </tr>
     <tr>
       <th><label>Label</label></th>
-      <td><BaseInputText v-model:value="labelRef" /></td>
+      <td><InputTextAtom v-model:value="labelRef" /></td>
     </tr>
   </table>
 
@@ -19,7 +19,7 @@
     <tr>
       <th><label>Parent</label></th>
       <td>
-        <BaseInputText
+        <InputTextAtom
           v-model:value="parentLabelRef"
           disabled
         />
@@ -27,7 +27,7 @@
     </tr>
     <tr>
       <th><label>Label</label></th>
-      <td><BaseInputText v-model:value="labelRef" /></td>
+      <td><InputTextAtom v-model:value="labelRef" /></td>
     </tr>
   </table>
 </template>
@@ -35,13 +35,9 @@
 <script>
 import { defineComponent, computed } from 'vue'
 import useVModel from '@/composables/useVModel'
-import BaseInputText from '@/components/atoms/BaseInputText'
 
 export default defineComponent({
   name: 'TemplateFormQuizTag',
-  components: {
-    BaseInputText,
-  },
   props: {
     id: {
       type: Number,

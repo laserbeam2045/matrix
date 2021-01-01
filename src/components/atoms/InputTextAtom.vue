@@ -11,7 +11,7 @@
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  name: 'BaseInputText',
+  name: 'InputTextAtom',
   props: {
     value: {
       type: [String, Number],

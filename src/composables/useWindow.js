@@ -1,7 +1,11 @@
-import { unref, reactive, readonly } from 'vue'
+import { ref, unref, reactive, readonly } from 'vue'
 import { getTouchEvent } from '@/utils/event_functions'
 
+const windowNumber = ref(0)
+
 export default function useWindow() {
+  windowNumber.value++
+  
   const state = reactive({
     pageX: 0,
     pageY: 0,
@@ -40,6 +44,7 @@ export default function useWindow() {
 
   return {
     state: readonly(state),
+    windowNumber: windowNumber.value,
     setState,
     getPageX,
     getPageY,

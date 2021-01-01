@@ -15,7 +15,7 @@ import { defineComponent, reactive, computed, watch } from 'vue'
 import { TweenLite } from 'gsap'
 
 export default defineComponent({
-  name: 'BaseInputNumber',
+  name: 'InputNumberAtom',
   props: {
     value: {
       type: Number,

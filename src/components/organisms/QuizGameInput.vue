@@ -3,7 +3,7 @@
     v-if="isPC"
     class="pc-input-container"
   >
-    <BaseInputText
+    <InputTextAtom
       ref="baseInputText"
       :value="state.inputText"
       @update:value="onUpdateText"
@@ -36,8 +36,6 @@
 import { defineComponent, ref, reactive, computed, nextTick } from 'vue'
 import { useStore as useMatrix } from '@/store/matrix'
 import { useStore as useAudio, AUDIOS }   from '@/store/audio'
-import BaseInputText from '@/components/atoms/BaseInputText'
-import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 import { HIRAGANA, KATAKANA, ALPHABETS, NUMERICS, isHiragana, isKatakana, isAlphabet, isNumeric } from '@/utils/string_functions'
 import { shuffle } from '@/utils/array_functions'
 import Aset from '@/utilities/Aset'
@@ -56,10 +54,6 @@ const CHARACTORS = {
 
 export default defineComponent({
   name: 'QuizGameInput',
-  components: {
-    BaseInputText,
-    ButtonBasicAtom,
-  },
   props: {
     answer: {
       type: String,

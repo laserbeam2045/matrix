@@ -18,7 +18,7 @@
       <template #default>
         <Tree
           :root="tree"
-          :item-component="QuizTag"
+          :item-component="QuizTagAtom"
           @mousedown="onTouchTag"
           @click="onClickTag"
         />
@@ -51,7 +51,6 @@ import { MOUSE_TOUCH_EVENT } from '@/store/constants'
 import TheTagCreator from '@/components/organisms/TheTagCreator'
 import TheTagEditor from '@/components/organisms/TheTagEditor'
 import TreeTypeA from '@/components/organisms/TreeTypeA'
-import QuizTag from '@/components/atoms/QuizTag'
 
 export default defineComponent({
   name: 'TheTagTree',
@@ -79,7 +78,7 @@ export default defineComponent({
       width: 'auto',
       height: '90%',
       position: 'fixed',
-      useResizeV: true,
+      resizableV: true,
       draggable: true,
       legend: {
         text: 'QUIZ TAGS',
@@ -168,7 +167,6 @@ export default defineComponent({
     return {
       windowEvents,
       tree,
-      QuizTag,
       TREE_STATE,
       windowState,
       editId,

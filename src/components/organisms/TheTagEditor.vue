@@ -30,7 +30,6 @@ import { defineComponent, reactive, ref, watch } from 'vue'
 import { useStore as useQuizTag } from '@/store/quiz_tag'
 import TemplateFormQuizTag from '@/components/organisms/TemplateFormQuizTag'
 import ConfirmWindow from '@/components/organisms/ConfirmWindow'
-import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 
 // 確認ダイアログがどのボタンによって表示されたかを表す定数
 const UPDATE_MODE = 0
@@ -40,7 +39,6 @@ export default defineComponent({
   name: 'TheTagEditor',
   components: {
     ConfirmWindow,
-    ButtonBasicAtom,
     TemplateFormQuizTag,
   },
   props: {

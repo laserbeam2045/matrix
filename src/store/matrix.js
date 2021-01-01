@@ -25,7 +25,6 @@ const createStore = () => {
   const state = reactive({
     pageTheme: PAGE_THEME.DARK,
     deviceType,
-    windowNumber: 0,
     teleporting: false,
     frontWindows: new Aset([WINDOWS.THE_USER_DATA, WINDOWS.THE_MATRIX]),
     hiddenWindows: new Aset(),
@@ -124,9 +123,6 @@ const createStore = () => {
     }
   }
 
-  // ウィンドウを使用する際の重複しない値を得る関数
-  const getNextWindowNumber = () => ++state.windowNumber
-
   return {
     state,//: readonly(state),
     isPC,
@@ -136,7 +132,6 @@ const createStore = () => {
     deactivate,
     teleportToFront,
     setPageTheme,
-    getNextWindowNumber,
   }
 }
 

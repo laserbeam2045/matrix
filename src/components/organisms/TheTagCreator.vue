@@ -22,12 +22,10 @@
 import { defineComponent, reactive, ref, watch } from 'vue'
 import { useStore as useQuizTag } from '@/store/quiz_tag'
 import TemplateFormQuizTag from '@/components/organisms/TemplateFormQuizTag'
-import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 
 export default defineComponent ({
   name: 'TheTagCreator',
   components: {
-    ButtonBasicAtom,
     TemplateFormQuizTag,
   },
   props: {

@@ -18,13 +18,9 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 
 export default defineComponent ({
   name: 'ConfirmWindow',
-  components: {
-    ButtonBasicAtom,
-  },
   props: {
     text: {
       type: String,

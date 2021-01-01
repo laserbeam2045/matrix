@@ -1,22 +1,22 @@
 <template>
   <div
     ref="root"
-    :class="['draggable', { dragging }]"
-    :style="style"
+    :class="rootClass"
+    :style="rootStyle"
   >
     <slot />
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, toRef, computed, onMounted, nextTick } from 'vue'
+import { defineComponent, ref, toRefs, computed, onMounted, nextTick } from 'vue'
 import { MOUSE_TOUCH_EVENT } from '@/store/constants'
 import { str2num } from '@/utils/string_functions'
 import useVModel from '@/composables/useVModel'
 import useWindow from '@/composables/useWindow'
 
 export default defineComponent({
-  name: "DraggableWindow",
+  name: 'DraggableWindow',
   props: {
     top: {
       type: [Number, String],
@@ -58,25 +58,22 @@ export default defineComponent({
     'update:left',
   ],
   setup(props, context) {
-    const rootRef = ref(null)
-    const topRef = useVModel(props, context, 'top')
-    const leftRef = useVModel(props, context, 'left')
-    const widthRef = useVModel(props, context, 'width')
-    const heightRef = useVModel(props, context, 'height')
-    const wrapperRef = toRef(props, 'wrapper')
-    const positionRef = toRef(props, 'position')
+    const root = ref(null)
+    const top = useVModel(props, context, 'top')
+    const left = useVModel(props, context, 'left')
+    const { width, height, wrapper, position } = toRefs(props)
 
     // dragging時に付与するclass用
-    const draggingRef = ref(false)
+    const dragging = ref(false)
 
     // ラッパーの有無によって、状態を更新する対象となる要素を決める
-    const targetRef = computed(() => {
-      return wrapperRef.value ? wrapperRef.value : rootRef.value
-    })
+    const target = computed(() => wrapper.value ? wrapper.value : root.value)
+
+    const rootClass = computed(() => ['draggable', { dragging }])
 
     // ラッパーの有無によってスタイルを分ける
-    const styleRef = computed(() => {
-      if (wrapperRef.value) {
+    const rootStyle = computed(() => {
+      if (wrapper.value) {
         return {
           width: '100%',
           height: '100%',
@@ -84,11 +81,11 @@ export default defineComponent({
         }
       } else {
         return {
-          top: topRef.value,
-          left: leftRef.value,
-          width: widthRef.value,
-          height: heightRef.value,
-          position: positionRef.value,
+          top: top.value,
+          left: left.value,
+          width: width.value,
+          height: height.value,
+          position: position.value,
         }
       }
     })
@@ -100,9 +97,9 @@ export default defineComponent({
     // イベントを追加する関数
     const addDragEvent = () => {
       if (event.target.classList.contains('draggable-handle')) {
-        event.preventDefault()
-        setState(event, targetRef)
-        draggingRef.value = true
+        // event.preventDefault()
+        setState(event, target)
+        dragging.value = true
         document.body.addEventListener(MOUSE_TOUCH_EVENT.MOVE, drag)
         document.body.addEventListener(MOUSE_TOUCH_EVENT.END, removeDragEvent)
         document.body.addEventListener(MOUSE_TOUCH_EVENT.LEAVE, removeDragEvent)
@@ -113,40 +110,34 @@ export default defineComponent({
       document.body.removeEventListener(MOUSE_TOUCH_EVENT.MOVE, drag)
       document.body.removeEventListener(MOUSE_TOUCH_EVENT.END,  removeDragEvent)
       document.body.removeEventListener(MOUSE_TOUCH_EVENT.LEAVE, removeDragEvent)
-      draggingRef.value = false
+      dragging.value = false
     }
     // 状態をドラッグ後の値で更新する関数
     const drag = () => {
-      if (draggingRef.value) {
+      if (dragging.value) {
         updateTop(event)
-        if (widthRef.value !== '100%') {
+        if (width.value !== '100%') {
           updateLeft(event)
         }
-        setState(event, targetRef)
+        setState(event, target)
       }
     }
-    const updateTop = e => {
-      const top = str2num(topRef.value)
-      topRef.value = Math.max(0, (top - getDiffY(e))) + 'px'
-    }
-    const updateLeft = e => {
-      const left = str2num(leftRef.value)
-      leftRef.value = Math.max(0, (left - getDiffX(e))) + 'px'
-    }
+    const updateTop = e => top.value = Math.max(0, (str2num(top.value) - getDiffY(e))) + 'px'
+    const updateLeft = e => left.value = Math.max(0, (str2num(left.value) - getDiffX(e))) + 'px'
+
     // ハンドルをバインドする関数
     const bindHandle = () => {
-      const handleElements = document.querySelectorAll(props.handle)
-      handleElements.forEach(elm => {
+      document.querySelectorAll(props.handle).forEach(elm => {
         elm.classList.add('draggable-handle')
         elm.addEventListener(MOUSE_TOUCH_EVENT.START, addDragEvent, { passive: false })
       })
     }
     // プロパティに応じて中央配置にする
     const centering = () => {
-      if (!wrapperRef.value) {
-        const { top, left } = getCenterPosition(rootRef)
-        if ('center' === topRef.value) topRef.value = top + 'px'
-        if ('center' === leftRef.value) leftRef.value = left + 'px'
+      if (!wrapper.value) {
+        const { top: t, left: l } = getCenterPosition(root)
+        if ('center' === top.value) top.value = t + 'px'
+        if ('center' === left.value) left.value = l + 'px'
       }
     }
 
@@ -157,12 +148,8 @@ export default defineComponent({
       })
     })
 
-    return {
-      root: rootRef,
-      style: styleRef,
-      dragging: draggingRef,
-    }
-  },
+    return { root, rootClass, rootStyle }
+  }
 })
 </script>
 

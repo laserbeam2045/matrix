@@ -89,11 +89,11 @@ export const isOnlyBlank = str => {
 
 
 // 文字列中の数字部分だけを数値型として返す関数(※無ければ0が返る)
-export const str2num = str => {
-  if (typeof(str) === 'number')
-    return str
+export const str2num = val => {
+  if (typeof val === 'number')
+    return val
   else
-    return Number(str.match(/[0-9.]*/)[0])
+    return Number(val.match(/[0-9.]*/)[0])
 }
 
 // 文字列の全角を半角に変換する関数

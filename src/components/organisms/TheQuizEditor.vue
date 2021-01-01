@@ -31,7 +31,6 @@
 <script>
 import { defineComponent, ref, reactive, watch, inject } from 'vue'
 import ConfirmWindow from '@/components/organisms/ConfirmWindow'
-import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 import TemplateFormQuiz from '@/components/organisms/TemplateFormQuiz'
 
 // 確認ダイアログがどのボタンによって表示されたかを表す定数
@@ -43,7 +42,6 @@ export default defineComponent({
   name: 'TheQuizEditor',
   components: {
     ConfirmWindow,
-    ButtonBasicAtom,
     TemplateFormQuiz,
   },
   props: {

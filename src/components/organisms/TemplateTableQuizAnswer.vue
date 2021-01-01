@@ -5,7 +5,7 @@
       :key="tagId"
       class="container"
     >
-      <QuizTag
+      <QuizTagAtom
         :id="tagId"
         :show-count="false"
       />
@@ -15,13 +15,9 @@
 
 <script>
 import { defineComponent } from 'vue'
-import QuizTag from '@/components/atoms/QuizTag'
 
 export default defineComponent({
   name: 'TemplateTableQuizAnswer',
-  components: {
-    QuizTag,
-  },
   props: {
     quiz: {
       type: Object,

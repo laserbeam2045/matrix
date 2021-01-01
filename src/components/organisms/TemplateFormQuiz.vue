@@ -3,7 +3,7 @@
     <tr>
       <th><label>Question</label></th>
       <td>
-        <BaseTextArea
+        <TextareaAtom
           ref="textarea"
           v-model:value="questionRef"
         />
@@ -11,16 +11,16 @@
     </tr>
     <tr>
       <th><label>Answer1</label></th>
-      <td><BaseInputText v-model:value="answer1Ref" /></td>
+      <td><InputTextAtom v-model:value="answer1Ref" /></td>
     </tr>
     <tr>
       <th><label>Answer2</label></th>
-      <td><BaseInputText v-model:value="answer2Ref" /></td>
+      <td><InputTextAtom v-model:value="answer2Ref" /></td>
     </tr>
     <tr v-if="tagIdsRef">
       <th><label>Tags</label></th>
       <td>
-        <QuizTag
+        <QuizTagAtom
           v-for="tagId of tagIdsRef"
           :id="tagId"
           :key="tagId"
@@ -35,17 +35,9 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import useVModel from '@/composables/useVModel'
-import BaseTextArea from '@/components/atoms/BaseTextArea'
-import BaseInputText from '@/components/atoms/BaseInputText'
-import QuizTag from '@/components/atoms/QuizTag'
 
 export default defineComponent({
   name: 'TemplateFormQuiz',
-  components: {
-    BaseTextArea,
-    BaseInputText,
-    QuizTag,
-  },
   props: {
     question: {
       type: String,

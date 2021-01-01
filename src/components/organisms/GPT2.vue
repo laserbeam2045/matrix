@@ -38,8 +38,8 @@ export default defineComponent({
     const windowState = {
       width: '300px',
       height: '100px',
-      useResizeV: true,
-      useResizeH: true,
+      resizableV: true,
+      resizableH: true,
       draggable: true,
       legend: {
         text: 'GPT-2',

@@ -1,6 +1,6 @@
 <template>
   <div class="quiz-game-input-pc">
-    <BaseInputText
+    <InputTextAtom
       ref="baseInputText"
       :value="state.inputText"
       @update:value="onUpdateText"
@@ -13,16 +13,10 @@
 
 <script>
 import { defineComponent, ref, reactive, nextTick } from 'vue'
-import { useStore as useAudio, AUDIOS }   from '@/store/audio'
-import BaseInputText from '@/components/atoms/BaseInputText'
-import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
+import { useStore as useAudio, AUDIOS } from '@/store/audio'
 
 export default defineComponent({
   name: 'QuizGameInputPC',
-  components: {
-    BaseInputText,
-    ButtonBasicAtom,
-  },
   props: {
     answer: {
       type: String,

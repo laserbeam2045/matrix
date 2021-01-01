@@ -2,8 +2,8 @@
   <div
     ref="root"
     class="resizable"
-    :class="{ resizing: activeResizer.className }"
-    :style="style"
+    :class="rootClass"
+    :style="rootStyle"
   >
     <slot />
     <div
@@ -60,16 +60,16 @@ export default defineComponent({
       required: false,
       default: null,
     },
-    useResizeV: {
+    resizableV: {
       type: Boolean,
       required: false,
       default: true,
     },
-    useResizeH: {
+    resizableH: {
       type: Boolean,
       required: false,
       default: true,
-    }
+    },
   },
   emits: [
     'update:top',
@@ -77,44 +77,49 @@ export default defineComponent({
     'update:width',
     'update:height',
   ],
-
   setup(props, context) {
-    const rootRef = ref(null)
-    const topRef = useVModel(props, context, 'top')
-    const leftRef = useVModel(props, context, 'left')
-    const widthRef = useVModel(props, context, 'width')
-    const heightRef = useVModel(props, context, 'height')
-    const propsAsRefs = toRefs(props)
+    const root = ref(null)
+    const top = useVModel(props, context, 'top')
+    const left = useVModel(props, context, 'left')
+    const width = useVModel(props, context, 'width')
+    const height = useVModel(props, context, 'height')
+    const { wrapper, position, resizableV, resizableH } = toRefs(props)
 
     // ラッパーの有無によって、状態を更新する対象となる要素を決める
-    const targetRef = computed(() => {
-      const wrapper = propsAsRefs.wrapper.value
-      return wrapper ? wrapper : rootRef.value
-    })
+    const targetRef = computed(() => wrapper.value ? wrapper.value : root.value)
+
+    const rootClass = computed(() => [{ resizing: activeResizer.className }])
 
     // ラッパーの有無によってスタイルを分ける
-    const styleRef = computed(() => {
-      if (propsAsRefs.wrapper.value) {
+    const rootStyle = computed(() => {
+      if (wrapper.value) {
         return {
-          width: ('auto' === widthRef.value) ? 'auto' : '100%',
-          height: ('auto' === heightRef.value) ? 'auto' : '100%',
+          width: ('auto' === width.value) ? 'auto' : '100%',
+          height: ('auto' === height.value) ? 'auto' : '100%',
           position: 'relative',
         }
       } else {
         return {
-          top: topRef.value,
-          left: leftRef.value,
-          width: widthRef.value,
-          height: heightRef.value,
-          position: propsAsRefs.position.value,
+          top: top.value,
+          left: left.value,
+          width: width.value,
+          height: height.value,
+          position: position.value,
         }
       }
     })
 
     /* イベントリスナ関連 */
 
-    const { state, setState, getPageX, getPageY,
-            getDiffX, getDiffY, getCenterPosition } = useWindow()
+    const {
+      state,
+      setState,
+      getPageX,
+      getPageY,
+      getDiffX,
+      getDiffY,
+      getCenterPosition,
+    } = useWindow()
 
     // 使用中のresizer
     const activeResizer = reactive({
@@ -148,13 +153,13 @@ export default defineComponent({
     const getNewHeight = (e, dir) => (state.clientHeight + dir * getDiffY(e))
 
     // 状態をリサイズ後の値で更新する関数
-    const updateTop = e => topRef.value = getNewTop(e) + 'px'
-    const updateLeft = e => leftRef.value = getNewLeft(e) + 'px'
-    const updateWidth = (e, dir) => widthRef.value = Math.max(MIN_WIDTH, getNewWidth(e, dir)) + 'px'
-    const updateHeight = (e, dir) => heightRef.value = Math.max(MIN_HEIGHT, getNewHeight(e, dir)) + 'px'
+    const updateTop = e => top.value = getNewTop(e) + 'px'
+    const updateLeft = e => left.value = getNewLeft(e) + 'px'
+    const updateWidth = (e, dir) => width.value = Math.max(MIN_WIDTH, getNewWidth(e, dir)) + 'px'
+    const updateHeight = (e, dir) => height.value = Math.max(MIN_HEIGHT, getNewHeight(e, dir)) + 'px'
 
     // 垂直方向のイベントハンドラ
-    const useResizeVr = {
+    const verticalResizer = {
       'resizer-top': () => {
         updateTop(event)
         updateHeight(event, 1)
@@ -164,7 +169,7 @@ export default defineComponent({
       },
     }
     // 水平方向のイベントハンドラ
-    const useResizeHr = {
+    const horizontalResizer = {
       'resizer-left': () => {
         updateLeft(event)
         updateWidth(event, 1)
@@ -198,26 +203,29 @@ export default defineComponent({
     }
     // 全八方向のイベントハンドラ
     const omnidirectionalResizer = {
-      ...useResizeVr,
-      ...useResizeHr,
+      ...verticalResizer,
+      ...horizontalResizer,
       ...diagonalResizer,
     }
     // 実際に設定されるイベントハンドラ
-    const resizersRef = computed(() => {
-      const useV = propsAsRefs.useResizeV.value
-      const useH = propsAsRefs.useResizeH.value
-      if (useV && useH) return omnidirectionalResizer
-      else if (useV)    return useResizeVr
-      else if (useH)    return useResizeHr
-      else              return {}
+    const resizers = computed(() => {
+      if (resizableV.value && resizableH.value) {
+        return omnidirectionalResizer
+      } else if (resizableV.value) {
+        return verticalResizer
+      } else if (resizableH.value) {
+        return horizontalResizer
+      } else {
+        return {}
+      }
     })
 
     // プロパティに応じて中央配置にする
     const centering = () => {
-      if (!propsAsRefs.wrapper.value) {
-        const { top, left } = getCenterPosition(rootRef)
-        if ('center' === topRef.value) topRef.value = top + 'px'
-        if ('center' === leftRef.value) leftRef.value = left + 'px'
+      if (!wrapper.value) {
+        const { top: t, left: l } = getCenterPosition(root)
+        if ('center' === top.value) top.value = t + 'px'
+        if ('center' === left.value) left.value = l + 'px'
       }
     }
 
@@ -228,13 +236,14 @@ export default defineComponent({
     })
 
     return {
-      root: rootRef,
-      style: styleRef,
-      resizers: resizersRef,
+      root,
+      rootClass,
+      rootStyle,
+      resizers,
       activeResizer,
       addResizeEvent,
     }
-  },
+  }
 })
 </script>
 

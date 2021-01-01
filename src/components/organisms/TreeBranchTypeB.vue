@@ -12,13 +12,13 @@
       />
     </VueDraggableNext>
     <div class="tree-nodes">
-      <BaseAccordion :is-open="isOpenChildren">
+      <AccordionAtom :is-open="isOpenChildren">
         <TreeBodyTypeB
           :data-id="value.id"
           :list="value.children"
           @click-item="onClickItem"
         />
-      </BaseAccordion>
+      </AccordionAtom>
     </div>
   </li>
 </template>
@@ -28,13 +28,11 @@ import { defineComponent, ref, computed, inject } from 'vue'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { useStore as useTree } from '@/store/tree'
 import { VueDraggableNext } from 'vue-draggable-next'
-import BaseAccordion from '@/components/atoms/BaseAccordion'
 
 export default defineComponent({
   name: 'TreeBranch',
   components: {
     VueDraggableNext,
-    BaseAccordion,
   },
   props: {
     value: {

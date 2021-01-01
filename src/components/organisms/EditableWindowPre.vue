@@ -5,7 +5,7 @@
     :contenteditable="contenteditable"
     :spellcheck="spellcheck"
     v-on="listeners"
-    v-html="htmlString"
+    v-text="htmlString"
   />
 </template>
 

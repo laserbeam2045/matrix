@@ -2,6 +2,13 @@ import App from './App.vue'
 import { createApp } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { MOUSE_TOUCH_EVENT as EVENT } from '@/store/constants'
+import QuizTagAtom from '@/components/atoms/QuizTagAtom'
+import TextareaAtom from '@/components/atoms/TextareaAtom'
+import AccordionAtom from '@/components/atoms/AccordionAtom'
+import InputTextAtom from '@/components/atoms/InputTextAtom'
+import TeleporterAtom from '@/components/atoms/TeleporterAtom'
+import InputNumberAtom from '@/components/atoms/InputNumberAtom'
+import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
 import ModalWindow from '@/components/organisms/ModalWindow'
 import HeaderItem from '@/components/organisms/HeaderItem'
 import HeaderItemBox from '@/components/organisms/HeaderItemBox'
@@ -67,6 +74,13 @@ const resizeDirective = {
 
 createApp(App)
   .component('fa', FontAwesomeIcon)
+  .component('QuizTagAtom', QuizTagAtom)
+  .component('TextareaAtom', TextareaAtom)
+  .component('AccordionAtom', AccordionAtom)
+  .component('InputTextAtom', InputTextAtom)
+  .component('TeleporterAtom', TeleporterAtom)
+  .component('InputNumberAtom', InputNumberAtom)
+  .component('ButtonBasicAtom', ButtonBasicAtom)
   .component('TreeBodyTypeA', TreeBodyTypeA)
   .component('TreeBodyTypeB', TreeBodyTypeB)
   .component('TreeBranchTypeA', TreeBranchTypeA)

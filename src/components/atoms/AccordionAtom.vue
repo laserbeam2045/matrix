@@ -18,7 +18,7 @@
 import { defineComponent, ref, onBeforeUpdate } from 'vue'
 
 export default defineComponent({
-  name: 'BaseAccordion',
+  name: 'AccordionAtom',
   props: {
     isOpen: {
       type: Boolean,
