@@ -98,24 +98,13 @@ export default defineComponent({
     const execCommand = () => {
       const command = cmdManager.execute()
       switch (command.trim().toUpperCase()) {
-      case 'AUDIO':
-        openWindow(WINDOWS.THE_AUDIOS)
-        break
-      case 'GPT-2':
-        openWindow(WINDOWS.THE_GPT_2)
-        break
-      case 'DARK':
-        changeTheme(PAGE_THEME.DARK)
-        break
-      case 'LIGHT':
-        changeTheme(PAGE_THEME.LIGHT)
-        break
-      case 'CLASSIC':
-        changeTheme(PAGE_THEME.CLASSIC)
-        break
-      default:
-        playAudio(AUDIOS.ETC.CYBER_06_4)
-        return false
+      case 'DATA'   : openWindow(WINDOWS.THE_USER_DATA); break
+      case 'AUDIO'  : openWindow(WINDOWS.THE_AUDIOS); break
+      case 'GPT-2'  : openWindow(WINDOWS.THE_GPT_2); break
+      case 'DARK'   : changeTheme(PAGE_THEME.DARK); break
+      case 'LIGHT'  : changeTheme(PAGE_THEME.LIGHT); break
+      case 'CLASSIC': changeTheme(PAGE_THEME.CLASSIC); break
+      default       : playAudio(AUDIOS.ETC.CYBER_06_4); return false
       }
       return true
     }

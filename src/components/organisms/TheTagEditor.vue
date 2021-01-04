@@ -26,8 +26,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, watch } from 'vue'
-import { useStore as useQuizTag } from '@/store/quiz_tag'
+import { defineComponent, reactive, ref, watch, inject } from 'vue'
 import TemplateFormQuizTag from '@/components/organisms/TemplateFormQuizTag'
 import ConfirmWindow from '@/components/organisms/ConfirmWindow'
 
@@ -54,8 +53,6 @@ export default defineComponent({
     'click-cancel',
   ],
   setup(props, { emit }) {
-    const quizTagStore = useQuizTag()
-
     // ModalWindowに渡すプロパティ
     const windowState = {
       legend: {
@@ -69,12 +66,12 @@ export default defineComponent({
       label: '',
     })
 
+    const getQuizTag = inject('getQuizTag')
+
     // 親コンポーネントから受け取るタグIDを監視し、変化時にデータを更新する
     watch(() => props.tagId, id => {
-      const tag = quizTagStore.find(id)
-      if (tag) {
-        Object.assign(data, { id, label: tag.label })
-      }
+      const tag = getQuizTag(id)
+      if (tag) Object.assign(data, { id, label: tag.label })
     })
 
     // 確認ダイアログがどのボタンによって表示されたかを表す状態変数

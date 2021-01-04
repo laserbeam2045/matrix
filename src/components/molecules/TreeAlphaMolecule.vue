@@ -1,5 +1,5 @@
 <template>
-  <TreeBodyTypeA
+  <TreeAlphaBodyMolecule
     :data-id="root.id"
     :value="root.children"
     v-on="itemEvents"
@@ -10,7 +10,7 @@
 import { defineComponent, provide } from 'vue'
 
 export default defineComponent({
-  name: 'TreeTypeA',
+  name: 'TreeAlphaMolecule',
   props: {
     root: {
       type: Object,
@@ -27,14 +27,14 @@ export default defineComponent({
     'click',
   ],
   setup(props, { emit }) {
-    provide('itemComponent', props.itemComponent)
-
-    // アイテムからバブリングされるイベント
+    // アイテムからバブリングされるイベント(ツリー全体で共通)
     const itemEvents = {
       'mousedown': value => emit('mousedown', value),
       'mouseup': value => emit('mouseup', value),
       'click': value => emit('click', value),
     }
+    provide('itemEvents', itemEvents)
+    provide('itemComponent', props.itemComponent)
     
     return { itemEvents }
   }

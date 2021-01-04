@@ -1,12 +1,13 @@
 <template>
   <VueDraggableNext
     tag="ul"
+    class="tree-beta-body-molecule"
     :class="{ 'top-level': value }"
     :list="realValue"
     v-bind="dragOption"
     @end.self="onDragEnd"
   >
-    <TreeBranchTypeA
+    <TreeBetaBranchMolecule
       v-for="tag in realValue"
       :key="tag.id"
       :value="tag"
@@ -17,15 +18,12 @@
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, inject } from 'vue'
 import { VueDraggableNext } from 'vue-draggable-next'
-import { useStore as useTree } from '@/store/tree'
 
 export default defineComponent({
-  name: 'TreeBody',
-  components: {
-    VueDraggableNext,
-  },
+  name: 'TreeBetaBodyMolecule',
+  components: { VueDraggableNext },
   props: {
     value: {  // MEMO: Tree(root)からはvalueとして受け取る
       type: Array,
@@ -44,10 +42,10 @@ export default defineComponent({
     'click',
   ],
   setup(props, { emit }) {
-    const { dragOptionUnit } = useTree()
+    const dragOptionUnit = inject('dragOptionUnit')
     const dragOption = computed(() => dragOptionUnit.value)
 
-    const realValue = props.value ? props.value : props.list
+    const realValue = computed(() => props.value ? props.value : props.list)
 
     const onDragEnd = evt => {
       // 所属グループが変わった場合、または、所属グループ内での位置が変わった場合
@@ -73,22 +71,22 @@ export default defineComponent({
     return {
       dragOption,
       realValue,
-      itemEvents,
       onDragEnd,
+      itemEvents,
     }
-  },
+  }
 })
 </script>
 
 <style lang="scss" scoped>
-ul {
-  @include unSelectable;
-  margin: 0 0 0 40px;
+.tree-beta-body-molecule {
+  margin: 0 auto 0 20px;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
 
   &.top-level {
-    margin: 0 20px 20px;
+    margin: 0 auto 30px 0;
   }
 }
 </style>

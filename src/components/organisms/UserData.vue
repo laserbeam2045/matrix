@@ -16,38 +16,40 @@
         </HeaderItemBox>
       </template>
       <template #default>
-        <div class="user-data">
-          <ul class="menu">
-            <li>Profile</li>
-            <li>Quiz</li>
-          </ul>
-          <p class="name">
-            <span class="green">CODE_NAME</span><br>{{ user.profile.name }}
-          </p>
-          <img
-            class="icon"
-            :src="user.profile.iconSource"
-          >
-          <p class="board">
-            {{ user.profile.bulletinBoard }}
-          </p>
-        </div>
+        <ContentWrapperAtom>
+          <div class="user-data">
+            <ul class="menu">
+              <li>Profile</li>
+              <li>Quiz</li>
+            </ul>
+            <p class="name">
+              <span class="green">CODE_NAME</span><br>{{ user.profile.name }}
+            </p>
+            <img
+              class="icon"
+              :src="user.profile.iconSource"
+            >
+            <p class="board">
+              {{ user.profile.bulletinBoard }}
+            </p>
+          </div>
+        </ContentWrapperAtom>
       </template>
     </VirtualWindow>
 
-    <QuizList :user="user" />
+    <TheQuiz :user="user" />
   </div>
 </template>
 
 <script>
 import { defineComponent, reactive } from 'vue'
 import { MOUSE_TOUCH_EVENT } from '@/store/constants'
-import QuizList from '@/components/organisms/TheQuizList'
+import TheQuiz from '@/components/organisms/TheQuiz'
 
 export default defineComponent({
   name: 'UserData',
   components: {
-    QuizList,
+    TheQuiz,
   },
   props: {
     user: {

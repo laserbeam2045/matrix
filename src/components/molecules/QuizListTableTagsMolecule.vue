@@ -1,5 +1,5 @@
 <template>
-  <div class="quiz-list-tags">
+  <div class="quiz-list-table-tags-molecule">
     <div
       v-for="tagId in quiz.tagIds"
       :key="tagId"
@@ -17,7 +17,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'TemplateTableQuizAnswer',
+  name: 'QuizListTableTagsMolecule',
   props: {
     quiz: {
       type: Object,
@@ -28,18 +28,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-body.light-theme {
-  .answer1 {
-    color: $answer-light-color;
-  }
-}
-body.dark-theme {
-  .answer1 {
-    color: $answer-dark-color;
-  }
-}
-
-.quiz-list-tags {
+.quiz-list-table-tags-molecule {
   display: inline-block;
   max-width: 3000px;
   white-space: nowrap;

@@ -1,5 +1,5 @@
 <template>
-  <TreeBodyTypeB
+  <TreeBetaBodyMolecule
     :data-id="root.id"
     :value="root.children"
     @click-item="onClickItem"
@@ -10,10 +10,7 @@
 import { defineComponent, provide } from 'vue'
 
 export default defineComponent({
-  name: 'TreeTypeB',
-  emits: [
-    'click-item',
-  ],
+  name: 'TreeBetaMolecule',
   props: {
     root: {
       type: Object,
@@ -24,6 +21,9 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: [
+    'click-item',
+  ],
   setup(props, { emit }) {
     provide('itemComponent', props.itemComponent)
     

@@ -1,29 +1,11 @@
 <template>
   <div v-on="windowEvents">
-    <VirtualWindow
-      v-model:top="windowState.top"
-      v-model:left="windowState.left"
-      v-model:width="windowState.width"
-      v-model:height="windowState.height"
-      v-bind="windowState"
-    >
-      <template #header>
-        <HeaderItemBox>
-          <HeaderItem
-            type="times"
-            @click="closeWindow"
-          />
-        </HeaderItemBox>
-      </template>
-      <template #default>
-        <Tree
-          :root="tree"
-          :item-component="QuizTagAtom"
-          @mousedown="onTouchTag"
-          @click="onClickTag"
-        />
-      </template>
-    </VirtualWindow>
+    <Tree
+      :root="tree"
+      :item-component="QuizTagAtom"
+      @mousedown="onTouchTag"
+      @click="onClickTag"
+    />
 
     <TheTagEditor
       ref="theTagEditor"
@@ -43,48 +25,27 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, inject } from 'vue'
-import { provideStore as provideTree, useStore as useTree, TREE_STATE } from '@/store/tree'
-import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
+import { defineComponent, ref, provide, inject } from 'vue'
 import { useStore as useAudio, AUDIOS } from '@/store/audio'
 import { MOUSE_TOUCH_EVENT } from '@/store/constants'
+import QuizTagAtom from '@/components/atoms/QuizTagAtom'
+import TreeAlphaMolecule from '@/components/molecules/TreeAlphaMolecule'
 import TheTagCreator from '@/components/organisms/TheTagCreator'
 import TheTagEditor from '@/components/organisms/TheTagEditor'
-import TreeTypeA from '@/components/organisms/TreeTypeA'
+import useTree from '@/composables/useTree'
 
 export default defineComponent({
   name: 'TheTagTree',
   components: {
+    Tree: TreeAlphaMolecule,
     TheTagCreator,
     TheTagEditor,
-    Tree: TreeTypeA,
   },
-  emits: [
-    'touch',
-  ],
+  emits: [ 'touch' ],
+
   setup(props, { emit }) {
-    provideTree()
-
-    const store = {
-      matrix: useMatrix(),
-      tree: useTree(),
-    }
     const { playAudio } = useAudio()
-    const tree = inject('tree')
 
-    const windowState = reactive({
-      top: 'center',
-      left: 'center',
-      width: 'auto',
-      height: '90%',
-      position: 'fixed',
-      resizableV: true,
-      draggable: true,
-      legend: {
-        text: 'QUIZ TAGS',
-        type: 'inside',
-      },
-    })
     const windowEvents = {
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
@@ -93,15 +54,28 @@ export default defineComponent({
     const theTagEditor = ref(null)
     const theTagCreator = ref(null)
 
+    const {
+      TREE_STATE,
+      state: treeState,
+      dragOptionSingle,
+      dragOptionUnit,
+    } = useTree()
+
+    provide('treeState', treeState)
+    provide('dragOptionSingle', dragOptionSingle)
+    provide('dragOptionUnit', dragOptionUnit)
+
+    const tree = inject('tree')
+    const toggleActiveTagId = inject('toggleActiveTagId')
+
     // タグへの(mousedown/touchstart)時の処理
     const onTouchTag = id => {
-      switch (store.tree.state.mode) {
+      switch (treeState.mode) {
       case TREE_STATE.LOCK_MODE:
-        if (store.tree.toggleActiveTagId(id)) {
+        if (toggleActiveTagId(id))
           playAudio(AUDIOS.ETC.CYBER_15_1)
-        } else {
+        else
           playAudio(AUDIOS.ETC.CYBER_15_2)
-        }
         break
       case TREE_STATE.DROP_MODE:
         // TODO: something
@@ -111,9 +85,10 @@ export default defineComponent({
         break
       }
     }
+
     // タグのclick時の処理
     const onClickTag = id => {
-      switch (store.tree.state.mode) {
+      switch (treeState.mode) {
       case TREE_STATE.LOCK_MODE:
         // TODO: something
         break
@@ -129,12 +104,12 @@ export default defineComponent({
 
     // タグが更新された時の処理
     const onUpdated = () => {
-      store.tree.load()
+      // loadTree()
       theTagEditor.value.hideModal()
     }
     // タグが削除された時の処理
     const onDeleted = () => {
-      store.tree.load()
+      // loadTree()
       theTagEditor.value.hideModal()
     }
     // EditorのCreateボタン押下時の処理
@@ -149,7 +124,7 @@ export default defineComponent({
 
     // タグが挿入された時の処理
     const onInserted = () => {
-      store.tree.load()
+      // loadTree()
       theTagCreator.value.hideModal()
     }
     // CreatorのCancelボタン押下時の処理
@@ -158,20 +133,13 @@ export default defineComponent({
       playAudio(AUDIOS.ETC.CYBER_04_1)
     }
 
-    // ウィンドウを閉じる処理
-    const closeWindow = () => {
-      store.matrix.deactivate(WINDOWS.THE_QUIZ_TAGS)
-      playAudio(AUDIOS.ETC.CYBER_04_1)
-    }
-
     return {
       windowEvents,
-      tree,
-      TREE_STATE,
-      windowState,
       editId,
       theTagEditor,
       theTagCreator,
+      QuizTagAtom,
+      tree,
       onTouchTag,
       onClickTag,
       onUpdated,
@@ -180,7 +148,6 @@ export default defineComponent({
       onClickCancelEditor,
       onInserted,
       onClickCancelCreator,
-      closeWindow,
     }
   }
 })

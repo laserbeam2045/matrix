@@ -22,38 +22,39 @@
         </HeaderItemBox>
       </template>
       <template #default>
-        <QuizGameTimer
-          ref="quizGameTimer"
-          :current-number="gameData.currentQuizNumber"
-          :max-number="maxQuizNumber"
-          @timeover="checkAnswer"
-        />
-        <QuizGameQuestion
-          ref="quizGameQuestion"
-          :question="currentQuiz.question"
-          @all-displayed="startTimer"
-        />
-        <QuizGameAnswer
-          ref="quizGameAnswer"
-          :answer1="currentQuiz.answer1"
-          :answer2="currentQuiz.answer2"
-          :game-data="gameData"
-        />
-        <QuizGameInput
-          ref="quizGameInput"
-          :answer="answer"
-          @push="onPush"
-          @tab="openHint"
-          @enter="checkAnswer"
-        />
+        <ContentWrapperAtom>
+          <QuizGameTimer
+            ref="quizGameTimer"
+            :current-number="gameData.currentQuizNumber"
+            :max-number="maxQuizNumber"
+            @timeover="checkAnswer"
+          />
+          <QuizGameQuestion
+            ref="quizGameQuestion"
+            :question="currentQuiz.question"
+            @all-displayed="startTimer"
+          />
+          <QuizGameAnswer
+            ref="quizGameAnswer"
+            :answer1="currentQuiz.answer1"
+            :answer2="currentQuiz.answer2"
+            :game-data="gameData"
+          />
+          <QuizGameInput
+            ref="quizGameInput"
+            :answer="answer"
+            @push="onPush"
+            @tab="openHint"
+            @enter="checkAnswer"
+          />
+        </ContentWrapperAtom>
       </template>
     </VirtualWindow>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, reactive, computed, onMounted } from 'vue'
-import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
+import { defineComponent, ref, reactive, computed, onMounted, inject } from 'vue'
 import { useStore as useSound, AUDIOS }   from '@/store/audio'
 import { MOUSE_TOUCH_EVENT }              from '@/store/constants'
 import { default as useQuizGame, GAME_STATE } from '@/composables/useQuizGame'
@@ -79,11 +80,8 @@ export default defineComponent({
     QuizGameInput,
     QuizGameInfo,
   },
-  emits: [
-    'touch',
-  ],
+  emits: [ 'touch' ],
   setup(props, { emit }) {
-    const matrix = useMatrix()
     const { playAudio } = useSound()
 
     const windowState = reactive({
@@ -104,8 +102,10 @@ export default defineComponent({
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
 
+    const filteredQuizzes = inject('filteredQuizzes')
+
     const quizzes = computed(() => {
-      return shuffle(matrix.state[WINDOWS.THE_QUIZ_LIST].quizzes)
+      return shuffle(filteredQuizzes.value)
     })
 
     const {

@@ -1,5 +1,6 @@
 <template>
   <li
+    class="tree-beta-branch-molecule"
     :class="{ 'top-level': isTopLevel }"
     :data-id="value.id"
   >
@@ -8,15 +9,15 @@
         :is="itemComponent"
         :id="value.id"
         :class="handleClass"
-        @click="onClickItem"
+        v-on="itemEvents"
       />
     </VueDraggableNext>
     <div class="tree-nodes">
       <AccordionAtom :is-open="isOpenChildren">
-        <TreeBodyTypeB
+        <TreeBetaBodyMolecule
           :data-id="value.id"
           :list="value.children"
-          @click-item="onClickItem"
+          v-on="itemEvents"
         />
       </AccordionAtom>
     </div>
@@ -26,11 +27,10 @@
 <script>
 import { defineComponent, ref, computed, inject } from 'vue'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
-import { useStore as useTree } from '@/store/tree'
 import { VueDraggableNext } from 'vue-draggable-next'
 
 export default defineComponent({
-  name: 'TreeBranch',
+  name: 'TreeBetaBranchMolecule',
   components: {
     VueDraggableNext,
   },
@@ -45,53 +45,61 @@ export default defineComponent({
     },
   },
   emits: [
-    'click-item',
+    'mousedown',
+    'mouseup',
+    'click',
   ],
   setup(props, { emit }) {
-    const isOpenChildren = ref(true)
-
     const { playAudio } = useSound()
-    const { state: treeState, dragOptionSingle } = useTree()
-    const handleClass = computed(() => treeState.handleClass)
+
+    const treeState = inject('treeState')
+    const dragOptionSingle = inject('dragOptionSingle')
     const dragOption = computed(() => dragOptionSingle.value)
+    const handleClass = computed(() => treeState.handleClass)
 
-    const itemComponent = inject('itemComponent')
-
-    const onClickItem = value => emit('click-item', value)
+    const isOpenChildren = ref(true)
 
     const onClickToggleButton = () => {
       isOpenChildren.value = !isOpenChildren.value
       playAudio(AUDIOS.ETC.DECISION_43)
     }
 
+    const itemComponent = inject('itemComponent')
+
+    // アイテムからバブリングされるイベント(ツリー全体で共通)
+    const itemEvents = {
+      'mousedown': value => emit('mousedown', value),
+      'mouseup': value => emit('mouseup', value),
+      'click': value => emit('click', value),
+    }
+
     return {
-      isOpenChildren,
-      handleClass,
       dragOption,
-      itemComponent,
-      onClickItem,
+      handleClass,
+      isOpenChildren,
       onClickToggleButton,
+      itemComponent,
+      itemEvents,
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
-
 body.light-theme {
-  li {
+  .tree-beta-branch-molecule {
     border: 1px solid $blueLikeColor1;
     background: $greenLikeColor2;
   }
 }
 body.dark-theme {
-  li {
+  .tree-beta-branch-molecule {
     border: 1px solid $blueLikeColor1;
     background: $greenLikeColor2;
   }
 }
 
-li {
+.tree-beta-branch-molecule {
   padding: 2px 10px 2px 20px;
   position: relative;         // 樹形図線の位置の基準にする目的
   white-space: nowrap;        // 開閉時のToggleButtonの改行を防ぐ目的

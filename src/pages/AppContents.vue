@@ -39,27 +39,25 @@ export default defineComponent({
     VirtualWindowLegend,
   },
   async setup() {
-    const store = {
-      matrix: useMatrix(),
-      audio: useAudio(),
-    }
+    const matrix = useMatrix()
+    const { loadAudio, playAudio } = useAudio()
 
     const loadAudios = () => {
-      store.audio.loadAudio(AUDIOS.QUIZ)
-      store.audio.loadAudio(AUDIOS.ETC)
+      loadAudio(AUDIOS.QUIZ)
+      loadAudio(AUDIOS.ETC)
     }
 
     const teleportToFront = name => {
-      if (store.matrix.state.frontWindows.last !== name) {
-        store.audio.playAudio(AUDIOS.ETC.CYBER_15_3)
-        store.matrix.teleportToFront(name)
+      if (matrix.state.frontWindows.last !== name) {
+        playAudio(AUDIOS.ETC.CYBER_15_3)
+        matrix.teleportToFront(name)
       }
     }
 
     return {
-      matrix: store.matrix,
-      teleportToFront,
+      matrix,
       loadAudios,
+      teleportToFront,
     }
   }
 })

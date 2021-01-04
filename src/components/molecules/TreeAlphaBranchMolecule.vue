@@ -1,16 +1,17 @@
 <template>
   <li
+    class="tree-alpha-branch-molecule"
     :class="{ 'top-level': isTopLevel }"
     :data-id="value.id"
   >
-    <VueDraggableNext v-bind="dragOption">
+    <VueDraggableNext v-bind="dragOptionSingle">
       <component
         :is="itemComponent"
         :id="value.id"
         :class="handleClass"
         v-on="itemEvents"
       />
-      <TreeToggleButton
+      <TreeToggleButtonAtom
         v-if="value.children.length"
         :is-open="isOpenChildren"
         @click="onClickToggleButton"
@@ -18,7 +19,7 @@
     </VueDraggableNext>
     <div class="tree-nodes">
       <AccordionAtom :is-open="isOpenChildren">
-        <TreeBodyTypeA
+        <TreeAlphaBodyMolecule
           :data-id="value.id"
           :list="value.children"
           v-on="itemEvents"
@@ -31,15 +32,12 @@
 <script>
 import { defineComponent, ref, computed, inject } from 'vue'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
-import { useStore as useTree } from '@/store/tree'
 import { VueDraggableNext } from 'vue-draggable-next'
-import TreeToggleButton from '@/components/organisms/TreeToggleButton'
 
 export default defineComponent({
-  name: 'TreeBranch',
+  name: 'TreeAlphaBranchMolecule',
   components: {
     VueDraggableNext,
-    TreeToggleButton,
   },
   props: {
     value: {
@@ -56,11 +54,15 @@ export default defineComponent({
     'mouseup',
     'click',
   ],
-  setup(props, { emit }) {
+  setup() {
     const { playAudio } = useSound()
-    const { state: treeState, dragOptionSingle } = useTree()
+
+    const itemEvents = inject('itemEvents')
+    const itemComponent = inject('itemComponent')
+
+    const treeState = inject('treeState')
+    const dragOptionSingle = inject('dragOptionSingle')
     const handleClass = computed(() => treeState.handleClass)
-    const dragOption = computed(() => dragOptionSingle.value)
 
     const isOpenChildren = ref(true)
 
@@ -69,22 +71,13 @@ export default defineComponent({
       playAudio(AUDIOS.ETC.DECISION_43)
     }
 
-    const itemComponent = inject('itemComponent')
-
-    // アイテムからバブリングされるイベント(ツリー全体で共通)
-    const itemEvents = {
-      'mousedown': value => emit('mousedown', value),
-      'mouseup': value => emit('mouseup', value),
-      'click': value => emit('click', value),
-    }
-
     return {
+      itemEvents,
+      itemComponent,
+      dragOptionSingle,
       handleClass,
-      dragOption,
       isOpenChildren,
       onClickToggleButton,
-      itemComponent,
-      itemEvents,
     }
   }
 })
@@ -92,19 +85,19 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 body.light-theme {
-  li {
+  .tree-alpha-branch-molecule {
     border: 1px solid $blueLikeColor1;
     background: $greenLikeColor2;
   }
 }
 body.dark-theme {
-  li {
+  .tree-alpha-branch-molecule {
     border: 1px solid $blueLikeColor1;
     background: $greenLikeColor2;
   }
 }
 
-li {
+.tree-alpha-branch-molecule {
   @include unSelectable;
   padding: 4px 7px 0px;
   position: relative;         // 樹形図線の位置の基準にする目的

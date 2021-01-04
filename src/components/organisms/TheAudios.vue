@@ -16,21 +16,23 @@
       </HeaderItemBox>
     </template>
     <template #default>
-      <div
-        v-for="(value, key) in AUDIOS"
-        :key="key"
-      >
+      <ContentWrapperAtom>
         <div
-          v-for="(value2, key2) in value"
-          :key="key2"
-          class="sound"
+          v-for="(value, key) in AUDIOS"
+          :key="key"
         >
-          <ButtonBasicAtom @[`${MOUSE_TOUCH_EVENT.START}Passive`]="playAudio(value2)">
-            {{ key2 }}
-          </ButtonBasicAtom>
+          <div
+            v-for="(value2, key2) in value"
+            :key="key2"
+            class="sound"
+          >
+            <ButtonBasicAtom @[`${MOUSE_TOUCH_EVENT.START}Passive`]="playAudio(value2)">
+              {{ key2 }}
+            </ButtonBasicAtom>
+          </div>
+          <br><br>
         </div>
-        <br><br>
-      </div>
+      </ContentWrapperAtom>
     </template>
   </VirtualWindow>
 </template>
@@ -54,6 +56,7 @@ export default defineComponent({
       width: '100%',
       height: '80%',
       draggable: true,
+      resizableV: true,
       legend: {
         text: 'Audios',
         type: 'inside',

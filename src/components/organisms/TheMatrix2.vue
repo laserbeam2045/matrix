@@ -85,6 +85,10 @@ export default defineComponent({
       const command = cmdManager.currentCommand.value.toUpperCase()
 
       switch (command) {
+      case 'DATA':
+        openWindow(WINDOWS.THE_USER_DATA)
+        cmdManager.execute()
+        break
       case 'OCR':
         openWindow(WINDOWS.THE_READABLE)
         cmdManager.execute()

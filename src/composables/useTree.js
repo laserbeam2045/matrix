@@ -1,14 +1,4 @@
-import { reactive, computed, readonly, provide, inject } from 'vue'
-import Aset from '@/utilities/Aset'
-
-const storeSymbol = Symbol('tree')
-
-// TheTagTreeのモードフラグ
-export const TREE_STATE = {
-  LOCK_MODE: 0,
-  DROP_MODE: 1,
-  EDIT_MODE: 2,
-}
+import { reactive, computed, readonly } from 'vue'
 
 // DnDを無効化するオプション
 const optionDisabled = {
@@ -41,14 +31,18 @@ const optionUnit = {
   },
 }
 
-const createStore = () => {
+export default function useTree() {
+  // Treeのモードフラグ
+  const TREE_STATE = {
+    LOCK_MODE: 0,
+    DROP_MODE: 1,
+    EDIT_MODE: 2,
+  }
   const state = reactive({
-    mode: TREE_STATE.EDIT_MODE,   // ツリー全体のモード
-    changed: false,               // 木構造に変更が加えられたかどうか
-    changing: false,              // 木構造の変更中かどうか
+    mode: TREE_STATE.LOCK_MODE,   // ツリー全体のモード
     handleClass: 'tree-node',     // DnDのハンドルとなるclass
-    activeTagIds: new Aset(),     // 選択中のタグのidの配列
   })
+
   const rootClass = computed(() => {
     switch (state.mode) {
       case TREE_STATE.LOCK_MODE: return 'lock-mode'
@@ -70,25 +64,16 @@ const createStore = () => {
       case TREE_STATE.EDIT_MODE: return { ...optionUnit, handle: `.${state.handleClass}` }
     }
   })
-  // TheTagTreeのモードフラグを変更する関数
+
+  // Treeのモードフラグを変更する関数
   const switchMode = mode => state.mode = mode
 
-  // QuizTagクリック時の処理
-  const toggleActiveTagId = id => state.activeTagIds.toggle(id)
- 
   return {
+    TREE_STATE,
     state: readonly(state),
     rootClass,
     dragOptionSingle,
     dragOptionUnit,
     switchMode,
-    toggleActiveTagId,
   }
 }
-
-export const provideStore = () => provide(
-  storeSymbol,
-  createStore(),
-)
-
-export const useStore = () => inject(storeSymbol)

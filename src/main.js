@@ -9,14 +9,17 @@ import InputTextAtom from '@/components/atoms/InputTextAtom'
 import TeleporterAtom from '@/components/atoms/TeleporterAtom'
 import InputNumberAtom from '@/components/atoms/InputNumberAtom'
 import ButtonBasicAtom from '@/components/atoms/ButtonBasicAtom'
+import ProgressbarAtom from '@/components/atoms/ProgressbarAtom'
+import ContentWrapperAtom from '@/components/atoms/ContentWrapperAtom'
+import TreeToggleButtonAtom from '@/components/atoms/TreeToggleButtonAtom'
+import TreeAlphaBodyMolecule from '@/components/molecules/TreeAlphaBodyMolecule'
+import TreeAlphaBranchMolecule from '@/components/molecules/TreeAlphaBranchMolecule'
+import TreeBetaBodyMolecule from '@/components/molecules/TreeBetaBodyMolecule'
+import TreeBetaBranchMolecule from '@/components/molecules/TreeBetaBranchMolecule'
 import ModalWindow from '@/components/organisms/ModalWindow'
 import HeaderItem from '@/components/organisms/HeaderItem'
 import HeaderItemBox from '@/components/organisms/HeaderItemBox'
 import VirtualWindow from '@/components/organisms/VirtualWindow'
-import TreeBodyTypeA from '@/components/organisms/TreeBodyTypeA'
-import TreeBodyTypeB from '@/components/organisms/TreeBodyTypeB'
-import TreeBranchTypeA from '@/components/organisms/TreeBranchTypeA'
-import TreeBranchTypeB from '@/components/organisms/TreeBranchTypeB'
 
 import '@/assets/styles.css'
 require("@/assets/scss/app.scss")
@@ -25,12 +28,12 @@ require("@/assets/scss/app.scss")
 // MEMO: ウィンドウのスクロールイベント用
 const scrollDirective = {
   mounted (el, binding) {
-    let f = function(evt) {
+    const f = (evt) => {
       if (binding.value(evt, el)) {
-        window.removeEventListener('scroll', f)
+        el.removeEventListener('scroll', f)
       }
     }
-    window.addEventListener('scroll', f, { passive: true })
+    el.addEventListener('scroll', f, { passive: true })
   }
 }
 // v-focus
@@ -81,10 +84,13 @@ createApp(App)
   .component('TeleporterAtom', TeleporterAtom)
   .component('InputNumberAtom', InputNumberAtom)
   .component('ButtonBasicAtom', ButtonBasicAtom)
-  .component('TreeBodyTypeA', TreeBodyTypeA)
-  .component('TreeBodyTypeB', TreeBodyTypeB)
-  .component('TreeBranchTypeA', TreeBranchTypeA)
-  .component('TreeBranchTypeB', TreeBranchTypeB)
+  .component('ProgressbarAtom', ProgressbarAtom)
+  .component('ContentWrapperAtom', ContentWrapperAtom)
+  .component('TreeToggleButtonAtom', TreeToggleButtonAtom)
+  .component('TreeAlphaBodyMolecule', TreeAlphaBodyMolecule)
+  .component('TreeAlphaBranchMolecule', TreeAlphaBranchMolecule)
+  .component('TreeBetaBodyMolecule', TreeBetaBodyMolecule)
+  .component('TreeBetaBranchMolecule', TreeBetaBranchMolecule)
   .component('HeaderItem', HeaderItem)
   .component('HeaderItemBox', HeaderItemBox)
   .component('VirtualWindow', VirtualWindow)

@@ -1,4 +1,4 @@
-const TEST_MODE = 1
+const TEST_MODE = 0
 
 // ページテーマ
 export const PAGE_THEME = {

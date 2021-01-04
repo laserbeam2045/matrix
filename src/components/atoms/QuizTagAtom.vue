@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="data"
-    class="tag, quiz-tag"
+    class="quiz-tag-atom"
     :class="{ active }"
     v-on="events"
   >
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { defineComponent, computed, unref, inject } from 'vue'
+import { defineComponent, computed, inject } from 'vue'
 import { MOUSE_TOUCH_EVENT } from '@/store/constants'
 
 export default defineComponent({
@@ -37,7 +37,7 @@ export default defineComponent({
 
     const activeTagIds = inject('activeTagIds')
 
-    const active = computed(() => unref(activeTagIds).has(props.id))
+    const active = computed(() => activeTagIds.value.has(props.id))
 
     const text = computed(() => {
       if (props.showCount && data.quizCount)
@@ -69,7 +69,7 @@ $borderColor: $blueLikeColor4;
 $textColor  : $blueLikeColor6;
 $borderColor: $blueLikeColor6;
 
-.tag {
+.quiz-tag-atom {
   @include unSelectable;
   display: inline-block;
   padding: 7px 9px;

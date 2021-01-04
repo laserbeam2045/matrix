@@ -1,33 +1,6 @@
 <template>
   <div v-on="windowEvents">
-    <VirtualWindow
-      v-model:top="windowState.top"
-      v-model:left="windowState.left"
-      v-model:width="windowState.width"
-      v-model:height="windowState.height"
-      v-bind="windowState"
-    >
-      <template #header>
-        <HeaderItemBox>
-          <HeaderItem
-            v-for="item in headerItems"
-            :key="item.type"
-            :type="item.type"
-            v-on="item.events"
-          />
-        </HeaderItemBox>
-        <TheQuizListQueryBox
-          v-model:query="searchQuery"
-          :hit-count="quizzes.length"
-        />
-      </template>
-      <template #default>
-        <TemplateTableQuiz
-          :quizzes="quizzes"
-          @click-question="openEditor"
-        />
-      </template>
-    </VirtualWindow>
+    <QuizListTableMolecule @click-question="openEditor" />
 
     <TheQuizCreator
       ref="theQuizCreator"
@@ -43,87 +16,22 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, toRefs, provide } from 'vue'
-import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
-import { useStore as useSound, AUDIOS } from '@/store/audio'
+import { defineComponent, ref } from 'vue'
 import { MOUSE_TOUCH_EVENT } from '@/store/constants'
-import useUserQuizzes from '@/composables/useUserQuizzes'
-import useQuizStringSearch from '@/composables/useQuizStringSearch'
-import useQuizFilters from '@/composables/useQuizFilters'
-import useQuizTags from '@/composables/useQuizTags'
-import TheQuizListQueryBox from '@/components/organisms/TheQuizListQueryBox'
-import TemplateTableQuiz from '@/components/organisms/TemplateTableQuiz'
+import QuizListTableMolecule from '@/components/molecules/QuizListTableMolecule'
 import TheQuizCreator from '@/components/organisms/TheQuizCreator'
 import TheQuizEditor from '@/components/organisms/TheQuizEditor'
 
 export default defineComponent({
-  name: 'QuizList',
+  name: 'TheQuizList',
   components: {
-    TheQuizListQueryBox,
-    TemplateTableQuiz,
+    QuizListTableMolecule,
     TheQuizCreator,
     TheQuizEditor,
   },
-  props: {
-    user: {
-      type: Object,
-      required: true,
-    },
-  },
-  emits: [
-    'touch',
-  ],
+  emits: [ 'touch' ],
+
   setup(props, { emit }) {
-    const store = reactive({
-      matrix: useMatrix(),
-      sound: useSound(),
-    })
-
-    const { user } = toRefs(props)
-
-    const {
-      quizzes,
-      getUserQuiz,
-    } = useUserQuizzes(user)
-
-    const {
-      searchQuery,
-      quizzesMatchingSearchQuery
-    } = useQuizStringSearch(quizzes)
-
-    const {
-      // filters,
-      // updateFilters,
-      activeTagIds,
-      filteredQuizzes,
-    } = useQuizFilters(quizzesMatchingSearchQuery)
-
-    const {
-      tags,
-      tree,
-      getQuizTag,
-    } = useQuizTags(user)
-
-    provide('quizzes', quizzes)
-    provide('getUserQuiz', getUserQuiz)
-    provide('activeTagIds', activeTagIds)
-    provide('filteredQuizzes', filteredQuizzes)
-    provide('tags', tags)
-    provide('tree', tree)
-    provide('getQuizTag', getQuizTag)
-
-    const windowState = reactive({
-      top: 'center',
-      left: 'center',
-      width: 'auto',
-      height: '95%',
-      resizableV: true,
-      draggable: true,
-      legend: {
-        text: 'QUIZ LIST',
-        type: 'inside',
-      },
-    })
     const windowEvents = {
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
@@ -158,37 +66,16 @@ export default defineComponent({
       // getUserQuizzes()
     }
 
-    // クイズを開始する関数
-    const startQuiz = () => {
-
-    }
-
-    // ウィンドウを閉じる処理
-    const closeWindow = () => {
-      store.matrix.deactivate(WINDOWS.THE_QUIZ_LIST)
-      store.sound.playAudio(AUDIOS.ETC.CYBER_04_1)
-    }
-
-    const headerItems = [
-      { type: 'quora', events: { click: startQuiz }},
-      { type: 'plus',  events: { click: openCreator }},
-      { type: 'times', events: { click: closeWindow }},
-    ]
-
     return {
-      quizzes: filteredQuizzes,
-      searchQuery,
-      activeTagIds,
-      quizId4Update,
-      windowState,
       windowEvents,
       theQuizEditor,
       theQuizCreator,
+      quizId4Update,
+      openCreator,
       openEditor,
       onInsertQuiz,
       onUpdateQuiz,
       onDeleteQuiz,
-      headerItems,
     }
   }
 })

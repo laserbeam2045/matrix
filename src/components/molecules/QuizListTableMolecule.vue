@@ -1,14 +1,11 @@
 <template>
   <ul
     v-if="quizzes.length"
-    class="quiz-list-template"
+    class="quiz-list-table-molecule"
   >
     <li class="container">
       <div class="question">
         Question
-      </div>
-      <div class="tag">
-        Tags
       </div>
     </li>
     <li
@@ -22,74 +19,31 @@
       >
         <pre>{{ quiz.question }}</pre>
       </div>
-      <div class="tag">
-        <TemplateTableQuizAnswer :quiz="quiz" />
-      </div>
     </li>
   </ul>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import TemplateTableQuizAnswer from '@/components/organisms/TemplateTableQuizAnswer'
+import { defineComponent, inject } from 'vue'
 
 export default defineComponent({
-  name: "TemplateTableQuiz",
-  components: {
-    TemplateTableQuizAnswer,
-  },
-  props: {
-    quizzes: {
-      type: Array,
-      required: true,
-    },
-  },
+  name: "QuizListTableMolecule",
   emits: [
     'click-question',
   ],
   setup(props, { emit }) {
-    // 問題文をクリックした時の処理
-    const onClickQuestion = quizId => {
-      console.log(quizId)
-      emit('click-question', quizId)
-    }
+    const quizzes = inject('filteredQuizzes')
 
-    return {
-      onClickQuestion,
-    }
-  },
+    // 問題文をクリックした時の処理
+    const onClickQuestion = id => emit('click-question', id)
+
+    return { quizzes, onClickQuestion }
+  }
 })
 </script>
 
 <style lang="scss" scoped>
-body.light-theme {
-  th, td {
-    border-color: $blueLikeColor6;
-    background: transparent;
-  }
-  th {
-    color: $blueLikeColor6;
-  }
-  td {
-    color: $blueLikeColor4;
-  }
-}
-
-body.dark-theme {
-  th, td {
-    border-color: $windowDarkTextColor;
-    background: transparent;
-  }
-  th {
-    color: $windowDarkTextColor;
-  }
-  td {
-    color: $windowDarkTextColor;
-  }
-}
-
-.quiz-list-template {
-  margin: 0 auto 30px;
+.quiz-list-table-molecule {
   max-width: 100%;
   font-size: 16px;
   font-family: $font-family-normal;
@@ -97,16 +51,21 @@ body.dark-theme {
   .container {
     display: flex;
     width: 100%;
+    height: 100%;
     border: 1px solid;
+
+    &:nth-child(n + 2) {
+      border-top: none;
+    }
   }
 
-  .question, .tag {
+  .question {
     vertical-align: middle;
     text-align: center;
     user-select: none;
   }
   .question {
-    width: 62%;
+    width: 100%;
     min-width: 240px;
     max-width: 300px;
     padding: 15px 20px;
@@ -117,6 +76,7 @@ body.dark-theme {
       white-space: pre-wrap;
     }
   }
+
   .tag {
     width: 37%;
     max-width: 250px;

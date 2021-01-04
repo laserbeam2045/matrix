@@ -26,7 +26,7 @@ const createStore = () => {
     pageTheme: PAGE_THEME.DARK,
     deviceType,
     teleporting: false,
-    frontWindows: new Aset([WINDOWS.THE_USER_DATA, WINDOWS.THE_MATRIX]),
+    frontWindows: new Aset([ WINDOWS.THE_MATRIX ]),
     hiddenWindows: new Aset(),
     [WINDOWS.THE_MATRIX]: {
       level: 5,

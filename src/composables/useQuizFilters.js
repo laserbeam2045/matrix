@@ -1,12 +1,10 @@
 import { ref, unref, computed } from 'vue'
-import Aset from '@/utilities/Aset'
 
 export default function useQuizFilters(quizzes) {
   const filters = ref([
     // quiz => quiz.tagIds.some(id => activeTagIds.value.has(id)),
-    // quiz => quiz.tagIds.length === 0,
+    quiz => quiz.tagIds.length === 0,
   ])
-  const activeTagIds = ref(new Aset())
 
   const updateFilters = () => {}
 
@@ -20,7 +18,6 @@ export default function useQuizFilters(quizzes) {
 
   return {
     filters,
-    activeTagIds,
     updateFilters,
     filteredQuizzes,
   }

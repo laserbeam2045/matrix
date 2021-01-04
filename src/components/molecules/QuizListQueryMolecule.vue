@@ -1,7 +1,7 @@
 <template>
-  <div id="query-box">
-    <p id="hit-count">
-      HIT：<InputNumberAtom :value="hitCount" />
+  <div class="quiz-list-query-molecule">
+    <p class="hit-count">
+      HIT：<InputNumberAtom :value="filteredQuizzes.length" />
     </p>
     <InputTextAtom
       v-model:value="valueRef"
@@ -13,28 +13,20 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, inject } from 'vue'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import _ from 'lodash'
 
 export default defineComponent({
-  name: 'TheQuizListQueryBox',
-  props: {
-    hitCount: {
-      type: Number,
-      required: true,
-    },
-    query: {
-      type: String,
-      required: true,
-    },
-  },
-  emits: [ 'update:query' ],
+  name: 'QuizListQueryMolecule',
 
-  setup(props, { emit }) {
+  setup() {
     const { playAudio } = useSound()
 
-    const valueRef = ref(props.query)
+    const searchQuery = inject('searchQuery')
+    const filteredQuizzes = inject('filteredQuizzes')
+
+    const valueRef = ref(searchQuery.value)
 
      //MEMO: 入力時(全角の未確定入力時を除く)に、queryをemitしたい
     const onKeydown = () => {
@@ -48,7 +40,7 @@ export default defineComponent({
       }
     }
     const updateQuery = _.debounce(() => {
-      emit('update:query', valueRef.value)
+      searchQuery.value = valueRef.value
     }, 200)
 
     const onClickTag = id => {
@@ -57,6 +49,7 @@ export default defineComponent({
     }
 
     return {
+      filteredQuizzes,
       valueRef,
       onKeydown,
       onInput,
@@ -67,12 +60,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-#query-box {
+.quiz-list-query-molecule {
   height: auto;
   margin: 0 auto -1px;
+  padding: 0 0 15px;
   border-bottom: 1px solid;
 
-  #hit-count {
+  .hit-count {
     width: 90px;
     margin: 0 0 0 -80px;
     display: inline-block;

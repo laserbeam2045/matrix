@@ -53,7 +53,6 @@ export default defineComponent({
     const createSandBox = () => {
       const sandBox = document.createElement('div')
       sandBox.style.position = 'absolute'
-      sandBox.style.opacity = 0
       return sandBox
     }
 
@@ -70,7 +69,7 @@ export default defineComponent({
 <style scoped>
 .v-enter-active,
 .v-leave-active {
-  transition: all .5s;
+  transition: all .5s !important;
 }
 .v-enter-from,
 .v-leave-to {

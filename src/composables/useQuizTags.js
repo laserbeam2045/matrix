@@ -1,18 +1,23 @@
-import { fetchQuizTags } from '@/api/tags'
 import { ref, onMounted, watch, computed } from 'vue'
+import { fetchQuizTags } from '@/api/tags'
+import Aset from '@/utilities/Aset'
 
 export default function useQuizTags(user) {
   const tags = ref([])
-  const tree = ref([])
+  const tree = computed(() => root.value ? getStruct(root.value) : {})
+  const activeTagIds = ref(new Aset())
+
   const getQuizTags = async () => {
     tags.value = await fetchQuizTags(user.value)
-    tree.value = getStruct(root.value)
   }
+
   // 引数のidのタグを取得する関数
   const getQuizTag = id => tags.value.find(tag => tag.id === id)
 
   // 引数のidのタグの直下のタグを取得する関数
   const childrenOf = id => tags.value.filter(tag => tag.parentId === id)
+
+  const toggleActiveTagId = id => activeTagIds.value.toggle(id)
 
   const root = computed(() => {
     if (tags.value.length)
@@ -38,7 +43,9 @@ export default function useQuizTags(user) {
   return {
     tags,
     tree,
+    activeTagIds,
     getQuizTag,
     getQuizTags,
+    toggleActiveTagId,
   }
 }
