@@ -1,0 +1,11 @@
+/* グローバルに使用するフォントファミリーを設定 */
+
+$font-family-normal: Avenir, Helvetica, Arial, sans-serif;
+
+$font-family-electrolize: Electrolize, sans-serif;
+
+$font-family-orbitron: 'Orbitron', sans-serif;
+
+
+// input[type="text"], textarea
+$normalFont: normal 16px/1.5em $font-family-electrolize;

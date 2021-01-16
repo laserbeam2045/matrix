@@ -1,0 +1,23 @@
+/* 　アニメーションやプリプロセッサ用のmixinやfunctionをこのレイヤーで管理　*/
+
+@mixin textStyleA {
+  color: white;
+  text-shadow: $blueLikeColor1 0 0 3px;
+}
+
+@mixin textStyleB {
+  font: 16px/23px $font-family-normal;
+}
+
+@mixin absoluteBox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@mixin unSelectable {
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}

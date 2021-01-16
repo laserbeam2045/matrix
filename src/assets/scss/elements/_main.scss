@@ -1,0 +1,53 @@
+/*　要素セレクタのみ定義する　*/
+
+// *::-webkit-scrollbar {
+//   width: 0;
+// }
+
+html, body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  // touch-action: pan-x pan-y;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: $font-family-normal;
+  font-size: 1.6rem;
+  font-weight: normal;
+  line-height: 1.6;
+  color: $black-dark-grey;
+  -webkit-font-smoothing: antialiased;
+
+  &.light-theme {
+    background: $white;
+    color: $black;
+  }
+  &.dark-theme {
+    background: $black;
+    color: $blueLikeColor6;
+  }
+}
+
+textarea {
+  appearance: none;
+  resize: none;
+  outline: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-family-orbitron;
+}
+
+p {
+  font-family: $font-family-normal;
+}
+
+button {
+  user-select: none;
+}

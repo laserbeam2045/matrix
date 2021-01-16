@@ -1,0 +1,36 @@
+/* 
+  シャドーは全てこのファイルに変数を定義する
+  定義する内容は影の長さのみ
+  例）$shadow: 0 3px 6px;
+*/
+
+body {
+  $outColor     : $whiteLikeColor1;
+  $out-H-Offset :  35px;
+  $out-V-Offset :  35px;
+  $outBlur      :  50px;
+  $outSpread    : -50px;
+
+  $inColorH     : rgba(1, 136, 202, 0.2);
+  $inColorH     : rgba(0, 112, 202, 0.3);
+  $inColorV     : #0188ca;
+  $in-H-Offset  :  40px;
+  $in-V-Offset  :  40px;
+  $inBlur       :  50px;
+  $inSpread     : -50px;
+
+  $legendBoxShadow:
+    $inColorH $in-H-Offset 0 $inBlur $inSpread inset   // 内側左
+    !global;
+
+  $windowBoxShadow:
+    $outColor   $out-H-Offset    $out-V-Offset  $outBlur $outSpread,        // 外側右下
+    $outColor (-$out-H-Offset)   $out-V-Offset  $outBlur $outSpread,        // 外側左下
+    $outColor (-$out-H-Offset) (-$out-V-Offset) $outBlur $outSpread,        // 外側左上
+    $outColor   $out-H-Offset  (-$out-V-Offset) $outBlur $outSpread,        // 外側右上
+    $inColorH    $in-H-Offset                0   $inBlur  $inSpread inset,  // 内側左
+    $inColorH  (-$in-H-Offset)               0   $inBlur  $inSpread inset,  // 内側右
+    $inColorV               0   (-$in-V-Offset)  $inBlur  $inSpread inset,  // 内側下
+    $inColorV               0     $in-V-Offset   $inBlur  $inSpread inset   // 内側上
+    !global;
+}
