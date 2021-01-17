@@ -1,11 +1,11 @@
 import { reactive, computed, provide, inject, nextTick, markRaw } from 'vue'
 import { DEVICE_TYPE, PAGE_THEME } from './constants'
 import { getDeviceType } from '@/utils/event_functions'
-import TheMatrix from '@/components/organisms/TheMatrix'
-import TheMatrix2 from '@/components/organisms/TheMatrix2'
-import TheAudios from '@/components/organisms/TheAudios'
-import TheUserDataWindows from '@/components/organisms/TheUserDataWindows'
-import GPT2 from '@/components/organisms/GPT2'
+import TheMatrix from '@/components/TheMatrix'
+import TheMatrix2 from '@/components/TheMatrix2'
+import TheAudios from '@/components/TheAudios'
+import TheUserDataWindows from '@/components/TheUserDataWindows'
+import GPT2 from '@/components/GPT2'
 import Aset from '@/utilities/Aset'
 
 const storeSymbol = Symbol('matrix')

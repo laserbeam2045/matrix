@@ -1,4 +1,4 @@
-const TEST_MODE = 0
+const TEST_MODE = 1
 
 // ページテーマ
 export const PAGE_THEME = {
@@ -14,39 +14,20 @@ export const DEVICE_TYPE = {
   PC          : 2,
 }
 
-
-// 改行コード（\を使えない処理系のために使用）
-export const CR   = String.fromCharCode(13)      // 古いMac OS
-export const LF   = String.fromCharCode(10)      // Unix系OS, Mac OS（全てこれに統一する）
-export const CRLF = String.fromCharCode(13, 10)  // Windows系OS
-
-
-// タッチイベントのサポートの有無
-export const IS_SUPPORT_TOUCH = 'ontouchend' in document
-
-// (マウス／タッチ)系イベント
-export const MOUSE_TOUCH_EVENT = {
-  START: IS_SUPPORT_TOUCH ? 'touchstart' : 'mousedown',
-  MOVE : IS_SUPPORT_TOUCH ? 'touchmove'  : 'mousemove',
-  END  : IS_SUPPORT_TOUCH ? 'touchend'   : 'mouseup',
-  LEAVE: IS_SUPPORT_TOUCH ? 'touchleave' : 'mouseleave',
-}
-
-
 // APIアドレスのルート(local or global)
-export const API_ROOT = TEST_MODE ?
-  'http://localhost/matrix/api' :
-  '/matrix/api'
+export const API_ROOT = TEST_MODE
+  ? 'http://localhost/matrix/api'
+  : '/matrix/api'
 
 // APIアドレスのルート(global)
-export const API_ROOT_2 = TEST_MODE ?
-  'http://have-a-go.moo.jp/matrix/api' :
-  '/matrix/api'
+export const API_ROOT_2 = TEST_MODE
+  ? 'http://have-a-go.moo.jp/matrix/api'
+  : '/matrix/api'
 
 // APIアドレスのルート(GPT-2)
-const API_ROOT_GPT_2 = TEST_MODE ? 
-  'http://127.0.0.1:5000' : 
-  'https://gpt2predictionapi.ml'
+const API_ROOT_GPT_2 = TEST_MODE
+  ? 'http://127.0.0.1:5000'
+  : 'https://gpt2predictionapi.ml'
 
 // APIアドレス
 export const API_ADDRESS = {

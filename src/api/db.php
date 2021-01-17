@@ -3,7 +3,7 @@
 define('TEST_MODE', true);
 
 if (TEST_MODE):
-  define('DSN', 'mysql:dbname=problems;host=localhost');
+  define('DSN', 'mysql:dbname=Matrix;host=localhost');
   define('USERNAME', 'root');
   define('PASSWORD', '');
   define('PDO_OPTION', [

@@ -1,7 +1,6 @@
 
 /* 文字列処理全般の関数群 */
 
-import { LF } from '@/store/constants'
 
 // 平仮名／片仮名の、開始／終了の、文字コードの値
 const CHAR_CODE_HIRAGANA_BEGIN = 0x3041   // 12353
@@ -9,10 +8,15 @@ const CHAR_CODE_HIRAGANA_END   = 0x3096   // 12438
 const CHAR_CODE_KATAKANA_BEGIN = 0x30a1   // 12449
 const CHAR_CODE_KATAKANA_END   = 0x30fa   // 12538
 
+// 改行コード（\を使えない処理系のために使用）
+export const CR   = String.fromCharCode(13)      // 古いMac OS
+export const LF   = String.fromCharCode(10)      // Unix系OS, Mac OS（全てこれに統一する）
+export const CRLF = String.fromCharCode(13, 10)  // Windows系OS
+
 // 置換用の正規表現オブジェクト
-export const regExpCR   = new RegExp(String.fromCharCode(13), 'g')
-export const regExpLF   = new RegExp(String.fromCharCode(10), 'g')
-export const regExpCRLF = new RegExp(String.fromCharCode(13, 10), 'g')
+export const regExpCR   = new RegExp(CR, 'g')
+export const regExpLF   = new RegExp(LF, 'g')
+export const regExpCRLF = new RegExp(CRLF, 'g')
 
 // 平仮名 全86文字
 export const HIRAGANA = [

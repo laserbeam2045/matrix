@@ -4,23 +4,22 @@
   </div>
 
   <Suspense v-else>
+    <template #default>
+      <AppContents />
+    </template>
     <template #fallback>
       <div class="loading">
         Loading...
       </div>
-    </template>
-    
-    <template #default>
-      <AppContents />
     </template>
   </Suspense>
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue'
-import AppContents from '@/pages/AppContents'
 import { provideStore as provideMatrix } from '@/store/matrix'
 import { provideStore as provideAudio } from '@/store/audio'
+import AppContents from '@/pages/AppContents'
 
 export default defineComponent({
   components: {
@@ -34,14 +33,16 @@ export default defineComponent({
 
     // TODO: ErrorHandling
     return { error }
-  },
+  }
 })
 </script>
 
 <style lang="scss" scoped>
 .loading {
+  position: absolute;
   top: 40%;
-  position: relative;
+  left: 0;
+  right: 0;
   text-align: center;
 }
 </style>

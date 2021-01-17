@@ -3,7 +3,7 @@
     id="contents"
     @click.once="loadAudios"
   >
-    <TeleporterAtom
+    <AppTeleporter
       v-for="name in matrix.state.frontWindows"
       :key="name"
       :level="matrix.state[name].level"
@@ -12,9 +12,9 @@
         :is="matrix.state[name].component"
         @touch="teleportToFront(name)"
       />
-    </TeleporterAtom>
+    </AppTeleporter>
     
-    <TeleporterAtom :level="3">
+    <AppTeleporter :level="3">
       <div id="windows-tab">
         <VirtualWindowLegend
           v-for="name in matrix.state.hiddenWindows"
@@ -23,7 +23,7 @@
           @touch="teleportToFront(name)"
         />
       </div>
-    </TeleporterAtom>
+    </AppTeleporter>
   </div>
 </template>
 
@@ -31,7 +31,7 @@
 import { defineComponent } from 'vue'
 import { useStore as useMatrix } from '@/store/matrix'
 import { useStore as useAudio, AUDIOS } from '@/store/audio'
-import VirtualWindowLegend from '@/components/organisms/VirtualWindowLegend'
+import VirtualWindowLegend from '@/components/VirtualWindowLegend'
 
 export default defineComponent({
   name: 'AppContents',

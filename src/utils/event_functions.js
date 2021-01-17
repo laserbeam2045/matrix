@@ -1,7 +1,18 @@
 
 /* イベントに関する関数 */
 
-import { DEVICE_TYPE, IS_SUPPORT_TOUCH } from '@/store/constants'
+import { DEVICE_TYPE } from '@/store/constants'
+
+// タッチイベントのサポートの有無
+export const IS_SUPPORT_TOUCH = 'ontouchend' in document
+
+// (マウス／タッチ)系イベント
+export const MOUSE_TOUCH_EVENT = {
+  START: IS_SUPPORT_TOUCH ? 'touchstart' : 'mousedown',
+  MOVE : IS_SUPPORT_TOUCH ? 'touchmove'  : 'mousemove',
+  END  : IS_SUPPORT_TOUCH ? 'touchend'   : 'mouseup',
+  LEAVE: IS_SUPPORT_TOUCH ? 'touchleave' : 'mouseleave',
+}
 
 // デバイスの種類を取得する関数
 export const getDeviceType = () => {
