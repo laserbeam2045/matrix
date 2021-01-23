@@ -1,5 +1,5 @@
 <template>
-  <ModalWindow
+  <AppModalWindow
     ref="modalRef"
     v-bind="windowState"
   >
@@ -17,7 +17,7 @@
         Cancel
       </AppButton>
     </div>
-  </ModalWindow>
+  </AppModalWindow>
 </template>
 
 <script>
@@ -33,7 +33,7 @@ export default defineComponent({
     'inserted',
   ],
   setup(props, { emit }) {
-    // ModalWindowに渡すプロパティ
+    // AppModalWindowに渡すプロパティ
     const windowState = {
       legend: {
         text: 'QUIZ CREATOR',
@@ -51,7 +51,7 @@ export default defineComponent({
     const modalRef = ref(null)
     const tableRef = ref(null)
 
-    // ModalWindowの表示・非表示を行うラッパー関数
+    // AppModalWindowの表示・非表示を行うラッパー関数
     const showModal = () => modalRef.value.showModal()
     const hideModal = () => modalRef.value.hideModal()
 

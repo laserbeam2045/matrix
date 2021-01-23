@@ -17,7 +17,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import { MOUSE_TOUCH_EVENT } from '@/store/constants'
+import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
 import QuizListTable from '@/components/QuizListTable'
 import TheQuizCreator from '@/components/TheQuizCreator'
 import TheQuizEditor from '@/components/TheQuizEditor'

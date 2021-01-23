@@ -1,5 +1,5 @@
 <template>
-  <ModalWindow
+  <AppModalWindow
     ref="modalWindow"
     v-bind="windowState"
   >
@@ -16,7 +16,7 @@
         {{ button.text }}
       </AppButton>
     </div>
-  </ModalWindow>
+  </AppModalWindow>
 
   <ConfirmWindow
     ref="confirmWindow"
@@ -53,7 +53,7 @@ export default defineComponent({
     'click-cancel',
   ],
   setup(props, { emit }) {
-    // ModalWindowに渡すプロパティ
+    // AppModalWindowに渡すプロパティ
     const windowState = {
       legend: {
         text: 'TAG EDITOR',
@@ -81,7 +81,7 @@ export default defineComponent({
     const modalWindow = ref(null)
     const confirmWindow = ref(null)
 
-    // ModalWindowの表示・非表示を行うラッパー関数
+    // AppModalWindowの表示・非表示を行うラッパー関数
     const showModal = () => modalWindow.value.showModal()
     const hideModal = () => modalWindow.value.hideModal()
     const showConfirm = () => confirmWindow.value.showModal()

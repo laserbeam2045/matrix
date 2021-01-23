@@ -2,7 +2,7 @@
   <VueDraggableNext
     v-model="realValue"
     tag="ul"
-    class="tree-alpha-body-molecule"
+    class="tree-alpha-body"
     :class="{ 'top-level': value }"
     v-bind="dragOptionUnit"
     @end.self="onDragEnd"
@@ -91,7 +91,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.tree-alpha-body-molecule {
+.tree-alpha-body {
   @include unSelectable;
   display: flex;
   flex-direction: column;

@@ -18,7 +18,7 @@ export default defineComponent({
   },
   setup(props) {
     const level = toRef(props, 'level')
-    const teleportTo = computed(() => `#target-level-${level.value}`)
+    const teleportTo = computed(() => `#layer-${level.value}`)
 
     return { teleportTo }
   }

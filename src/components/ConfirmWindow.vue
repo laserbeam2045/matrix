@@ -1,5 +1,5 @@
 <template>
-  <ModalWindow
+  <AppModalWindow
     ref="root"
     :level="1"
     :window-state="windowState"
@@ -13,7 +13,7 @@
         {{ negativeLabel }}
       </AppButton>
     </div>
-  </ModalWindow>
+  </AppModalWindow>
 </template>
 
 <script>

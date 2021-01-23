@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { MOUSE_TOUCH_EVENT } from '@/store/constants'
+import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
 
 export default {
   name: 'VirtualWindowLegend',

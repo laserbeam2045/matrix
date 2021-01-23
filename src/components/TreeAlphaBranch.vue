@@ -1,6 +1,6 @@
 <template>
   <li
-    class="tree-alpha-branch-molecule"
+    class="tree-alpha-branch"
     :class="{ 'top-level': isTopLevel }"
     :data-id="value.id"
   >
@@ -85,19 +85,19 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 body.light-theme {
-  .tree-alpha-branch-molecule {
+  .tree-alpha-branch {
     border: 1px solid $blueLikeColor1;
     background: $greenLikeColor2;
   }
 }
 body.dark-theme {
-  .tree-alpha-branch-molecule {
+  .tree-alpha-branch {
     border: 1px solid $blueLikeColor1;
     background: $greenLikeColor2;
   }
 }
 
-.tree-alpha-branch-molecule {
+.tree-alpha-branch {
   @include unSelectable;
   padding: 4px 7px 0px;
   position: relative;         // 樹形図線の位置の基準にする目的

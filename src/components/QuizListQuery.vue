@@ -1,5 +1,5 @@
 <template>
-  <div class="quiz-list-query-molecule">
+  <div class="quiz-list-query">
     <p class="hit-count">
       HIT：<AppInputNumber :value="filteredQuizzes.length" />
     </p>
@@ -60,7 +60,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.quiz-list-query-molecule {
+.quiz-list-query {
   height: auto;
   margin: 0 auto -1px;
   padding: 0 0 15px;

@@ -5,12 +5,12 @@
       v-model:left="windowState.left"
       v-model:width="windowState.width"
       v-model:height="windowState.height"
-      v-bind="windowState"    
+      v-bind="windowState"
     >
       <template #header>
         <HeaderItemBox>
           <HeaderItem
-            type="times"
+            name="times"
             @click="closeWindow"
           />
         </HeaderItemBox>
@@ -43,7 +43,7 @@
 
 <script>
 import { defineComponent, reactive } from 'vue'
-import { MOUSE_TOUCH_EVENT } from '@/store/constants'
+import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
 import TheQuiz from '@/components/TheQuiz'
 
 export default defineComponent({

@@ -31,16 +31,16 @@ const API_ROOT_GPT_2 = TEST_MODE
 
 // APIアドレス
 export const API_ADDRESS = {
-  SELECT_QUIZZES : `${API_ROOT}/quiz/quizzes/select.php`,
-  INSERT_QUIZ    : `${API_ROOT}/quiz/quizzes/insert.php`,
-  UPDATE_QUIZ    : `${API_ROOT}/quiz/quizzes/update.php`,
-  DELETE_QUIZ    : `${API_ROOT}/quiz/quizzes/delete.php`,
-  SELECT_TAG     : `${API_ROOT}/quiz/quizzes_tags/select.php`,
-  INSERT_TAG     : `${API_ROOT}/quiz/quizzes_tags/insert.php`,
-  UPDATE_TAG     : `${API_ROOT}/quiz/quizzes_tags/update.php`,
-  DELETE_TAG     : `${API_ROOT}/quiz/quizzes_tags/delete.php`,
-  MOVE_TAG_BRANCH: `${API_ROOT}/quiz/quizzes_tags/move_branch.php`,
-  INSERT_RELATION: `${API_ROOT}/quiz/quizzes_quizzes_tags_relations/insert.php`,
-  DELETE_RELATION: `${API_ROOT}/quiz/quizzes_quizzes_tags_relations/delete.php`,
+  SELECT_QUIZZES  : `${API_ROOT}/quiz/quizzes/select.php`,
+  INSERT_QUIZ     : `${API_ROOT}/quiz/quizzes/insert.php`,
+  UPDATE_QUIZ     : `${API_ROOT}/quiz/quizzes/update.php`,
+  DELETE_QUIZ     : `${API_ROOT}/quiz/quizzes/delete.php`,
+  SELECT_TAG      : `${API_ROOT}/quiz/quizzes_tags/select.php`,
+  INSERT_TAG      : `${API_ROOT}/quiz/quizzes_tags/insert.php`,
+  UPDATE_TAG      : `${API_ROOT}/quiz/quizzes_tags/update.php`,
+  DELETE_TAG      : `${API_ROOT}/quiz/quizzes_tags/delete.php`,
+  MOVE_TAG_BRANCH : `${API_ROOT}/quiz/quizzes_tags/move_branch.php`,
+  INSERT_RELATION : `${API_ROOT}/quiz/quizzes_quizzes_tags_relations/insert.php`,
+  DELETE_RELATION : `${API_ROOT}/quiz/quizzes_quizzes_tags_relations/delete.php`,
   GPT_2_PREDICTION: `${API_ROOT_GPT_2}/`,
 }

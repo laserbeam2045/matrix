@@ -15,7 +15,7 @@
           <HeaderItem
             v-for="item in headerItems"
             :key="item.type"
-            :type="item.type"
+            :name="item.name"
             v-on="item.events"
           />
         </HeaderItemBox>
@@ -44,7 +44,7 @@
 import { defineComponent, ref, reactive, toRefs, provide } from 'vue'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
-import { MOUSE_TOUCH_EVENT } from '@/store/constants'
+import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
 import useUserQuizzes from '@/composables/useUserQuizzes'
 import useQuizStringSearch from '@/composables/useQuizStringSearch'
 import useQuizFilters from '@/composables/useQuizFilters'
@@ -138,8 +138,8 @@ export default defineComponent({
       playAudio(AUDIOS.ETC.CYBER_04_1)
     }
     const headerItems = [
-      { type: 'quora', events: { click: startQuiz }},
-      { type: 'times', events: { click: closeWindow }},
+      { name: 'quora', events: { click: startQuiz }},
+      { name: 'times', events: { click: closeWindow }},
     ]
 
     return {

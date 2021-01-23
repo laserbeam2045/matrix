@@ -1,5 +1,5 @@
 <template>
-  <ModalWindow
+  <AppModalWindow
     ref="modalWindow"
     v-bind="windowState"
     @close="$emit('close')"
@@ -8,7 +8,7 @@
       <p>There are no quizzes.</p>
       <p>Please select related tags.</p>
     </div>
-  </ModalWindow>
+  </AppModalWindow>
 </template>
 
 <script>

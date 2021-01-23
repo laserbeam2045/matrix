@@ -1,7 +1,7 @@
 <template>
   <pre
     ref="root"
-    class="editable-pre-atom"
+    class="editable-pre"
     :contenteditable="contenteditable"
     :spellcheck="spellcheck"
     v-on="listeners"
@@ -68,17 +68,17 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 body.light-theme {
-  .editable-pre-atom {
+  .editable-pre {
     background: $windowLightBackgroundEditor;
   }
 }
 body.dark-theme {
-  .editable-pre-atom {
+  .editable-pre {
     background: $windowDarkBackgroundEditor;
   }
 }
 
-.editable-pre-atom {
+.editable-pre {
   margin: 0 $windowScrollbarWidth $windowScrollbarWidth $windowScrollbarWidth;
   padding: 12px 15px 12px;
   text-align: left;

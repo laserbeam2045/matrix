@@ -1,6 +1,5 @@
 import App from './App.vue'
 import { createApp } from 'vue'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import QuizTag from '@/components/QuizTag'
 import Progressbar from '@/components/Progressbar'
@@ -10,7 +9,6 @@ import TreeAlphaBody from '@/components/TreeAlphaBody'
 import TreeAlphaBranch from '@/components/TreeAlphaBranch'
 import TreeBetaBody from '@/components/TreeBetaBody'
 import TreeBetaBranch from '@/components/TreeBetaBranch'
-import ModalWindow from '@/components/ModalWindow'
 import HeaderItem from '@/components/HeaderItem'
 import HeaderItemBox from '@/components/HeaderItemBox'
 import VirtualWindow from '@/components/VirtualWindow'
@@ -42,7 +40,6 @@ requireComponent.keys().forEach(fileName => {
 })
 
 app
-  .component('Fa', FontAwesomeIcon)
   .component('QuizTag', QuizTag)
   .component('Progressbar', Progressbar)
   .component('ContentWrapper', ContentWrapper)
@@ -54,5 +51,4 @@ app
   .component('HeaderItem', HeaderItem)
   .component('HeaderItemBox', HeaderItemBox)
   .component('VirtualWindow', VirtualWindow)
-  .component('ModalWindow', ModalWindow)
   .mount('#app')

@@ -10,7 +10,7 @@
     <template #header>
       <HeaderItemBox>
         <HeaderItem
-          type="times"
+          name="times"
           @click="closeWindow"
         />
       </HeaderItemBox>
@@ -39,9 +39,9 @@
 
 <script>
 import { defineComponent, reactive } from 'vue'
-import { MOUSE_TOUCH_EVENT } from '@/store/constants'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
+import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
 
 export default defineComponent({
   name: 'TheAudios',

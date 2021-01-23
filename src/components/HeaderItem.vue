@@ -1,32 +1,19 @@
 <template>
   <div
     class="header-item"
+    :class="{ active }"
     @click="$emit('click')"
   >
-    <fa
-      :icon="[set, type]"
-      :class="{ active }"
-    />
+    <AppFontAwesome :name="name" />
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faLightbulb } from '@fortawesome/fontawesome-free-regular' 
-import { faGoogle, faQuora } from '@fortawesome/fontawesome-free-brands' 
-import { faMicrophone, faMicrophoneAlt, faMicrophoneAltSlash, faMicrophoneSlash, faSpellCheck, faEquals, faNotEqual, faBalanceScale, faColumns, faCompressAlt, faExpandAlt, faTimes, faPlus } from '@fortawesome/free-solid-svg-icons' 
-
-library.add(
-  faMicrophone, faMicrophoneAltSlash, faMicrophoneAlt, faMicrophoneSlash,
-  faLightbulb, faSpellCheck, faEquals, faNotEqual, faBalanceScale,
-  faColumns, faCompressAlt, faExpandAlt, faTimes, faPlus, faGoogle, faQuora,
-)
 
 export default defineComponent({
-  name: 'HeaderItem',
   props: {
-    type: {
+    name: {
       type: String,
       required: true,
     },
@@ -39,28 +26,6 @@ export default defineComponent({
   emits: [
     'click',
   ],
-  setup(props) {
-    const set = (() => {
-      switch (props.type) {
-        case 'microphone':
-        case 'microphone-slash':
-        case 'spell-check':
-        case 'equals':
-        case 'not-equal':
-        case 'balance-scale':
-        case 'compress-alt':
-        case 'expand-alt':
-        case 'times':
-        case 'plus':
-          return 'fas'
-        case 'google':
-        case 'quora':
-          return 'fab'
-      }
-    })()
-
-    return { set }
-  },
 })
 </script>
 

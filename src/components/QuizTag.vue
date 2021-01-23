@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="data"
-    class="quiz-tag-atom"
+    class="quiz-tag"
     :class="{ active }"
     v-on="events"
   >
@@ -11,7 +11,7 @@
 
 <script>
 import { defineComponent, computed, inject } from 'vue'
-import { MOUSE_TOUCH_EVENT } from '@/store/constants'
+import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
 
 export default defineComponent({
   name: 'QuizTag',
@@ -69,7 +69,7 @@ $borderColor: $blueLikeColor4;
 $textColor  : $blueLikeColor6;
 $borderColor: $blueLikeColor6;
 
-.quiz-tag-atom {
+.quiz-tag {
   @include unSelectable;
   display: inline-block;
   padding: 7px 9px;

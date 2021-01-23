@@ -22,10 +22,11 @@
 import { defineComponent, ref, reactive } from 'vue'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
-import { PAGE_THEME, MOUSE_TOUCH_EVENT } from '@/store/constants'
+import { PAGE_THEME } from '@/store/constants'
 import Readable from '@/components/Readable'
 import useCommand from '@/composables/useCommand'
 import { isAlphabet } from '@/utils/string_functions'
+import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
 
 export default defineComponent({
   name: 'TheMatrix2',

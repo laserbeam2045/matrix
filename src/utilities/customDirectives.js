@@ -1,4 +1,4 @@
-import { MOUSE_TOUCH_EVENT as EVENT } from '@/store/constants'
+import { MOUSE_TOUCH_EVENT as EVENT } from '@/utils/event_functions'
 
 export default {
   // ウィンドウのスクロールイベント

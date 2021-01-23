@@ -15,7 +15,7 @@
           <template #header>
             <HeaderItemBox>
               <HeaderItem
-                type="times"
+                name="times"
                 @click="hideModal"
               />
             </HeaderItemBox>
@@ -34,7 +34,6 @@ import { defineComponent, ref, reactive, watch } from 'vue'
 import { useStore as useAudio, AUDIOS } from '@/store/audio'
 
 export default defineComponent({
-  name: 'ModalWindow',
   props: {
     level: {
       type: Number,

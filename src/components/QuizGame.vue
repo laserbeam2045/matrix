@@ -16,7 +16,7 @@
       <template #header>
         <HeaderItemBox>
           <HeaderItem
-            type="times"
+            name="times"
             @click="closeWindow"
           />
         </HeaderItemBox>
@@ -55,15 +55,15 @@
 
 <script>
 import { defineComponent, ref, reactive, computed, onMounted, inject } from 'vue'
-import { useStore as useSound, AUDIOS }   from '@/store/audio'
-import { MOUSE_TOUCH_EVENT }              from '@/store/constants'
+import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { default as useQuizGame, GAME_STATE } from '@/composables/useQuizGame'
 import QuizGameTimer    from '@/components/QuizGameTimer'
 import QuizGameQuestion from '@/components/QuizGameQuestion'
 import QuizGameAnswer   from '@/components/QuizGameAnswer'
 import QuizGameInput    from '@/components/QuizGameInput'
 import QuizGameInfo     from '@/components/QuizGameInfo'
-import { shuffle }      from '@/utils/array_functions'
+import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
+import { shuffle }           from '@/utils/array_functions'
 
 const PUSH_KEY_DELAY = 3000      // ボタンを押してからゲージが動き出すまでの待機時間
 const NEXT_QUIZ_DELAY = 2000     // 問題が終了してから次の問題までの待機時間

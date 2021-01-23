@@ -1,7 +1,7 @@
 <template>
   <VueDraggableNext
     tag="ul"
-    class="tree-beta-body-molecule"
+    class="tree-beta-body"
     :class="{ 'top-level': value }"
     :list="realValue"
     v-bind="dragOption"
@@ -79,7 +79,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.tree-beta-body-molecule {
+.tree-beta-body {
   margin: 0 auto 0 20px;
   display: flex;
   flex-direction: column;

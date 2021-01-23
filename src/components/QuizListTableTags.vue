@@ -1,5 +1,5 @@
 <template>
-  <div class="quiz-list-table-tags-molecule">
+  <div class="quiz-list-table-tags">
     <div
       v-for="tagId in quiz.tagIds"
       :key="tagId"
@@ -28,7 +28,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.quiz-list-table-tags-molecule {
+.quiz-list-table-tags {
   display: inline-block;
   max-width: 3000px;
   white-space: nowrap;

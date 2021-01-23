@@ -27,7 +27,7 @@
 <script>
 import { defineComponent, ref, provide, inject } from 'vue'
 import { useStore as useAudio, AUDIOS } from '@/store/audio'
-import { MOUSE_TOUCH_EVENT } from '@/store/constants'
+import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
 import QuizTag from '@/components/QuizTag'
 import TreeAlpha from '@/components/TreeAlpha'
 import TheTagCreator from '@/components/TheTagCreator'

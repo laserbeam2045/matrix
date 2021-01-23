@@ -1,7 +1,7 @@
 <template>
   <ul
     v-if="quizzes.length"
-    class="quiz-list-table-molecule"
+    class="quiz-list-table"
   >
     <li class="container">
       <div class="question">
@@ -43,7 +43,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.quiz-list-table-molecule {
+.quiz-list-table {
   max-width: 100%;
   font-size: 16px;
   font-family: $font-family-normal;
@@ -82,30 +82,6 @@ export default defineComponent({
     max-width: 250px;
     border-left: 1px solid;
     overflow-x: scroll;
-
-    // スクロールバーのスタイル
-    &::-webkit-scrollbar {
-      position: absolute;
-      width: 0;
-      height: $windowScrollbarWidth;
-      background: transparent;
-    }
-    &::-webkit-scrollbar-button {
-      display: none;
-    }
-    &::-webkit-scrollbar-track {
-      border: none;
-      box-shadow: none;
-      background: transparent;
-    }
-    &::-webkit-scrollbar-track-piece {
-      background: transparent;
-    }
-    &::-webkit-scrollbar-thumb {
-      background: $blueLikeColor4;
-      box-shadow: $windowScrollbarBoxShadow;
-      border-radius: 3px;
-    }
   }
 }
 </style>

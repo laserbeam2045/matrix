@@ -1,6 +1,6 @@
 <template>
   <li
-    class="tree-beta-branch-molecule"
+    class="tree-beta-branch"
     :class="{ 'top-level': isTopLevel }"
     :data-id="value.id"
   >
@@ -87,19 +87,19 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 body.light-theme {
-  .tree-beta-branch-molecule {
+  .tree-beta-branch {
     border: 1px solid $blueLikeColor1;
     background: $greenLikeColor2;
   }
 }
 body.dark-theme {
-  .tree-beta-branch-molecule {
+  .tree-beta-branch {
     border: 1px solid $blueLikeColor1;
     background: $greenLikeColor2;
   }
 }
 
-.tree-beta-branch-molecule {
+.tree-beta-branch {
   padding: 2px 10px 2px 20px;
   position: relative;         // 樹形図線の位置の基準にする目的
   white-space: nowrap;        // 開閉時のToggleButtonの改行を防ぐ目的
