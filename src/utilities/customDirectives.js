@@ -1,26 +1,41 @@
 import { MOUSE_TOUCH_EVENT as EVENT } from '@/utils/event_functions'
 
 export default {
-  // ウィンドウのスクロールイベント
+  // スクロールイベント
   'scroll': {
     mounted (el, binding) {
-      const fnc = evt => {
-        if (binding.value(evt, el)) {
-          el.removeEventListener('scroll', fnc)
+      const fn = evt => {
+        if (binding?.value(evt, el)) {
+          el.removeEventListener('scroll', fn)
         }
       }
-      el.addEventListener('scroll', fnc, { passive: true })
+      el.addEventListener('scroll', fn, { passive: true })
     }
   },
-  // resizeイベント
-  'resize': {
+  // windowのresizeイベント
+  'window-resize': {
     mounted (el, binding) {
-      const fnc = evt => {
-        if (binding.value(evt, el)) {
-          window.removeEventListener('resize', fnc)
+      const fn = evt => {
+        if (binding?.value(evt, el)) {
+          window.removeEventListener('resize', fn)
         }
       }
-      window.addEventListener('resize', fnc, { passive: true })
+      window.addEventListener('resize', fn, { passive: true })
+    }
+  },
+  // elementのresizeイベント
+  'resize': {
+    mounted (el, binding) {
+      const observer = new MutationObserver((_, instance) => {
+        const width = el.getBoundingClientRect().width
+        const height = el.getBoundingClientRect().height
+        binding?.value(width, height, el) && instance.disconnect()
+      })
+      const options = {
+        attributes: true,
+        attributeFilter: ['style'],
+      }
+      observer.observe(el, options)
     }
   },
   // mount時に自動的にfocusする

@@ -1,25 +1,17 @@
-// settings
-@import 'settings/test';
-@import 'settings/valiables';
-@import 'settings/colors';
-@import 'settings/fonts';
-@import 'settings/media';
-@import 'settings/shadow';
+@import '1_settings/valiables';
+@import '1_settings/colors';
+@import '1_settings/fonts';
+@import '1_settings/media';
+@import '1_settings/shadow';
 
-// tools
-@import 'tools/main';
+@import '2_tools/main';
 
-// generic
-@import 'generic/reset';
+@import '3_generic/reset';
 
-// elements
-@import 'elements/main';
+@import '4_elements/main';
 
-// objects
-@import 'objects/common-container';
+@import '5_objects/common-container';
 
-// components
-@import 'components/button/button-common';
+@import '6_components/button/button-common';
 
-// utilities
-@import 'utilities/main';
+@import '7_utilities/main';

@@ -1,6 +1,6 @@
 <template>
   <div v-on="windowEvents">
-    <VirtualWindow
+    <AppVirtualWindow
       v-model:top="windowState.top"
       v-model:left="windowState.left"
       v-model:width="windowState.width"
@@ -8,15 +8,18 @@
       v-bind="windowState"
     >
       <template #header>
-        <HeaderItemBox>
-          <HeaderItem
+        <AppHeaderItemBox>
+          <AppHeaderItem
             name="times"
             @click="closeWindow"
           />
-        </HeaderItemBox>
+        </AppHeaderItemBox>
       </template>
       <template #default>
-        <ContentWrapper>
+        <AppScrollable
+          :width="windowState.width"
+          :height="windowState.height"
+        >
           <div class="user-data">
             <ul class="menu">
               <li>Profile</li>
@@ -33,9 +36,9 @@
               {{ user.profile.bulletinBoard }}
             </p>
           </div>
-        </ContentWrapper>
+        </AppScrollable>
       </template>
-    </VirtualWindow>
+    </AppVirtualWindow>
 
     <TheQuiz :user="user" />
   </div>
@@ -47,7 +50,6 @@ import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
 import TheQuiz from '@/components/TheQuiz'
 
 export default defineComponent({
-  name: 'UserData',
   components: {
     TheQuiz,
   },

@@ -16,7 +16,6 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'VirtualWindowContents',
   props: {
     handleClass: {
       type: String,

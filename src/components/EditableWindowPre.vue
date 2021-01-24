@@ -13,7 +13,6 @@
 import { defineComponent, ref, onMounted } from 'vue'
 
 export default defineComponent({
-  name: 'EditableWindowPre',
   props: {
     htmlString: {
       type: String,
@@ -79,7 +78,7 @@ body.dark-theme {
 }
 
 .editable-pre {
-  margin: 0 $windowScrollbarWidth $windowScrollbarWidth $windowScrollbarWidth;
+  margin: 0;
   padding: 12px 15px 12px;
   text-align: left;
   white-space: pre-wrap;

@@ -1,5 +1,5 @@
 <template>
-  <VirtualWindow
+  <AppVirtualWindow
     v-bind="windowState"
     v-on="windowEvents"
   >
@@ -10,7 +10,7 @@
       @keydown.enter.exact="onKeyEnter"
       @keydown.tab.exact.prevent="onKeyTab"
     />
-  </VirtualWindow>
+  </AppVirtualWindow>
 </template>
 
 <script>
@@ -22,7 +22,6 @@ import EditableWindow from '@/components/EditableWindow'
 import _ from 'lodash'
 
 export default defineComponent({
-  name: 'GPT2',
   components: {
     EditableWindow,
   },

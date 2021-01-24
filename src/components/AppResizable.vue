@@ -27,8 +27,6 @@ const MIN_WIDTH = 200
 const MIN_HEIGHT = 30
 
 export default defineComponent({
-  name: 'ResizableWindow',
-
   props: {
     position: {
       type: String,
@@ -321,7 +319,7 @@ $activeStride: -10%;               // 使用時の長さに応じた位置調整
       }
       &:not(.active) {
         top   : $stride;
-        right : $offset + _fn($windowScrollbarWidth);
+        right : $offset;
         width : $weight;
         height: $length;
       }
@@ -338,7 +336,7 @@ $activeStride: -10%;               // 使用時の長さに応じた位置調整
       }
       &:not(.active) {
         left  : $stride;
-        bottom: $offset + _fn($windowScrollbarWidth);
+        bottom: $offset;
         width : $length;
         height: $weight;
       }

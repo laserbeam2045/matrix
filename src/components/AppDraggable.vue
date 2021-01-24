@@ -16,7 +16,6 @@ import useVModel from '@/composables/useVModel'
 import useWindow from '@/composables/useWindow'
 
 export default defineComponent({
-  name: 'DraggableWindow',
   props: {
     top: {
       type: [Number, String],

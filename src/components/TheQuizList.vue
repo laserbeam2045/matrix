@@ -23,7 +23,6 @@ import TheQuizCreator from '@/components/TheQuizCreator'
 import TheQuizEditor from '@/components/TheQuizEditor'
 
 export default defineComponent({
-  name: 'TheQuizList',
   components: {
     QuizListTable,
     TheQuizCreator,

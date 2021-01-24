@@ -14,7 +14,6 @@ import { defineComponent, computed, inject } from 'vue'
 import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
 
 export default defineComponent({
-  name: 'QuizTag',
   props: {
     id: {
       type: Number,

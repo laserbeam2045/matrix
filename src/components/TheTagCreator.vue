@@ -23,7 +23,6 @@ import { defineComponent, reactive, ref, watch, inject } from 'vue'
 import TemplateFormQuizTag from '@/components/TemplateFormQuizTag'
 
 export default defineComponent ({
-  name: 'TheTagCreator',
   components: {
     TemplateFormQuizTag,
   },
@@ -69,7 +68,7 @@ export default defineComponent ({
     // タグを挿入する処理
     // TODO: REST API呼び出しへの置き換え
     const insertQuizTag = async() => {
-      await console.log(`以下のデータでタグを挿入する`)
+      await console.log('以下のデータでタグを挿入する')
       await console.table(data)
     }
 

@@ -37,7 +37,6 @@ import { defineComponent, computed } from 'vue'
 import useVModel from '@/composables/useVModel'
 
 export default defineComponent({
-  name: 'TemplateFormQuizTag',
   props: {
     id: {
       type: Number,

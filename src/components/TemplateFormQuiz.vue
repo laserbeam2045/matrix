@@ -20,7 +20,7 @@
     <tr v-if="tagIdsRef">
       <th><label>Tags</label></th>
       <td>
-        <QuizTag
+        <AppQuizTag
           v-for="tagId of tagIdsRef"
           :id="tagId"
           :key="tagId"
@@ -37,7 +37,6 @@ import { defineComponent, ref } from 'vue'
 import useVModel from '@/composables/useVModel'
 
 export default defineComponent({
-  name: 'TemplateFormQuiz',
   props: {
     question: {
       type: String,

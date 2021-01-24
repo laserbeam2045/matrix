@@ -5,7 +5,7 @@
       @close="closeWindow"
     />
 
-    <VirtualWindow
+    <AppVirtualWindow
       v-if="maxQuizNumber && currentQuiz"
       v-model:top="windowState.top"
       v-model:left="windowState.left"
@@ -14,15 +14,18 @@
       v-bind="windowState"
     >
       <template #header>
-        <HeaderItemBox>
-          <HeaderItem
+        <AppHeaderItemBox>
+          <AppHeaderItem
             name="times"
             @click="closeWindow"
           />
-        </HeaderItemBox>
+        </AppHeaderItemBox>
       </template>
       <template #default>
-        <ContentWrapper>
+        <AppScrollable
+          :width="windowState.width"
+          :height="windowState.height"
+        >
           <QuizGameTimer
             ref="quizGameTimer"
             :current-number="gameData.currentQuizNumber"
@@ -47,9 +50,9 @@
             @tab="openHint"
             @enter="checkAnswer"
           />
-        </ContentWrapper>
+        </AppScrollable>
       </template>
-    </VirtualWindow>
+    </AppVirtualWindow>
   </div>
 </template>
 
@@ -72,7 +75,6 @@ const DISPLAY_Q_INTERVAL_1 = 100 // 問題文を一文字ごとに表示する�
 const DISPLAY_Q_INTERVAL_2 = 5   // 問題文を一文字ごとに表示する間隔（回答後）
 
 export default defineComponent({
-  name: 'QuizGame',
   components: {
     QuizGameTimer,
     QuizGameAnswer,

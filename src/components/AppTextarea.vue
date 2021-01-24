@@ -12,7 +12,6 @@
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  name: 'AppTextarea',
   props: {
     value: {
       type: String,

@@ -20,7 +20,6 @@
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent ({
-  name: 'ConfirmWindow',
   props: {
     text: {
       type: String,

@@ -1,7 +1,7 @@
 <template>
   <div v-on="windowEvents">
     <span class="private">{{ command }}</span>
-    <VirtualWindow
+    <AppVirtualWindow
       v-model:top="windowState.top"
       v-model:left="windowState.left"
       v-model:width="windowState.width"
@@ -9,12 +9,12 @@
       v-bind="windowState"
     >
       <div class="wrapper">
-        <Readable
+        <AppReadable
           ref="readable"
           @predict="onPredict"
         />
       </div>
-    </VirtualWindow>
+    </AppVirtualWindow>
   </div>
 </template>
 
@@ -23,19 +23,13 @@ import { defineComponent, ref, reactive } from 'vue'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { PAGE_THEME } from '@/store/constants'
-import Readable from '@/components/Readable'
 import useCommand from '@/composables/useCommand'
 import { isAlphabet } from '@/utils/string_functions'
 import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
 
 export default defineComponent({
-  name: 'TheMatrix2',
-  components: {
-    Readable,
-  },
-  emits: [
-    'touch',
-  ],
+  emits: ['touch'],
+
   setup(props, { emit }) {
     const readable = ref(null)
 

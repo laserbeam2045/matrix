@@ -20,7 +20,6 @@ const INITIAL_COLOR = '#14e6fa'  // ゲージの初期状態の色
 const FINAL_COLOR = 'red'        // ゲージの最終状態の色
 
 export default defineComponent({
-  name: 'QuizGameTimer',
   props: {
     currentNumber: {
       type: Number,

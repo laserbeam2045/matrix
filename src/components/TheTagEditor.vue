@@ -35,7 +35,6 @@ const UPDATE_MODE = 0
 const DELETE_MODE = 1
 
 export default defineComponent({
-  name: 'TheTagEditor',
   components: {
     ConfirmWindow,
     TemplateFormQuizTag,

@@ -16,7 +16,6 @@ import { defineComponent, ref, reactive, nextTick } from 'vue'
 import { useStore as useAudio, AUDIOS } from '@/store/audio'
 
 export default defineComponent({
-  name: 'QuizGameInputPC',
   props: {
     answer: {
       type: String,

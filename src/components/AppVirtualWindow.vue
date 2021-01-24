@@ -4,8 +4,7 @@
     :class="rootClass"
     :style="rootStyle"
   >
-    <component
-      :is="ResizableWindowComponent"
+    <AppResizable
       v-model:top="topRef"
       v-model:left="leftRef"
       v-model:width="widthRef"
@@ -14,8 +13,7 @@
       :use-resize-h="resizableH"
       :wrapper="root"
     >
-      <component
-        :is="DraggableWindowComponent"
+      <AppDraggable
         v-model:top="topRef"
         v-model:left="leftRef"
         :width="widthRef"
@@ -23,7 +21,7 @@
         :handle="`.${handleClass}`"
         :wrapper="root"
       >
-        <VirtualWindowContents
+        <AppVirtualWindowContents
           :handle-class="handleClass"
           :contents-style="contentsStyle"
         >
@@ -36,11 +34,11 @@
           <template #footer>
             <slot name="footer" />
           </template>
-        </VirtualWindowContents>
-      </component>
-    </component>
+        </AppVirtualWindowContents>
+      </AppDraggable>
+    </AppResizable>
 
-    <VirtualWindowLegend
+    <AppVirtualWindowLegend
       :legend="legend"
       :handle-class="handleClass"
     />
@@ -51,19 +49,8 @@
 import { defineComponent, ref, computed, onMounted, nextTick } from 'vue'
 import useWindow from '@/composables/useWindow'
 import useVModel from '@/composables/useVModel'
-import ResizableWindow from '@/components/ResizableWindow'
-import DraggableWindow from '@/components/DraggableWindow'
-import VirtualWindowLegend from '@/components/VirtualWindowLegend'
-import VirtualWindowContents from '@/components/VirtualWindowContents'
 
 export default defineComponent({
-  name: 'VirtualWindow',
-  components: {
-    ResizableWindow,
-    DraggableWindow,
-    VirtualWindowLegend,
-    VirtualWindowContents,
-  },
   props: {
     top: {
       type: [Number, String],
@@ -148,13 +135,6 @@ export default defineComponent({
       }
     })
 
-    const ResizableWindowComponent = computed(() => {
-      return props.resizableV || props.resizableH ? ResizableWindow : 'div'
-    })
-    const DraggableWindowComponent = computed(() => {
-      return props.draggable ? DraggableWindow : 'div'
-    })
-
     const centering = () => {
       const { top, left } = getCenterPosition(root)
       if ('center' === topRef.value) topRef.value = top + 'px'
@@ -176,8 +156,6 @@ export default defineComponent({
       widthRef,
       heightRef,
       handleClass,
-      ResizableWindowComponent,
-      DraggableWindowComponent,
     }
   }
 })

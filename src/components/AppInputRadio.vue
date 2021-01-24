@@ -14,7 +14,6 @@
 
 <script>
 export default {
-  name: 'AppInputRadio',
   props: {
     value: {
       type: String,

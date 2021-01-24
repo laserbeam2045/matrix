@@ -11,7 +11,6 @@
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  name: 'AppInputText',
   props: {
     value: {
       type: [String, Number],

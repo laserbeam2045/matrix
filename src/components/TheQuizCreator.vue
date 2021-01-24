@@ -25,7 +25,6 @@ import { defineComponent, ref, reactive } from 'vue'
 import TemplateFormQuiz from '@/components/TemplateFormQuiz'
 
 export default defineComponent({
-  name: 'TheQuizCreator',
   components: {
     TemplateFormQuiz,
   },

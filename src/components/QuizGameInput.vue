@@ -53,7 +53,6 @@ const CHARACTORS = {
 }
 
 export default defineComponent({
-  name: 'QuizGameInput',
   props: {
     answer: {
       type: String,

@@ -18,8 +18,6 @@ import { useStore as useSound, AUDIOS } from '@/store/audio'
 import _ from 'lodash'
 
 export default defineComponent({
-  name: 'QuizListQuery',
-
   setup() {
     const { playAudio } = useSound()
 

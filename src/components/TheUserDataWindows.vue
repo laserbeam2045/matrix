@@ -18,7 +18,6 @@ import UserData from '@/components/UserData'
 import useUsers from '@/composables/useUsers'
 
 export default defineComponent({
-  name: 'TheUserDataWindows',
   components: { UserData },
   emits: [ 'touch' ],
   setup() {

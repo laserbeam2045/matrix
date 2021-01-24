@@ -3,6 +3,13 @@
     id="contents"
     @click.once="loadAudios"
   >
+    <AppScrollable
+      v-model:width="testState.width"
+      v-model:height="testState.height"
+    >
+      <AppTestContent />
+    </AppScrollable>
+
     <AppTeleporter
       v-for="name in matrix.state.frontWindows"
       :key="name"
@@ -13,10 +20,10 @@
         @touch="teleportToFront(name)"
       />
     </AppTeleporter>
-    
+
     <AppTeleporter :level="3">
       <div id="windows-tab">
-        <VirtualWindowLegend
+        <AppVirtualWindowLegend
           v-for="name in matrix.state.hiddenWindows"
           :key="name"
           :legend="{ text: name, type: 'outside' }"
@@ -28,16 +35,11 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { useStore as useMatrix } from '@/store/matrix'
 import { useStore as useAudio, AUDIOS } from '@/store/audio'
-import VirtualWindowLegend from '@/components/VirtualWindowLegend'
 
 export default defineComponent({
-  name: 'AppContents',
-  components: {
-    VirtualWindowLegend,
-  },
   async setup() {
     const matrix = useMatrix()
     const { loadAudio, playAudio } = useAudio()
@@ -54,12 +56,18 @@ export default defineComponent({
       }
     }
 
+    const testState = reactive({
+      width: '400px',
+      height: '500px',
+    })
+
     return {
       matrix,
       loadAudios,
       teleportToFront,
+      testState,
     }
-  }
+  },
 })
 </script>
 

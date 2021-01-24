@@ -30,7 +30,6 @@ import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { VueDraggableNext } from 'vue-draggable-next'
 
 export default defineComponent({
-  name: 'TreeBetaBranch',
   components: {
     VueDraggableNext,
   },

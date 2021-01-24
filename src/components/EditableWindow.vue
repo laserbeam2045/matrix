@@ -15,7 +15,6 @@ import useSelection from '@/composables/useSelection'
 import EditableWindowPre from '@/components/EditableWindowPre'
 
 export default defineComponent({
-  name: 'EditableWindow',
   components: {
     EditableWindowPre,
   },

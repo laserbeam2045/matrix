@@ -6,7 +6,6 @@
 
 <script>
 export default {
-  name: 'TreeToggleButton',
   props: {
     isOpen: {
       type: Boolean,

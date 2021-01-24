@@ -5,7 +5,7 @@
       :key="tagId"
       class="container"
     >
-      <QuizTag
+      <AppQuizTag
         :id="tagId"
         :show-count="false"
       />
@@ -17,7 +17,6 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'QuizListTableTags',
   props: {
     quiz: {
       type: Object,
@@ -32,7 +31,7 @@ export default defineComponent({
   display: inline-block;
   max-width: 3000px;
   white-space: nowrap;
-  padding: 15px 20px (15 - $windowScrollbarWidth);
+  padding: 15px 20px;
 
   .container:not(:first-child) {
     margin: 15px auto 0;

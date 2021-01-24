@@ -1,10 +1,10 @@
 <template>
   <div
     ref="readable"
-    v-resize="onResize"
+    v-windw-resize="onResize"
     class="readable"
   >
-    <Writable
+    <AppWritable
       ref="writable"
       :width="state.width"
       :height="state.height"
@@ -17,18 +17,12 @@
 <script>
 import { defineComponent, ref, reactive, onMounted } from 'vue'
 import { API_ROOT_2 } from '@/store/constants'
-import Writable from '@/components/Writable'
 import OCR from '@/utilities/OCR'
 import _ from 'lodash'
 
 export default defineComponent({
-  name: 'Readable',
-  components: {
-    Writable,
-  },
-  emits: [
-    'predict',
-  ],
+  emits: ['predict'],
+
   setup(props, { emit }) {
     const readable = ref(null)
     const writable = ref(null)
@@ -80,16 +74,16 @@ export default defineComponent({
         const fd = new FormData()
 
         // FormDataに画像とラベルを追加
-        fd.append("label", label)
-        fd.append("image", blob)
-        fd.append("before_size", 160)
-        fd.append("after_size", 40)
-        fd.append("brush_width", 3)
+        fd.append('label', label)
+        fd.append('image', blob)
+        fd.append('before_size', 160)
+        fd.append('after_size', 40)
+        fd.append('brush_width', 3)
         // メソッドと送信先を指定
-        oReq.open("POST", url, true)
+        oReq.open('POST', url, true)
         // 送信
         oReq.send(fd)
-      }, "image/png")
+      }, 'image/png')
     }
 
     // windowのサイズが変更された時の処理

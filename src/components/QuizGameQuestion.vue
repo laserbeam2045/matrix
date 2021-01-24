@@ -12,7 +12,6 @@ import { defineComponent, reactive, toRef, computed } from 'vue'
 const OPEN_INTERVAL = 100
 
 export default defineComponent({
-  name: 'QuizGameQuestion',
   props: {
     question: {
       type: String,

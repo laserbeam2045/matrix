@@ -1,21 +1,15 @@
 import App from './App.vue'
 import { createApp } from 'vue'
 
-import QuizTag from '@/components/QuizTag'
-import Progressbar from '@/components/Progressbar'
-import ContentWrapper from '@/components/ContentWrapper'
-import TreeToggleButton from '@/components/TreeToggleButton'
 import TreeAlphaBody from '@/components/TreeAlphaBody'
 import TreeAlphaBranch from '@/components/TreeAlphaBranch'
 import TreeBetaBody from '@/components/TreeBetaBody'
 import TreeBetaBranch from '@/components/TreeBetaBranch'
-import HeaderItem from '@/components/HeaderItem'
-import HeaderItemBox from '@/components/HeaderItemBox'
-import VirtualWindow from '@/components/VirtualWindow'
+import TreeToggleButton from '@/components/TreeToggleButton'
 import customDirectives from '@/utilities/customDirectives'
 
 import '@/assets/styles.css'
-require("@/assets/scss/app.scss")
+require('@/assets/scss/app.scss')
 
 const app = createApp(App)
 
@@ -40,15 +34,9 @@ requireComponent.keys().forEach(fileName => {
 })
 
 app
-  .component('QuizTag', QuizTag)
-  .component('Progressbar', Progressbar)
-  .component('ContentWrapper', ContentWrapper)
-  .component('TreeToggleButton', TreeToggleButton)
   .component('TreeAlphaBody', TreeAlphaBody)
   .component('TreeAlphaBranch', TreeAlphaBranch)
   .component('TreeBetaBody', TreeBetaBody)
   .component('TreeBetaBranch', TreeBetaBranch)
-  .component('HeaderItem', HeaderItem)
-  .component('HeaderItemBox', HeaderItemBox)
-  .component('VirtualWindow', VirtualWindow)
+  .component('TreeToggleButton', TreeToggleButton)
   .mount('#app')

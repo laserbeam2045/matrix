@@ -13,7 +13,6 @@ import fabric from '@/utilities/CustomFabric'
 import _ from 'lodash'
 
 export default defineComponent({
-  name: 'Writable',
   props: {
     width: {
       type: Number,

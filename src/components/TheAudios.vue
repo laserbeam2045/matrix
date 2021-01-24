@@ -1,5 +1,5 @@
 <template>
-  <VirtualWindow
+  <AppVirtualWindow
     v-model:top="windowState.top"
     v-model:left="windowState.left"
     v-model:width="windowState.width"
@@ -8,15 +8,18 @@
     v-on="windowEvents"
   >
     <template #header>
-      <HeaderItemBox>
-        <HeaderItem
+      <AppHeaderItemBox>
+        <AppHeaderItem
           name="times"
           @click="closeWindow"
         />
-      </HeaderItemBox>
+      </AppHeaderItemBox>
     </template>
     <template #default>
-      <ContentWrapper>
+      <AppScrollable
+        :width="windowState.width"
+        :height="windowState.height"
+      >
         <div
           v-for="(value, key) in AUDIOS"
           :key="key"
@@ -32,9 +35,9 @@
           </div>
           <br><br>
         </div>
-      </ContentWrapper>
+      </AppScrollable>
     </template>
-  </VirtualWindow>
+  </AppVirtualWindow>
 </template>
 
 <script>
@@ -44,8 +47,7 @@ import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
 
 export default defineComponent({
-  name: 'TheAudios',
-  emits: [ 'touch' ],
+    emits: [ 'touch' ],
   setup(props, { emit }) {
     const { deactivate } = useMatrix()
     const { playAudio } = useSound()

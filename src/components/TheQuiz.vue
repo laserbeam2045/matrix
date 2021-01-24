@@ -3,7 +3,7 @@
     class="user-data-quiz"
     v-on="windowEvents"
   >
-    <VirtualWindow
+    <AppVirtualWindow
       v-model:top="windowState.top"
       v-model:left="windowState.left"
       v-model:width="windowState.width"
@@ -11,14 +11,14 @@
       v-bind="windowState"
     >
       <template #header>
-        <HeaderItemBox>
-          <HeaderItem
+        <AppHeaderItemBox>
+          <AppHeaderItem
             v-for="item in headerItems"
             :key="item.type"
             :name="item.name"
             v-on="item.events"
           />
-        </HeaderItemBox>
+        </AppHeaderItemBox>
         <QuizListQuery />
       </template>
       <template #default>
@@ -26,15 +26,21 @@
           question tag
         </div> -->
         <div class="container">
-          <ContentWrapper>
+          <AppScrollable
+            :width="windowState.width"
+            :height="windowState.height"
+          >
             <TheQuizList />
-          </ContentWrapper>
-          <ContentWrapper>
+          </AppScrollable>
+          <AppScrollable
+            :width="windowState.width"
+            :height="windowState.height"
+          >
             <TheTagTree />
-          </ContentWrapper>
+          </AppScrollable>
         </div>
       </template>
-    </VirtualWindow>
+    </AppVirtualWindow>
 
     <QuizGame v-if="quizMode" />
   </div>
@@ -55,7 +61,6 @@ import TheTagTree from '@/components/TheTagTree'
 import QuizGame from '@/components/QuizGame'
 
 export default defineComponent({
-  name: 'UserDataQuiz',
   components: {
     QuizListQuery,
     TheQuizList,

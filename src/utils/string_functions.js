@@ -173,13 +173,13 @@ export const unescapeHTML = str => {
             .replace(/&gt;/g,   '>')
             .replace(/&amp;/g,  '&')
             .replace(/&quot;/g, '"')
-            .replace(/&#x27;/g, "'")
+            .replace(/&#x27;/g, '\'')
 }
 
 // 正規表現用に文字列をエスケープする関数
 export const escapeRegExp = str => {
   return str.replace('\\', '\\\\')
-            .replace("'", "\\'")
+            .replace('\'', '\\\'')
             .replace('"', '\\"')
             .replace('.', '\\.')
             .replace('*', '\\*')

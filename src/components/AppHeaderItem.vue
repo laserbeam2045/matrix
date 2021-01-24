@@ -23,14 +23,12 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: [
-    'click',
-  ],
+  emits: ['click'],
 })
 </script>
 
 <style lang="scss" scoped>
-div {
+.header-item {
   display: inline-block;
   width: $windowHeaderItemSize;
   height: $windowHeaderItemSize;

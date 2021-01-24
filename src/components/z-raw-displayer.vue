@@ -6,18 +6,18 @@
 
 <script>
 export default {
-  name: "RawDisplayer",
   props: {
     value: {
+      type: String,
       required: true,
-    }
+    },
   },
   computed: {
     valueString() {
-      return JSON.stringify(this.value, null, 2);
+      return JSON.stringify(this.value, null, 2)
     }
   }
-};
+}
 </script>
 
 <style scoped>

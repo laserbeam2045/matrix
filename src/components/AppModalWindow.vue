@@ -2,7 +2,7 @@
   <div v-if="isVisible">
     <AppTeleporter :level="level">
       <div class="modal-window">
-        <VirtualWindow
+        <AppVirtualWindow
           v-model:top="windowState.top"
           v-model:left="windowState.left"
           v-model:width="windowState.width"
@@ -13,17 +13,17 @@
           :legend="legend"
         >
           <template #header>
-            <HeaderItemBox>
-              <HeaderItem
+            <AppHeaderItemBox>
+              <AppHeaderItem
                 name="times"
                 @click="hideModal"
               />
-            </HeaderItemBox>
+            </AppHeaderItemBox>
           </template>
           <template #default>
             <slot />
           </template>
-        </VirtualWindow>
+        </AppVirtualWindow>
       </div>
     </AppTeleporter>
   </div>

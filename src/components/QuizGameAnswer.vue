@@ -12,7 +12,6 @@ import { GAME_STATE } from '@/composables/useQuizGame'
 import { hira2kata } from '@/utils/string_functions'
 
 export default defineComponent({
-  name: 'QuizGameAnswer',
   props: {
     answer1: {
       type: String,

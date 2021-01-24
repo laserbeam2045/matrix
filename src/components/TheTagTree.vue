@@ -35,7 +35,6 @@ import TheTagEditor from '@/components/TheTagEditor'
 import useTree from '@/composables/useTree'
 
 export default defineComponent({
-  name: 'TheTagTree',
   components: {
     Tree: TreeAlpha,
     TheTagCreator,

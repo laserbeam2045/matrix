@@ -27,8 +27,7 @@
 import { defineComponent, inject } from 'vue'
 
 export default defineComponent({
-  name: "QuizListTable",
-  emits: [
+    emits: [
     'click-question',
   ],
   setup(props, { emit }) {

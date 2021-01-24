@@ -15,8 +15,7 @@
 import { defineComponent, ref, onMounted } from 'vue'
 
 export default defineComponent({
-  name: 'QuizGameInfo',
-  emits: [ 'close' ],
+    emits: [ 'close' ],
   setup() {
     const modalWindow = ref(null)
     const windowState = {

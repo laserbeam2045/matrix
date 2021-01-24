@@ -22,7 +22,6 @@ import { defineComponent, computed, inject } from 'vue'
 import { VueDraggableNext } from 'vue-draggable-next'
 
 export default defineComponent({
-  name: 'TreeBetaBody',
   components: { VueDraggableNext },
   props: {
     value: {  // MEMO: Tree(root)からはvalueとして受け取る

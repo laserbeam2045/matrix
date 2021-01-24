@@ -13,10 +13,10 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue'
 import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
 
-export default {
-  name: 'VirtualWindowLegend',
+export default defineComponent({
   props: {
     legend: {
       type: Object,
@@ -37,7 +37,7 @@ export default {
     }
     return { events }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <VirtualWindow
+    <AppVirtualWindow
       v-model:top="windowState.top"
       v-model:left="windowState.left"
       v-model:width="windowState.width"
@@ -16,7 +16,7 @@
         @keydown.down.exact="onKeydownDown"
         @keydown.enter.exact="onKeydownEnter"
       />
-    </VirtualWindow>
+    </AppVirtualWindow>
   </div>
 </template>
 
@@ -30,7 +30,6 @@ import EditableWindow from '@/components/EditableWindow'
 import useCommand from '@/composables/useCommand'
 
 export default defineComponent({
-  name: 'TheMatrix',
   components: { EditableWindow },
   emits: [ 'touch' ],
   

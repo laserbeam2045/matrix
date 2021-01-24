@@ -18,7 +18,6 @@
 import { defineComponent, ref, onBeforeUpdate } from 'vue'
 
 export default defineComponent({
-  name: 'AppAccordion',
   props: {
     isOpen: {
       type: Boolean,

@@ -153,11 +153,11 @@ const createStore = () => {
   // APIに渡すデータとオプション
   const postParams = computed(() => {
     return {
-      "text"         : preProcessedText.value,
-      "lastWord"     : lastWord.value,
-      "blankFlag"    : isLastCharactorBlank.value,
-      "tabFlag"      : state.tabFlag,
-      "requestNumber": state.requestNumber,
+      'text'         : preProcessedText.value,
+      'lastWord'     : lastWord.value,
+      'blankFlag'    : isLastCharactorBlank.value,
+      'tabFlag'      : state.tabFlag,
+      'requestNumber': state.requestNumber,
     }
   })
 

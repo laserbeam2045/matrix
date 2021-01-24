@@ -40,7 +40,6 @@ const CHARACTORS = {
 }
 
 export default defineComponent({
-  name: 'QuizGameInputMobile',
   props: {
     answer: {
       type: String,

@@ -10,7 +10,6 @@
 import { defineComponent, provide } from 'vue'
 
 export default defineComponent({
-  name: 'TreeAlpha',
   props: {
     root: {
       type: Object,
