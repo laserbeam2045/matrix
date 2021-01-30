@@ -62,8 +62,8 @@ export default defineComponent ({
     const modalWindow = ref(null)
 
     // AppModalWindowの表示・非表示を行うラッパー関数
-    const showModal = () => modalWindow.value.showModal()
-    const hideModal = () => modalWindow.value.hideModal()
+    const open = () => modalWindow.value.open()
+    const close = () => modalWindow.value.close()
 
     // タグを挿入する処理
     // TODO: REST API呼び出しへの置き換え
@@ -87,8 +87,8 @@ export default defineComponent ({
       windowState,
       data,
       modalWindow,
-      showModal,
-      hideModal,
+      open,
+      close,
       onClickSubmit,
       onClickCancel,
     }

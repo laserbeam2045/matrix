@@ -31,7 +31,7 @@ import useCommand from '@/composables/useCommand'
 
 export default defineComponent({
   components: { EditableWindow },
-  emits: [ 'touch' ],
+  emits: ['touch'],
   
   setup(props, { emit }) {
     const editableWindow = ref(null)

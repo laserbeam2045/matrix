@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 
 // propsの特定の値をリアクティブにする(改良版)
-export default function useVModel(props, context, name) {
+export default function useModelValue(props, context, name) {
   return computed({
     get: () => props[name],
     set: val => context.emit(`update:${name}`, val),
@@ -10,7 +10,7 @@ export default function useVModel(props, context, name) {
 }
 
 // propsの特定の値をリアクティブにする(古い方法)
-// export default function useVModel(props, context, name) {
+// export default function useModelValue(props, context, name) {
 //   let value = props[name]
 
 //   watch(() => props[name],

@@ -2,14 +2,14 @@
   <div v-on="windowEvents">
     <Tree
       :root="tree"
-      :item-component="QuizTag"
+      :itemComponent="QuizTag"
       @mousedown="onTouchTag"
       @click="onClickTag"
     />
 
     <TheTagEditor
       ref="theTagEditor"
-      :tag-id="editId"
+      :tagId="editId"
       @updated="onUpdated"
       @deleted="onDeleted"
       @click-create="onClickCreate"
@@ -17,7 +17,7 @@
     />
     <TheTagCreator
       ref="theTagCreator"
-      :tag-id="editId"
+      :tagId="editId"
       @inserted="onInserted"
       @click-cancel="onClickCancelCreator"
     />
@@ -96,7 +96,7 @@ export default defineComponent({
         break
       case TREE_STATE.EDIT_MODE:
         editId.value = id
-        theTagEditor.value.showModal()
+        theTagEditor.value.open()
         break
       }
     }
@@ -104,31 +104,31 @@ export default defineComponent({
     // タグが更新された時の処理
     const onUpdated = () => {
       // loadTree()
-      theTagEditor.value.hideModal()
+      theTagEditor.value.close()
     }
     // タグが削除された時の処理
     const onDeleted = () => {
       // loadTree()
-      theTagEditor.value.hideModal()
+      theTagEditor.value.close()
     }
     // EditorのCreateボタン押下時の処理
     const onClickCreate = () => {
-      theTagCreator.value.showModal()
+      theTagCreator.value.open()
     }
     // EditorのCancelボタン押下時の処理
     const onClickCancelEditor = () => {
-      theTagEditor.value.hideModal()
+      theTagEditor.value.close()
       playAudio(AUDIOS.ETC.CYBER_04_1)
     }
 
     // タグが挿入された時の処理
     const onInserted = () => {
       // loadTree()
-      theTagCreator.value.hideModal()
+      theTagCreator.value.close()
     }
     // CreatorのCancelボタン押下時の処理
     const onClickCancelCreator = () => {
-      theTagCreator.value.hideModal()
+      theTagCreator.value.close()
       playAudio(AUDIOS.ETC.CYBER_04_1)
     }
 

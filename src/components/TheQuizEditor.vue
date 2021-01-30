@@ -91,10 +91,10 @@ export default defineComponent({
     const confirmWindow = ref(null)
 
     // AppModalWindowの表示・非表示を行うラッパー関数
-    const showModal = () => modalWindow.value.showModal()
-    const hideModal = () => modalWindow.value.hideModal()
-    const showConfirm = () => confirmWindow.value.showModal()
-    const hideConfirm = () => confirmWindow.value.hideModal()
+    const open = () => modalWindow.value.open()
+    const close = () => modalWindow.value.close()
+    const showConfirm = () => confirmWindow.value.open()
+    const hideConfirm = () => confirmWindow.value.close()
 
     // 関係を削除する処理
     // TODO: REST API呼び出しへの置き換え
@@ -132,7 +132,7 @@ export default defineComponent({
     }
     // Cancelボタン押下時の処理
     const onClickCancel = () => {
-      hideModal()
+      close()
     }
 
     // 確認ダイアログのOKボタン押下時の処理
@@ -141,14 +141,14 @@ export default defineComponent({
       case UPDATE_QUIZ_MODE:
         updateQuiz().then(() => {
           hideConfirm()
-          hideModal()
+          close()
           emit('updated')
         })
         break
       case DELETE_QUIZ_MODE:
         deleteQuiz().then(() => {
           hideConfirm()
-          hideModal()
+          close()
           emit('deleted')
         })
         break
@@ -176,8 +176,8 @@ export default defineComponent({
       modalWindow,
       confirmWindow,
       buttons,
-      showModal,
-      hideModal,
+      open,
+      close,
       onClickQuizTag,
       onClickPositive,
       onClickNegative,

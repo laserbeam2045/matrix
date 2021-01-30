@@ -5,6 +5,8 @@
   },
   // 非表示にするファイル・フォルダー
   "files.exclude": {
+    "**/dist": true,
+    "**/node_modules": true,
     "**/README.md": true,
     "**/.gitignore": true,
     "**/jsconfig.json": true,

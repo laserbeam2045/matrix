@@ -28,8 +28,8 @@
         >
           <QuizGameTimer
             ref="quizGameTimer"
-            :current-number="gameData.currentQuizNumber"
-            :max-number="maxQuizNumber"
+            :currentNumber="gameData.currentQuizNumber"
+            :maxNumber="maxQuizNumber"
             @timeover="checkAnswer"
           />
           <QuizGameQuestion
@@ -41,7 +41,7 @@
             ref="quizGameAnswer"
             :answer1="currentQuiz.answer1"
             :answer2="currentQuiz.answer2"
-            :game-data="gameData"
+            :gameData="gameData"
           />
           <QuizGameInput
             ref="quizGameInput"

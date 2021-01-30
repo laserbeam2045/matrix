@@ -13,12 +13,12 @@
       />
       <TreeToggleButton
         v-if="value.children.length"
-        :is-open="isOpenChildren"
+        :isOpen="isOpenChildren"
         @click="onClickToggleButton"
       />
     </VueDraggableNext>
     <div class="tree-nodes">
-      <AppAccordion :is-open="isOpenChildren">
+      <AppAccordion :isOpen="isOpenChildren">
         <TreeAlphaBody
           :data-id="value.id"
           :list="value.children"

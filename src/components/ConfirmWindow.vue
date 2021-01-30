@@ -2,7 +2,7 @@
   <AppModalWindow
     ref="root"
     :level="1"
-    :window-state="windowState"
+    :windowState="windowState"
   >
     <div class="confirm-window">
       <p>{{ text }}</p>
@@ -64,18 +64,18 @@ export default defineComponent ({
       legend: props.legend,
     }
 
-    const showModal   = () => root.value.showModal()
-    const hideModal   = () => root.value.hideModal()
-    const toggleModal = () => root.value.toggleModal()
+    const open   = () => root.value.open()
+    const close  = () => root.value.close()
+    const toggle = () => root.value.toggle()
     const onClickPositive = () => emit('positive')
     const onClickNegative = () => emit('negative')
 
     return {
       root,
       windowState,
-      showModal,
-      hideModal,
-      toggleModal,
+      open,
+      close,
+      toggle,
       onClickPositive,
       onClickNegative,
     }

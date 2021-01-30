@@ -20,7 +20,7 @@
 <script>
 import { defineComponent, ref, reactive, computed, toRefs, onMounted, nextTick } from 'vue'
 import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
-import useVModel from '@/composables/useVModel'
+import useModelValue from '@/composables/useModelValue'
 import useWindow from '@/composables/useWindow'
 
 const MIN_WIDTH = 200
@@ -77,10 +77,10 @@ export default defineComponent({
   ],
   setup(props, context) {
     const root = ref(null)
-    const top = useVModel(props, context, 'top')
-    const left = useVModel(props, context, 'left')
-    const width = useVModel(props, context, 'width')
-    const height = useVModel(props, context, 'height')
+    const top = useModelValue(props, context, 'top')
+    const left = useModelValue(props, context, 'left')
+    const width = useModelValue(props, context, 'width')
+    const height = useModelValue(props, context, 'height')
     const { wrapper, position, resizableV, resizableH } = toRefs(props)
 
     // ラッパーの有無によって、状態を更新する対象となる要素を決める

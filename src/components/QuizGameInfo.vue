@@ -29,7 +29,7 @@ export default defineComponent({
       },
     }
 
-    onMounted(() => modalWindow.value.showModal())
+    onMounted(() => modalWindow.value.open())
 
     return {
       modalWindow,

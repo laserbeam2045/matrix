@@ -3,10 +3,7 @@
     <tr>
       <th><label>Id</label></th>
       <td>
-        <AppInputText
-          v-model:value="idRef"
-          disabled
-        />
+        <AppInputText v-model:value="idRef" disabled />
       </td>
     </tr>
     <tr>
@@ -34,7 +31,7 @@
 
 <script>
 import { defineComponent, computed } from 'vue'
-import useVModel from '@/composables/useVModel'
+import useModelValue from '@/composables/useModelValue'
 
 export default defineComponent({
   props: {
@@ -59,9 +56,9 @@ export default defineComponent({
     'update:parentLabel',
   ],
   setup(props, context) {
-    const idRef = useVModel(props, context, 'id')
-    const labelRef = useVModel(props, context, 'label')
-    const parentLabelRef = useVModel(props, context, 'parentLabel')
+    const idRef = useModelValue(props, context, 'id')
+    const labelRef = useModelValue(props, context, 'label')
+    const parentLabelRef = useModelValue(props, context, 'parentLabel')
 
     const isEditMode = computed(() => parentLabelRef.value === null)
 

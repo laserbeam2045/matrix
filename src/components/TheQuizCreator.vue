@@ -1,8 +1,5 @@
 <template>
-  <AppModalWindow
-    ref="modalRef"
-    v-bind="windowState"
-  >
+  <AppModalWindow ref="modalRef" v-bind="windowState">
     <div id="quiz-creator">
       <TemplateFormQuiz
         ref="tableRef"
@@ -51,8 +48,8 @@ export default defineComponent({
     const tableRef = ref(null)
 
     // AppModalWindowの表示・非表示を行うラッパー関数
-    const showModal = () => modalRef.value.showModal()
-    const hideModal = () => modalRef.value.hideModal()
+    const open = () => modalRef.value.open()
+    const close = () => modalRef.value.close()
 
     // クイズを作成する処理
     // TODO: REST API呼び出しへの置き換え
@@ -77,7 +74,7 @@ export default defineComponent({
     }
     // Cancelボタン押下時の処理
     const onClickCancel = () => {
-      hideModal()
+      close()
     }
 
     return {
@@ -85,8 +82,8 @@ export default defineComponent({
       data,
       modalRef,
       tableRef,
-      showModal,
-      hideModal,
+      open,
+      close,
       onClickSubmit,
       onClickCancel,
     }

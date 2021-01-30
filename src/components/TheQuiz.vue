@@ -44,8 +44,6 @@
       </template>
     </AppVirtualWindow>
 
-
-    <div><div>foo</div></div>
     <QuizGame v-if="quizMode" />
   </div>
 </template>
@@ -63,10 +61,6 @@ import QuizListQuery from '@/components/QuizListQuery'
 import TheQuizList from '@/components/TheQuizList'
 import TheTagTree from '@/components/TheTagTree'
 import QuizGame from '@/components/QuizGame'
-
-
-
-
 
 export default defineComponent({
   components: {

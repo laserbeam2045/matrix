@@ -94,7 +94,7 @@ module.exports = {
     "vue/singleline-html-element-content-newline": ["error", {
       "ignoreWhenNoAttributes": true,
       "ignoreWhenEmpty": true,
-      "ignores": ["pre", "textarea", /* ...INLINE_ELEMENTS */]
+      "ignores": ["pre", "textarea", "span" /* ...INLINE_ELEMENTS */]
     }],
     // v-bind構文を省略記法にするかどうか
     "vue/v-bind-style": ["error",

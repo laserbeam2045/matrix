@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isVisible">
+  <template v-if="isVisible">
     <teleport :to="`#layer-${level}`">
       <div class="modal-window">
         <AppVirtualWindow
@@ -9,15 +9,12 @@
           v-model:height="windowState.height"
           v-model:position="windowState.position"
           v-model:draggable="windowState.draggable"
-          :contents-style="contentsStyle"
+          :contentsStyle="contentsStyle"
           :legend="legend"
         >
           <template #header>
             <AppHeaderItemBox>
-              <AppHeaderItem
-                name="times"
-                @click="hideModal"
-              />
+              <AppHeaderItem name="times" @click="close" />
             </AppHeaderItemBox>
           </template>
           <template #default>
@@ -26,7 +23,7 @@
         </AppVirtualWindow>
       </div>
     </teleport>
-  </div>
+  </template>
 </template>
 
 <script>
@@ -58,10 +55,9 @@ export default defineComponent({
       },
     },
   },
-  emits: [
-    'close',
-  ],
-  setup(props, context) {
+  emits: ['open', 'close'],
+
+  setup(_, { emit }) {
     const { playAudio } = useAudio()
 
     const windowState = reactive({
@@ -74,26 +70,27 @@ export default defineComponent({
     })
 
     const isVisible = ref(false)
-    const showModal   = () => isVisible.value = true
-    const hideModal   = () => isVisible.value = false
-    const toggleModal = () => isVisible.value = !isVisible.value
+    const open   = () => isVisible.value = true
+    const close  = () => isVisible.value = false
+    const toggle = () => isVisible.value = !isVisible.value
 
     watch(() => isVisible.value, newValue => {
       if (newValue) {
         playAudio(AUDIOS.ETC.DECISION_33)
+        emit('open')
       } else {
-        context.emit('close')
+        emit('close')
       }
     })
 
     return {
       windowState,
       isVisible,
-      showModal,
-      hideModal,
-      toggleModal,
+      open,
+      close,
+      toggle,
     }
-  },
+  }
 })
 </script>
 

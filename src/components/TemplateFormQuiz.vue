@@ -24,7 +24,7 @@
           v-for="tagId of tagIdsRef"
           :id="tagId"
           :key="tagId"
-          :show-count="false"
+          :showCount="false"
           @click="onClickTag"
         />
       </td>
@@ -34,7 +34,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import useVModel from '@/composables/useVModel'
+import useModelValue from '@/composables/useModelValue'
 
 export default defineComponent({
   props: {
@@ -65,10 +65,10 @@ export default defineComponent({
   setup(props, context) {
     const textarea = ref(null)
 
-    const questionRef = useVModel(props, context, 'question')
-    const answer1Ref  = useVModel(props, context, 'answer1')
-    const answer2Ref  = useVModel(props, context, 'answer2')
-    const tagIdsRef   = useVModel(props, context, 'tagIds')
+    const questionRef = useModelValue(props, context, 'question')
+    const answer1Ref  = useModelValue(props, context, 'answer1')
+    const answer2Ref  = useModelValue(props, context, 'answer2')
+    const tagIdsRef   = useModelValue(props, context, 'tagIds')
 
     const onClickTag = value => context.emit('click', value)
     const focusQuestion = () => textarea.value.focus()

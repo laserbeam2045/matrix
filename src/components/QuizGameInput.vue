@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="isPC"
-    class="pc-input-container"
-  >
+  <div v-if="isPC" class="pc-input-container">
     <AppInputText
       ref="baseInputText"
       :value="state.inputText"
@@ -13,14 +10,8 @@
     <AppButton @focus="pressTabKeyEvent" />
   </div>
 
-  <div
-    v-else-if="isMobile"
-    class="mobile-input-container"
-  >
-    <div
-      v-if="choices.length"
-      class="button-container"
-    >
+  <div v-else-if="isMobile" class="mobile-input-container">
+    <div v-if="choices.length" class="button-container">
       <AppButton
         v-for="char in choices"
         :key="char"

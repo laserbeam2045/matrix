@@ -140,11 +140,11 @@ export default defineComponent({
       onKeyTab,
       onKeyEnter,
     }
-  },
+  }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 span.private {
   @include textStyleA;
   // margin-left: 0.1px;

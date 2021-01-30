@@ -12,7 +12,7 @@
 import { defineComponent, ref, toRefs, computed, onMounted, nextTick } from 'vue'
 import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
 import { str2num } from '@/utils/string_functions'
-import useVModel from '@/composables/useVModel'
+import useModelValue from '@/composables/useModelValue'
 import useWindow from '@/composables/useWindow'
 
 export default defineComponent({
@@ -58,8 +58,8 @@ export default defineComponent({
   ],
   setup(props, context) {
     const root = ref(null)
-    const top = useVModel(props, context, 'top')
-    const left = useVModel(props, context, 'left')
+    const top = useModelValue(props, context, 'top')
+    const left = useModelValue(props, context, 'left')
     const { width, height, wrapper, position } = toRefs(props)
 
     // dragging時に付与するclass用
@@ -152,7 +152,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .draggable {
   &.dragging {
     user-select: none;

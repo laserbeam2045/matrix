@@ -44,12 +44,12 @@ export default defineComponent({
 
     // 問題の作成ウィンドウを開く処理
     const openCreator = () => {
-      theQuizCreator.value.showModal()
+      theQuizCreator.value.open()
     }
     // 問題の編集ウィンドウを開く処理
     const openEditor = id => {
       quizId4Update.value = id
-      theQuizEditor.value.showModal()
+      theQuizEditor.value.open()
     }
 
     // 問題の作成が完了した時の処理

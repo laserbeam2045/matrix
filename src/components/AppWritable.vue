@@ -32,8 +32,8 @@ export default defineComponent({
     const fabricCanvas = ref(null)
 
     const state = reactive({
-      isClean: true,          // 何も描かれていない状態かどうか
-      isClearing: true,       // clearメソッドを呼び出したかどうか
+      isClean: true,      // 何も描かれていない状態かどうか
+      isClearing: true,   // clearメソッドを呼び出したかどうか
     })
     const fabricProps = reactive({
       id: 'fabric-canvas',
@@ -109,11 +109,7 @@ export default defineComponent({
       initCanvas()
     })
 
-    return {
-      fabricProps,
-      canvas,
-      clear,
-    }
+    return { fabricProps, canvas, clear }
   }
 })
 </script>

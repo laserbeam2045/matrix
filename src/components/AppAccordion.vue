@@ -30,20 +30,27 @@ export default defineComponent({
 
     const setSize = (el, width, height) => {
       el.style.width = width
-      el.style.height = height !== undefined ? height : width
+      el.style.height = height ?? width
     }
 
     // MEMO: enter時に取得されるscrollWidthがpadding-rightを含まないため、
     //   ->: 複製した要素で正確なscroll(Width/Height)を取得している。
     const getSize = () => {
-      const clone = root.value.cloneNode(true)
+      const clone = createClone()
       const sandBox = createSandBox()
-      setSize(clone, 'auto')
+
       sandBox.appendChild(clone)
-      root.value.appendChild(sandBox)
+      document.body.appendChild(sandBox)
       const { scrollWidth, scrollHeight } = clone
-      root.value.removeChild(sandBox)
-      return [ scrollWidth + 'px', scrollHeight + 'px' ]
+      document.body.removeChild(sandBox)
+
+      return [scrollWidth + 'px', scrollHeight + 'px']
+    }
+
+    const createClone = () => {
+      const clone = root.value.cloneNode(true)
+      setSize(clone, 'auto')
+      return clone
     }
 
     const createSandBox = () => {
@@ -54,8 +61,7 @@ export default defineComponent({
 
     // MEMO: before-leaveではtransitionに間に合わないためonBeforeUpdateを使用している
     onBeforeUpdate(() => {
-      props
-      if (!props.isOpen) open(root.value)
+      if (props.isOpen === false) open(root.value)
     })
 
     return { root, open, close, after }
@@ -63,13 +69,13 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .v-enter-active,
 .v-leave-active {
   transition: all .3s ease-in-out !important;
 }
-.v-enter-from,
-.v-leave-to {
+.v-leave-to,
+.v-enter-from {
   opacity: 0;
 }
 .v-enter-to,

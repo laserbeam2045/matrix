@@ -48,29 +48,30 @@ export default defineComponent({
   setup(props) {
     const set = computed(() => {
       switch (props.name) {
-        case 'fan':
-        case 'door-open':
-        case 'long-arrow-alt-up':
-        case 'long-arrow-alt-down':
-        case 'long-arrow-alt-left':
-        case 'long-arrow-alt-right':
-        case 'microphone':
-        case 'microphone-slash':
-        case 'spell-check':
-        case 'equals':
-        case 'not-equal':
-        case 'balance-scale':
-        case 'compress-alt':
-        case 'expand-alt':
-        case 'times':
-        case 'plus':
-          return 'fas'
-        case 'quora':
-        case 'google':
-        case 'android':
-          return 'fab'
-        case 'lightbulb':
-          return 'far'
+      case 'quora':
+      case 'google':
+      case 'android':
+        return 'fab'
+      case 'lightbulb':
+        return 'far'
+      case 'fan':
+      case 'door-open':
+      case 'long-arrow-alt-up':
+      case 'long-arrow-alt-down':
+      case 'long-arrow-alt-left':
+      case 'long-arrow-alt-right':
+      case 'microphone':
+      case 'microphone-slash':
+      case 'spell-check':
+      case 'equals':
+      case 'not-equal':
+      case 'balance-scale':
+      case 'compress-alt':
+      case 'expand-alt':
+      case 'times':
+      case 'plus':
+      default:
+        return 'fas'
       }
     })
 

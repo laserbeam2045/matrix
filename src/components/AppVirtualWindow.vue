@@ -9,8 +9,8 @@
       v-model:left="leftRef"
       v-model:width="widthRef"
       v-model:height="heightRef"
-      :use-resize-v="resizableV"
-      :use-resize-h="resizableH"
+      :useResizeV="resizableV"
+      :useResizeH="resizableH"
       :wrapper="root"
     >
       <AppDraggable
@@ -22,8 +22,8 @@
         :wrapper="root"
       >
         <AppVirtualWindowContents
-          :handle-class="handleClass"
-          :contents-style="contentsStyle"
+          :handleClass="handleClass"
+          :contentsStyle="contentsStyle"
         >
           <template #header>
             <slot name="header" />
@@ -40,7 +40,7 @@
 
     <AppVirtualWindowLegend
       :legend="legend"
-      :handle-class="handleClass"
+      :handleClass="handleClass"
     />
   </div>
 </template>
@@ -48,7 +48,7 @@
 <script>
 import { defineComponent, ref, computed, onMounted, nextTick } from 'vue'
 import useWindow from '@/composables/useWindow'
-import useVModel from '@/composables/useVModel'
+import useModelValue from '@/composables/useModelValue'
 
 export default defineComponent({
   props: {
@@ -116,10 +116,10 @@ export default defineComponent({
     const { windowNumber, getCenterPosition } = useWindow()
     const handleClass = `draggable-handle-${windowNumber}`
 
-    const topRef = useVModel(props, context, 'top')
-    const leftRef = useVModel(props, context, 'left')
-    const widthRef = useVModel(props, context, 'width')
-    const heightRef = useVModel(props, context, 'height')
+    const topRef = useModelValue(props, context, 'top')
+    const leftRef = useModelValue(props, context, 'left')
+    const widthRef = useModelValue(props, context, 'width')
+    const heightRef = useModelValue(props, context, 'height')
 
     const root = ref(null)
     const rootClass = computed(() => {

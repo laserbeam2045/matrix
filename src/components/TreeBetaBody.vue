@@ -11,7 +11,7 @@
       v-for="tag in realValue"
       :key="tag.id"
       :value="tag"
-      :is-top-level="!!value"
+      :isTopLevel="!!value"
       v-on="itemEvents"
     />
   </VueDraggableNext>

@@ -5,10 +5,7 @@
       :key="tagId"
       class="container"
     >
-      <AppQuizTag
-        :id="tagId"
-        :show-count="false"
-      />
+      <AppQuizTag :id="tagId" :showCount="false" />
     </div>
   </div>
 </template>

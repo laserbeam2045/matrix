@@ -81,10 +81,10 @@ export default defineComponent({
     const confirmWindow = ref(null)
 
     // AppModalWindowの表示・非表示を行うラッパー関数
-    const showModal = () => modalWindow.value.showModal()
-    const hideModal = () => modalWindow.value.hideModal()
-    const showConfirm = () => confirmWindow.value.showModal()
-    const hideConfirm = () => confirmWindow.value.hideModal()
+    const open = () => modalWindow.value.open()
+    const close = () => modalWindow.value.close()
+    const showConfirm = () => confirmWindow.value.open()
+    const hideConfirm = () => confirmWindow.value.close()
 
     // タグを更新する処理
     // TODO: REST API呼び出しへの置き換え
@@ -171,8 +171,8 @@ export default defineComponent({
       data,
       modalWindow,
       confirmWindow,
-      showModal,
-      hideModal,
+      open,
+      close,
       onClickPositive,
       onClickNegative,
       buttons,

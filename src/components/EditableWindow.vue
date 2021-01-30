@@ -2,7 +2,7 @@
   <EditableWindowPre
     ref="root"
     :listeners="listeners"
-    :html-string="state.innerHTML"
+    :htmlString="state.innerHTML"
   />
 </template>
 

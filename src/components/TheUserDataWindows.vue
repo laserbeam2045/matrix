@@ -19,7 +19,7 @@ import useUsers from '@/composables/useUsers'
 
 export default defineComponent({
   components: { UserData },
-  emits: [ 'touch' ],
+  emits: ['touch'],
   setup() {
     const matrix = useMatrix()
 

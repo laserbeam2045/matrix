@@ -1,7 +1,12 @@
+
 <template>
-  <div>
-    <p>{{ answer1ToShow }}</p><br>
-    <p>{{ answer2ToShow }}</p>
+  <div class="quiz-game-answer">
+    <p class="answer">
+      {{ answer1ToShow }}
+    </p>
+    <p class="answer">
+      {{ answer2ToShow }}
+    </p>
   </div>
 </template>
 
@@ -76,12 +81,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
-div {
+.quiz-game-answer {
   height: 50px;
   text-align: right;
 
-  p {
+  .answer {
     @include textStyleA;
     display: inline-block;
     margin: 1px 20px 0 0;

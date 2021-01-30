@@ -13,7 +13,7 @@
       />
     </VueDraggableNext>
     <div class="tree-nodes">
-      <AppAccordion :is-open="isOpenChildren">
+      <AppAccordion :isOpen="isOpenChildren">
         <TreeBetaBody
           :data-id="value.id"
           :list="value.children"
