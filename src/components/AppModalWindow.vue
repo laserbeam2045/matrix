@@ -1,6 +1,6 @@
 <template>
   <div v-if="isVisible">
-    <AppTeleporter :level="level">
+    <teleport :to="`#layer-${level}`">
       <div class="modal-window">
         <AppVirtualWindow
           v-model:top="windowState.top"
@@ -25,7 +25,7 @@
           </template>
         </AppVirtualWindow>
       </div>
-    </AppTeleporter>
+    </teleport>
   </div>
 </template>
 

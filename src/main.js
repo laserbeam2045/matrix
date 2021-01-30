@@ -1,42 +1,30 @@
-import App from './App.vue'
 import { createApp } from 'vue'
-
+import customDirectives from '@/customDirectives'
 import TreeAlphaBody from '@/components/TreeAlphaBody'
-import TreeAlphaBranch from '@/components/TreeAlphaBranch'
 import TreeBetaBody from '@/components/TreeBetaBody'
-import TreeBetaBranch from '@/components/TreeBetaBranch'
-import TreeToggleButton from '@/components/TreeToggleButton'
-import customDirectives from '@/utilities/customDirectives'
+import App from '@/pages/App.vue'
 
+// 具体的なCSSを出力する設定を適用する
+import '@/assets/sass/app.scss'
+// TailWindCSSを読み込む
 import '@/assets/styles.css'
-require('@/assets/scss/app.scss')
 
-const app = createApp(App)
+const vm = createApp(App)
 
 // カスタムディレクティブを設定する
-for (let directiveName in customDirectives) {
-  const directiveConfig = customDirectives[directiveName]
-  app.directive(directiveName, directiveConfig)
+for (const directiveName in customDirectives) {
+  vm.directive(directiveName, customDirectives[directiveName])
 }
 
-// 基底コンポーネントをグローバル化する
-// MEMO: contextの引数はリテラルである必要がある
-const requireComponent = require.context('./components/', true, /App[A-Z]\w+\.(vue|js)$/)
-requireComponent.keys().forEach(fileName => {
-  let AppComponentConfig = requireComponent(fileName)
-  AppComponentConfig = AppComponentConfig.default || AppComponentConfig
-  const AppComponentName = AppComponentConfig.name || (
-    fileName
-      .replace(/^.+\//, '')
-      .replace(/\.\w+$/, '')
-  )
-  app.component(AppComponentName, AppComponentConfig)
+// 基底(ファイル名にAppを含む)コンポーネントをグローバル化する
+const requireComponents = require.context('./components/', true, /App[A-Z]\w+\.(vue|js)$/)
+requireComponents.keys().forEach(fileName => {
+  let AppConfig = requireComponents(fileName)
+  AppConfig = AppConfig.default || AppConfig
+  const AppName = AppConfig.name || fileName.replace(/^.+\//, '').replace(/\.\w+$/, '')
+  vm.component(AppName, AppConfig)
 })
 
-app
-  .component('TreeAlphaBody', TreeAlphaBody)
-  .component('TreeAlphaBranch', TreeAlphaBranch)
+vm.component('TreeAlphaBody', TreeAlphaBody)
   .component('TreeBetaBody', TreeBetaBody)
-  .component('TreeBetaBranch', TreeBetaBranch)
-  .component('TreeToggleButton', TreeToggleButton)
   .mount('#app')

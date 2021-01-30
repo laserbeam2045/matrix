@@ -1,7 +1,7 @@
 import { MOUSE_TOUCH_EVENT as EVENT } from '@/utils/event_functions'
 
 export default {
-  // スクロールイベント
+  // elementのスクロールイベントを感知するディレクティブ
   'scroll': {
     mounted (el, binding) {
       const fn = evt => {
@@ -9,10 +9,11 @@ export default {
           el.removeEventListener('scroll', fn)
         }
       }
-      el.addEventListener('scroll', fn, { passive: true })
+      el.addEventListener('scroll', fn)
     }
   },
-  // windowのresizeイベント
+
+  // windowのresizeイベントを感知するディレクティブ
   'window-resize': {
     mounted (el, binding) {
       const fn = evt => {
@@ -20,9 +21,10 @@ export default {
           window.removeEventListener('resize', fn)
         }
       }
-      window.addEventListener('resize', fn, { passive: true })
+      window.addEventListener('resize', fn)
     }
   },
+
   // elementのresizeイベント
   'resize': {
     mounted (el, binding) {
@@ -38,19 +40,19 @@ export default {
       observer.observe(el, options)
     }
   },
-  // mount時に自動的にfocusする
+
+  // mount時に自動的にfocusするディレクティブ
   'focus': {
     mounted (el, binding) {
       el.focus()
       binding?.value(el)
     }
   },
-  // モバイル端末のフォーム要素への素早いfocusを可能にする
+
+  // モバイル端末での素早いfocusを可能にするディレクティブ
   'quick-focus': {
     mounted (el, binding) {
       const focus = evt => {
-        // TODO: dirty hack
-        // evt.stopPropagation()
         if (evt.target === el) el.focus()
         if (binding?.value(evt, el)) {
           el.removeEventListener(EVENT.START, focus)
@@ -60,8 +62,8 @@ export default {
       const blur = evt => {
         if (evt.target !== el) el.blur()
       }
-      el.addEventListener(EVENT.START, focus, { passive: true })
-      window.addEventListener(EVENT.END, blur, { passive: true })
+      el.addEventListener(EVENT.START, focus)
+      window.addEventListener(EVENT.END, blur)
     }
-  },
+  }
 }

@@ -91,7 +91,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
 .user-data {
   min-width: 280px;
   padding: 0px 20px 50px;

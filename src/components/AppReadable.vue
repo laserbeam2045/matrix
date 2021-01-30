@@ -1,7 +1,7 @@
 <template>
   <div
     ref="readable"
-    v-windw-resize="onResize"
+    v-window-resize="onResize"
     class="readable"
   >
     <AppWritable

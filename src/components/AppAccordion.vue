@@ -1,14 +1,11 @@
 <template>
   <transition
-    @before-leave="open"
+    @beforeLeave="open"
     @leave="close"
     @enter="open"
-    @after-enter="after"
+    @afterEnter="after"
   >
-    <div
-      v-show="isOpen"
-      ref="root"
-    >
+    <div v-show="isOpen" ref="root">
       <slot />
     </div>
   </transition>
@@ -57,6 +54,7 @@ export default defineComponent({
 
     // MEMO: before-leaveではtransitionに間に合わないためonBeforeUpdateを使用している
     onBeforeUpdate(() => {
+      props
       if (!props.isOpen) open(root.value)
     })
 
@@ -68,7 +66,7 @@ export default defineComponent({
 <style scoped>
 .v-enter-active,
 .v-leave-active {
-  transition: all .5s !important;
+  transition: all .3s ease-in-out !important;
 }
 .v-enter-from,
 .v-leave-to {

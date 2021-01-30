@@ -1,0 +1,58 @@
+/* 　アニメーションやプリプロセッサ用のmixinやfunctionをこのレイヤーで管理　*/
+
+@mixin textStyleA {
+  color: white;
+  text-shadow: $blueLikeColor1 0 0 3px;
+}
+
+@mixin textStyleB {
+  font: 16px/23px $font-family-normal;
+}
+
+@mixin absoluteBox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+// タップ時のスタイルの変化を抑制する
+@mixin unSelectable {
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+// 上下左右に中央配置にする
+@mixin center {
+  margin-top: 50%;
+  margin-left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+
+// 水平方向に中央配置にする
+@mixin centerHorizontal {
+  margin-left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+}
+
+// 垂直方向に中央配置にする
+@mixin centerVertical {
+  margin-top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+}
+
+// コンテンツをスクロールさせたいコンテナ要素に指定する
+// 参考：https://shanabrian.com/web/css3/overflow-scrolling.php
+@mixin overflowScrolling {
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+
+  & > * {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+}

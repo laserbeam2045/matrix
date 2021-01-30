@@ -121,7 +121,7 @@ export default defineComponent({
       windowEvents,
       onPredict,
     }
-  },
+  }
 })
 </script>
 

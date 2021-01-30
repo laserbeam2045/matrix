@@ -8,7 +8,7 @@
     />
     <TheQuizEditor
       ref="theQuizEditor"
-      :quiz-id="quizId4Update"
+      :quizId="quizId4Update"
       @updated="onUpdateQuiz"
       @deleted="onDeleteQuiz"
     />
@@ -28,7 +28,7 @@ export default defineComponent({
     TheQuizCreator,
     TheQuizEditor,
   },
-  emits: [ 'touch' ],
+  emits: ['touch' ],
 
   setup(props, { emit }) {
     const windowEvents = {

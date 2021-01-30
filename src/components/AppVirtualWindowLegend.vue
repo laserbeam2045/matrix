@@ -45,6 +45,8 @@ $fontSize: 21px;
 $borderRadius: 8px 8px 0 0;
 $border: 1px solid $blueLikeColor6;
 
+$legendBoxShadow: $inColorH $in-H-Offset 0 $inBlur $inSpread inset;   // 内側左
+
 body.light-theme {
   legend.outside {
     & > div:nth-of-type(1) {

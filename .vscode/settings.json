@@ -1,0 +1,20 @@
+{
+  // 保存時に自動フォーマットする
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  // 非表示にするファイル・フォルダー
+  "files.exclude": {
+    "**/README.md": true,
+    "**/.gitignore": true,
+    "**/jsconfig.json": true,
+    "**/vue.config.js": true,
+    "**/babel.config.js": true,
+    "**/.browserslistrc": true,
+    "**/package-lock.json": true,
+    "**/package.json": true,
+    "**/postcss.config.js": true,
+    "**/tailwind.config.js": true,
+    "**/*.code-workspace": true
+  }
+}

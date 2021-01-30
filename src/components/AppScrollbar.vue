@@ -1,14 +1,11 @@
 <template>
   <div
     class="scrollbar"
-    :style="{ top, left: right, height }"
+    :style="{ top, left, width, height }"
   >
+    <div class="path" />
     <div
-      class="scroll-path"
-      :style="{ height }"
-    />
-    <div
-      class="scroll-progress"
+      class="progress"
       :style="{ height: progress }"
     />
   </div>
@@ -24,10 +21,6 @@ export default defineComponent({
       required: true,
     },
     left: {
-      type: String,
-      required: true,
-    },
-    right: {
       type: String,
       required: true,
     },
@@ -48,7 +41,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.gradient {
+%common {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+%gradient {
   background: linear-gradient(to top, #008aff, #00ffe7);
 }
 
@@ -62,39 +61,29 @@ export default defineComponent({
   }
 }
 
-@mixin effect($blur) {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  filter: blur($blur);
-}
-
 .scrollbar {
   position: fixed;
-  width: $scrollbarThickness;
 
-  .scroll-path {
-    position: absolute;
-    width: $scrollbarThickness;
-    background: rgba(255, 255, 255, 0.2);
+  .path {
+    @extend %common;
+    background: rgba(255, 255, 255, 0.15);
   }
-  .scroll-progress {
-    position: absolute;
-    width: $scrollbarThickness;
-    border-radius: 0 0 5px 5px;
-    @extend .gradient;
+  .progress {
+    @extend %common;
+    @extend %gradient;
     animation: animate 5s linear infinite;
 
     &::before {
-      @extend .gradient;
-      @include effect(10px);
+      content: '';
+      @extend %common;
+      @extend %gradient;
+      filter: blur(10px);
     }
     &::after {
-      @extend .gradient;
-      @include effect(30px);
+      content: '';
+      @extend %common;
+      @extend %gradient;
+      filter: blur(30px);
     }
   }
 }

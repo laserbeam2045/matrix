@@ -20,9 +20,13 @@
 <script>
 import { defineComponent, reactive, computed, inject } from 'vue'
 import { VueDraggableNext } from 'vue-draggable-next'
+import TreeAlphaBranch from '@/components/TreeAlphaBranch'
 
 export default defineComponent({
-  components: { VueDraggableNext },
+  components: {
+    VueDraggableNext,
+    TreeAlphaBranch,
+  },
   props: {
     value: {  // MEMO: Tree(root)からはvalueとして受け取る
       type: Array,

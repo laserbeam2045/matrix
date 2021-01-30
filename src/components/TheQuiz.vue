@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="filteredQuizzes.length && tree"
     class="user-data-quiz"
     v-on="windowEvents"
   >
@@ -29,6 +30,7 @@
           <AppScrollable
             :width="windowState.width"
             :height="windowState.height"
+            position="Left"
           >
             <TheQuizList />
           </AppScrollable>
@@ -42,6 +44,8 @@
       </template>
     </AppVirtualWindow>
 
+
+    <div><div>foo</div></div>
     <QuizGame v-if="quizMode" />
   </div>
 </template>
@@ -60,38 +64,38 @@ import TheQuizList from '@/components/TheQuizList'
 import TheTagTree from '@/components/TheTagTree'
 import QuizGame from '@/components/QuizGame'
 
+
+
+
+
 export default defineComponent({
   components: {
     QuizListQuery,
     TheQuizList,
     TheTagTree,
-    QuizGame,
+    QuizGame
   },
   props: {
     user: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
-  emits: [ 'touch' ],
+  emits: ['touch'],
 
   setup(props, { emit }) {
     const { user } = toRefs(props)
 
-    const {
-      quizzes,
-      getUserQuiz,
-    } = useUserQuizzes(user)
+    const { quizzes, getUserQuiz } = useUserQuizzes(user)
 
-    const {
-      searchQuery,
-      quizzesMatchingSearchQuery
-    } = useQuizStringSearch(quizzes)
+    const { searchQuery, quizzesMatchingSearchQuery } = useQuizStringSearch(
+      quizzes
+    )
 
     const {
       // filters,
       // updateFilters,
-      filteredQuizzes,
+      filteredQuizzes
     } = useQuizFilters(quizzesMatchingSearchQuery)
 
     const {
@@ -99,7 +103,7 @@ export default defineComponent({
       tree,
       activeTagIds,
       getQuizTag,
-      toggleActiveTagId,
+      toggleActiveTagId
     } = useQuizTags(user)
 
     provide('quizzes', quizzes)
@@ -113,7 +117,9 @@ export default defineComponent({
     provide('toggleActiveTagId', toggleActiveTagId)
 
     const windowEvents = {
-      [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
+      [`${MOUSE_TOUCH_EVENT.START}Passive`]() {
+        emit('touch')
+      }
     }
     const windowState = reactive({
       top: 'center',
@@ -124,8 +130,8 @@ export default defineComponent({
       draggable: true,
       legend: {
         text: 'QUIZ',
-        type: 'inside',
-      },
+        type: 'inside'
+      }
     })
 
     const { deactivate } = useMatrix()
@@ -143,8 +149,8 @@ export default defineComponent({
       playAudio(AUDIOS.ETC.CYBER_04_1)
     }
     const headerItems = [
-      { name: 'quora', events: { click: startQuiz }},
-      { name: 'times', events: { click: closeWindow }},
+      { name: 'quora', events: { click: startQuiz } },
+      { name: 'times', events: { click: closeWindow } }
     ]
 
     return {
@@ -152,6 +158,8 @@ export default defineComponent({
       windowState,
       headerItems,
       quizMode,
+      filteredQuizzes,
+      tree
     }
   }
 })

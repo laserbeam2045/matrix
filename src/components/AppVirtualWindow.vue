@@ -162,6 +162,16 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+$windowBoxShadow:
+  $outColor   $out-H-Offset    $out-V-Offset  $outBlur $outSpread,        // 外側右下
+  $outColor (-$out-H-Offset)   $out-V-Offset  $outBlur $outSpread,        // 外側左下
+  $outColor (-$out-H-Offset) (-$out-V-Offset) $outBlur $outSpread,        // 外側左上
+  $outColor   $out-H-Offset  (-$out-V-Offset) $outBlur $outSpread,        // 外側右上
+  $inColorH    $in-H-Offset                0   $inBlur  $inSpread inset,  // 内側左
+  $inColorH  (-$in-H-Offset)               0   $inBlur  $inSpread inset,  // 内側右
+  $inColorV               0   (-$in-V-Offset)  $inBlur  $inSpread inset,  // 内側下
+  $inColorV               0     $in-V-Offset   $inBlur  $inSpread inset;  // 内側上
+
 body.light-theme {
   .virtual-window {
     color: $windowLightTextColor;
@@ -180,7 +190,7 @@ body.dark-theme {
   position: relative;
   max-width: 100%;
   color: $blueLikeColor6;
-  box-shadow: $windowBoxShadow;
+  // box-shadow: $windowBoxShadow;
   border: 1px solid $blueLikeColor6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

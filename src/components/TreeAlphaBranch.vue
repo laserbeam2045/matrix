@@ -33,10 +33,12 @@
 import { defineComponent, ref, computed, inject } from 'vue'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { VueDraggableNext } from 'vue-draggable-next'
+import TreeToggleButton from '@/components/TreeToggleButton'
 
 export default defineComponent({
   components: {
     VueDraggableNext,
+    TreeToggleButton,
   },
   props: {
     value: {
