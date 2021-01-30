@@ -44,7 +44,7 @@
 import { defineComponent, reactive } from 'vue'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
-import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
+import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 
 export default defineComponent({
     emits: [ 'touch' ],
@@ -85,7 +85,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .sound {
   display: inline-block;
   margin: 5px;

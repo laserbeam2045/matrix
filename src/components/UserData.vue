@@ -46,7 +46,7 @@
 
 <script>
 import { defineComponent, reactive } from 'vue'
-import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
+import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 import TheQuiz from '@/components/TheQuiz'
 
 export default defineComponent({

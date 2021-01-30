@@ -68,7 +68,7 @@ export default defineComponent({
       parentLabelRef,
       isEditMode,
     }
-  },
+  }
 })
 </script>
 

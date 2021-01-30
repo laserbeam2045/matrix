@@ -10,8 +10,8 @@
 
 <script>
 import { defineComponent, ref, toRefs, computed, onMounted, nextTick } from 'vue'
-import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
-import { str2num } from '@/utils/string_functions'
+import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
+import { str2num } from '@/utilities/v_string_functions'
 import useModelValue from '@/composables/useModelValue'
 import useWindow from '@/composables/useWindow'
 

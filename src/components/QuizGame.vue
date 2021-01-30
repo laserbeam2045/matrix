@@ -65,8 +65,8 @@ import QuizGameQuestion from '@/components/QuizGameQuestion'
 import QuizGameAnswer   from '@/components/QuizGameAnswer'
 import QuizGameInput    from '@/components/QuizGameInput'
 import QuizGameInfo     from '@/components/QuizGameInfo'
-import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
-import { shuffle }           from '@/utils/array_functions'
+import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
+import { shuffle }           from '@/utilities/v_array_functions'
 
 const PUSH_KEY_DELAY = 3000      // ボタンを押してからゲージが動き出すまでの待機時間
 const NEXT_QUIZ_DELAY = 2000     // 問題が終了してから次の問題までの待機時間

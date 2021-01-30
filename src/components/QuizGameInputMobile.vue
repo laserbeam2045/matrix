@@ -23,8 +23,8 @@
 <script>
 import { defineComponent, reactive, computed } from 'vue'
 import { useStore as useAudio, AUDIOS }   from '@/store/audio'
-import { HIRAGANA, KATAKANA, ALPHABETS, NUMERICS, isHiragana, isKatakana, isAlphabet, isNumeric } from '@/utils/string_functions'
-import { shuffle } from '@/utils/array_functions'
+import { HIRAGANA, KATAKANA, ALPHABETS, NUMERICS, isHiragana, isKatakana, isAlphabet, isNumeric } from '@/utilities/v_string_functions'
+import { shuffle } from '@/utilities/v_array_functions'
 import Aset from '@/utilities/Aset'
 
 // 選択肢候補から除外する文字リスト

@@ -14,7 +14,7 @@
 import { defineComponent, toRefs, ref, computed } from 'vue'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { GAME_STATE } from '@/composables/useQuizGame'
-import { hira2kata } from '@/utils/string_functions'
+import { hira2kata } from '@/utilities/v_string_functions'
 
 export default defineComponent({
   props: {

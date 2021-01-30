@@ -1,7 +1,7 @@
 <template>
   <div id="timer-box">
     <div id="time-gauge">
-      <div :style="timeGaugeStyle" />
+      <div id="time" :style="timeGaugeStyle" />
     </div>
     <div id="quiz-number">
       {{ `${currentNumber}／${maxNumber}` }}
@@ -129,7 +129,7 @@ export default defineComponent({
       start,
       pause,
     }
-  },
+  }
 })
 </script>
 
@@ -149,7 +149,7 @@ $radius: 5px;   // タイムゲージのborder-radius
     box-shadow: white 0 0 3px;
     overflow: hidden;
 
-    div {
+    #time {
       height: 100%;
       border-radius: $radius 0 0 $radius;
     }

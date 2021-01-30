@@ -14,7 +14,7 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
+import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 
 export default defineComponent({
   props: {

@@ -16,8 +16,8 @@
 <script>
 import { defineComponent, ref, reactive, computed } from 'vue'
 import { provideStore as provideGPT_2, useStore as useGPT_2 } from '@/store/gpt_2'
-import { escapeRegExp, escapeHTML } from '@/utils/string_functions'
-import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
+import { escapeRegExp, escapeHTML } from '@/utilities/v_string_functions'
+import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 import EditableWindow from '@/components/EditableWindow'
 import _ from 'lodash'
 

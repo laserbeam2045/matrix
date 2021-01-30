@@ -1,4 +1,4 @@
-import { MOUSE_TOUCH_EVENT as EVENT } from '@/utils/event_functions'
+import { MOUSE_TOUCH_EVENT as EVENT } from '@/utilities/v_event_functions'
 
 export default {
   // elementのスクロールイベントを感知するディレクティブ

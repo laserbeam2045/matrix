@@ -1,8 +1,8 @@
 import { reactive, computed, readonly, provide, inject } from 'vue'
 import { postRequest } from '@/api/request_methods'
 import { API_ADDRESS } from '@/store/constants'
-import { splitByBlank, isOnlyBlank } from '@/utils/string_functions'
-import { deepCopy } from '@/utils/array_functions'
+import { splitByBlank, isOnlyBlank } from '@/utilities/v_string_functions'
+import { deepCopy } from '@/utilities/v_array_functions'
 import Aset from '@/utilities/Aset'
 
 const storeSymbol = Symbol('GPT-2')

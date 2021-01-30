@@ -52,7 +52,7 @@
 import { defineComponent, ref, reactive, toRefs, provide } from 'vue'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
-import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
+import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 import useUserQuizzes from '@/composables/useUserQuizzes'
 import useQuizStringSearch from '@/composables/useQuizStringSearch'
 import useQuizFilters from '@/composables/useQuizFilters'

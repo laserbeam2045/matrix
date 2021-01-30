@@ -1,6 +1,6 @@
 import { reactive, computed, provide, inject, nextTick, markRaw } from 'vue'
 import { DEVICE_TYPE, PAGE_THEME } from './constants'
-import { getDeviceType } from '@/utils/event_functions'
+import { getDeviceType } from '@/utilities/v_event_functions'
 import TheMatrix from '@/components/TheMatrix'
 import TheMatrix2 from '@/components/TheMatrix2'
 import TheAudios from '@/components/TheAudios'

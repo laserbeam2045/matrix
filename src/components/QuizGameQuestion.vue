@@ -72,7 +72,7 @@ export default defineComponent({
       startOpen,
       stopOpen,
     }
-  },
+  }
 })
 </script>
 

@@ -92,7 +92,7 @@ export default defineComponent ({
       onClickSubmit,
       onClickCancel,
     }
-  },
+  }
 })
 </script>
 

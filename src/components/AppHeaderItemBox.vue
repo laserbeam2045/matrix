@@ -5,10 +5,12 @@
 </template>
 
 <script>
-export default {}
+import { defineComponent } from 'vue'
+
+export default defineComponent({})
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .header-item-box {
   position: absolute;
   top: 0;

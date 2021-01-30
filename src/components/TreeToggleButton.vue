@@ -1,22 +1,27 @@
 <template>
-  <div :class="{ open: isOpen }">
+  <div
+    class="tree-toggle-button"
+    :class="{ open: isOpen }"
+  >
     ▼
   </div>
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   props: {
     isOpen: {
       type: Boolean,
       required: true,
     },
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>
-div {
+.tree-toggle-button {
   @include unSelectable;
   display: inline-block;
   width: 30px;

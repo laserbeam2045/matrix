@@ -6,6 +6,7 @@
   // 非表示にするファイル・フォルダー
   "files.exclude": {
     "**/dist": true,
+    "**/tests": true,
     "**/node_modules": true,
     "**/README.md": true,
     "**/.gitignore": true,

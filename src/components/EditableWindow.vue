@@ -8,9 +8,9 @@
 
 <script>
 import { defineComponent, ref, reactive, watch, onMounted } from 'vue'
-import { LF, convert2LF, trimLastLF, doubleLastLF } from '@/utils/string_functions'
-import { getClipboardData } from '@/utils/event_functions'
-import { getRootElement } from '@/utils/dom_functions'
+import { LF, convert2LF, trimLastLF, doubleLastLF } from '@/utilities/v_string_functions'
+import { getClipboardData } from '@/utilities/v_event_functions'
+import { getRootElement } from '@/utilities/v_dom_functions'
 import useSelection from '@/composables/useSelection'
 import EditableWindowPre from '@/components/EditableWindowPre'
 

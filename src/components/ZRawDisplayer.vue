@@ -5,7 +5,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   props: {
     value: {
       type: String,
@@ -17,10 +19,10 @@ export default {
       return JSON.stringify(this.value, null, 2)
     }
   }
-}
+})
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 pre {
   width: 300px;
   text-align: start;

@@ -1,7 +1,6 @@
 
 /* 文字列処理全般の関数群 */
 
-
 // 平仮名／片仮名の、開始／終了の、文字コードの値
 const CHAR_CODE_HIRAGANA_BEGIN = 0x3041   // 12353
 const CHAR_CODE_HIRAGANA_END   = 0x3096   // 12438
@@ -62,7 +61,6 @@ export const NUMERICS = [
   '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 ]
 
-
 // 引数の文字が、平仮名であるかどうか
 export const isHiragana = char => {
   const code = char.charCodeAt()
@@ -90,7 +88,6 @@ export const isOnlyBlank = str => {
   const exp = str.match(/\s+/)
   return !!(exp && exp[0].length === str.length)
 }
-
 
 // 文字列中の数字部分だけを数値型として返す関数(※無ければ0が返る)
 export const str2num = val => {
@@ -133,7 +130,6 @@ export const convert2LF = str => {
   return str.replace(regExpCRLF, LF)
             .replace(regExpCR,   LF)
 }
-
 
 // テキストの末尾に改行コードが1つだけ残っている場合に取り除く関数
 export const trimLastLF = str => {

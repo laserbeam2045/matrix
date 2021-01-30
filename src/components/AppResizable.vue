@@ -19,7 +19,7 @@
 
 <script>
 import { defineComponent, ref, reactive, computed, toRefs, onMounted, nextTick } from 'vue'
-import { MOUSE_TOUCH_EVENT } from '@/utils/event_functions'
+import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 import useModelValue from '@/composables/useModelValue'
 import useWindow from '@/composables/useWindow'
 

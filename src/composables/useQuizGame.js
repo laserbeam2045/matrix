@@ -1,5 +1,5 @@
 import { reactive, unref, computed } from 'vue'
-import { hira2kata }   from '@/utils/string_functions'
+import { hira2kata }   from '@/utilities/v_string_functions'
 
 export const GAME_STATE = {
   OPENING     : 0,  // ゲームを開始する段階

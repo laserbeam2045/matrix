@@ -177,7 +177,7 @@ export default defineComponent({
       onClickNegative,
       buttons,
     }
-  },
+  }
 })
 </script>
 

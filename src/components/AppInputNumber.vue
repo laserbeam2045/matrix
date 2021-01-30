@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <div class="app-input-number">
     <input
       v-show="false"
       type="number"
       v-bind="settings"
       :value:number="value"
     >
-    <span>{{ animatedNumberRef }}</span>
+    <span class="number">
+      {{ animatedNumberRef }}
+    </span>
   </div>
 </template>
 
@@ -47,15 +49,15 @@ export default defineComponent({
     return {
       animatedNumberRef,
     }
-  },
+  }
 })
 </script>
 
 <style lang="scss" scoped>
-div {
+.app-input-number {
   display: inline-block;
   
-  span {
+  .number {
     display: inline-block;
     text-align: center;
     cursor: text;

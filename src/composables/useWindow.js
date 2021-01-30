@@ -1,5 +1,5 @@
 import { ref, unref, reactive, readonly } from 'vue'
-import { getTouchEvent } from '@/utils/event_functions'
+import { getTouchEvent } from '@/utilities/v_event_functions'
 
 const windowNumber = ref(0)
 

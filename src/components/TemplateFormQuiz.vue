@@ -82,7 +82,7 @@ export default defineComponent({
       onClickTag,
       focusQuestion,
     }
-  },
+  }
 })
 </script>
 
