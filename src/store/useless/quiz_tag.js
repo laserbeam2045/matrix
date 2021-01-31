@@ -1,8 +1,8 @@
 import { reactive, ref, computed, watch, readonly, provide, inject } from 'vue'
 import { getRequest } from '@/api/request_methods'
-import { API_ADDRESS } from '@/store/constants'
 
 const storeSymbol = Symbol('quizTag')
+const API_ADDRESS = process.env.VUE_APP_API_SELECT_TAG
 
 const createStore = () => {
   const state = reactive({
@@ -27,7 +27,7 @@ const createStore = () => {
   const load = async() => {
     state.loading = true
     try {
-      data.value = await getRequest(API_ADDRESS.SELECT_TAG)
+      data.value = await getRequest(API_ADDRESS)
       tree.value = getStruct(root.value)
       state.loaded = true
     } catch(e) {

@@ -22,7 +22,7 @@
 import { defineComponent, ref, reactive } from 'vue'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
-import { PAGE_THEME } from '@/store/constants'
+import { PAGE_THEME } from '@/constants'
 import useCommand from '@/composables/useCommand'
 import { isAlphabet } from '@/utilities/v_string_functions'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'

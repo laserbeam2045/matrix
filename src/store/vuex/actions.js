@@ -1,4 +1,4 @@
-import { URL } from '@/store/constants'
+import { URL } from '@/constants'
 
 export default {
   

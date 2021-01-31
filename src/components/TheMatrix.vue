@@ -25,7 +25,7 @@ import { defineComponent, ref, reactive, watch } from 'vue'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
-import { PAGE_THEME } from '@/store/constants'
+import { PAGE_THEME } from '@/constants'
 import EditableWindow from '@/components/EditableWindow'
 import useCommand from '@/composables/useCommand'
 

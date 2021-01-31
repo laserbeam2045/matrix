@@ -1,8 +1,8 @@
 import { reactive, provide, inject, watch } from 'vue'
 import { getRequest } from '@/api/request_methods'
-import { API_ROOT } from '@/store/constants'
 
 const storeSymbol = Symbol('audio')
+const API_ROOT = process.env.VUE_APP_API_ROOT
 
 const createStore = () => {
   const state = reactive({

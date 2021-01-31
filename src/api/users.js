@@ -1,10 +1,11 @@
 // import { getRequest } from '@/api/request_methods'
-// import { API_ADDRESS } from '@/store/constants'
+
+// const API_ADDRESS = process.env.VUE_APP_API_SELECT_USER
 
 export const fetchUsers = async(userIds) => {
   try {
     if (userIds[0] === 0) {
-      // return getRequest(API_ADDRESS.SELECT_USER)
+      // return getRequest(API_ADDRESS)
       return [
         {
           id: 0,

@@ -16,9 +16,10 @@
 
 <script>
 import { defineComponent, ref, reactive, onMounted } from 'vue'
-import { API_ROOT_2 } from '@/store/constants'
 import OCR from '@/utilities/OCR'
 import _ from 'lodash'
+
+const API_ROOT_2 = process.env.VUE_APP_API_ROOT_2
 
 export default defineComponent({
   emits: ['predict'],

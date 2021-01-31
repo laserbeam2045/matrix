@@ -1,11 +1,11 @@
 import * as tf from '@tensorflow/tfjs'
 import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
 import { unref } from 'vue'
-import { API_ROOT_2 } from '@/store/constants'
 import Rahmen from '@/utilities/Rahmen'
 
 const INPUT_SIZE = 40       // NNに渡す画像データの一辺のサイズ
 const MIN_RECT_SIZE = 114   // 描画部分のみ切り出すときのサイズの下限
+const API_ROOT_2 = process.env.VUE_APP_API_ROOT_2
 
 // 手書き文字認識クラス
 export default class OCR {

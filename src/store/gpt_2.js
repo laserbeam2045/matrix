@@ -1,11 +1,11 @@
 import { reactive, computed, readonly, provide, inject } from 'vue'
 import { postRequest } from '@/api/request_methods'
-import { API_ADDRESS } from '@/store/constants'
 import { splitByBlank, isOnlyBlank } from '@/utilities/v_string_functions'
 import { deepCopy } from '@/utilities/v_array_functions'
 import Aset from '@/utilities/Aset'
 
 const storeSymbol = Symbol('GPT-2')
+const API_ADDRESS = process.env.VUE_APP_API_GPT_2
 
 // predictionのデータ構造例
 // 左から、確率、単語、includeFlag
@@ -192,10 +192,9 @@ const createStore = () => {
   const getNextWords = async() => {
     if (notAllowRequest.value) return
     state.requesting = true
-    const apiAddress = API_ADDRESS.GPT_2_PREDICTION
     const requestNumber = ++state.requestNumber
   try {
-      const jsonData = await postRequest(apiAddress, postParams.value)
+      const jsonData = await postRequest(API_ADDRESS, postParams.value)
       if (requestNumber === state.requestNumber) {
         updatePrediction(jsonData)
       }

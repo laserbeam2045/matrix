@@ -8,6 +8,8 @@
 		"editor.fontFamily": "'Ricty Diminished', Menlo, Monaco, 'Courier New', monospace",
 		"editor.tabSize": 2,
 		"editor.defaultFormatter": "VisualStudioExptTeam.vscodeintellicode",
-		"vetur.format.defaultFormatter.js": "none"
+		"vetur.format.defaultFormatter.js": "none",
+		"tailwindCSS.emmetCompletions": true,
+		"tailwindCSS.experimental.showPixelValues": true
 	}
 }

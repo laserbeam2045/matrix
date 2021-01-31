@@ -9,10 +9,7 @@
   >
     <template #header>
       <AppHeaderItemBox>
-        <AppHeaderItem
-          name="times"
-          @click="closeWindow"
-        />
+        <AppHeaderItem name="times" @click="closeWindow" />
       </AppHeaderItemBox>
     </template>
     <template #default>
@@ -23,17 +20,17 @@
         <div
           v-for="(value, key) in AUDIOS"
           :key="key"
+          class="flex flex-wrap justify-center mt-6"
         >
           <div
             v-for="(value2, key2) in value"
             :key="key2"
-            class="sound"
+            class="m-3"
           >
-            <AppButton @[`${MOUSE_TOUCH_EVENT.START}Passive`]="playAudio(value2)">
+            <AppButtonEffects @[`${MOUSE_TOUCH_EVENT.START}Passive`]="playAudio(value2)">
               {{ key2 }}
-            </AppButton>
+            </AppButtonEffects>
           </div>
-          <br><br>
         </div>
       </AppScrollable>
     </template>
@@ -47,8 +44,8 @@ import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 
 export default defineComponent({
-    emits: [ 'touch' ],
-  setup(props, { emit }) {
+  emits: [ 'touch' ],
+  setup(_, { emit }) {
     const { deactivate } = useMatrix()
     const { playAudio } = useSound()
 
@@ -56,7 +53,7 @@ export default defineComponent({
       top: 'center',
       left: 'center',
       width: '100%',
-      height: '80%',
+      height: '90%',
       draggable: true,
       resizableV: true,
       legend: {
@@ -64,9 +61,11 @@ export default defineComponent({
         type: 'inside',
       },
     })
+
     const windowEvents = {
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
+
     // ウィンドウを閉じる処理
     const closeWindow = () => {
       deactivate(WINDOWS.THE_AUDIOS)
@@ -84,10 +83,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss" scoped>
-.sound {
-  display: inline-block;
-  margin: 5px;
-}
-</style>

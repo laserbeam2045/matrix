@@ -1,7 +1,7 @@
 
 /* イベントに関する関数 */
 
-import { DEVICE_TYPE } from '@/store/constants'
+import { DEVICE_TYPE } from '@/constants'
 
 // タッチイベントのサポートの有無
 export const IS_SUPPORT_TOUCH = 'ontouchend' in document
