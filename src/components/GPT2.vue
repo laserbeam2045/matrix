@@ -37,9 +37,6 @@ export default defineComponent({
     const windowState = {
       width: '300px',
       height: '100px',
-      resizableV: true,
-      resizableH: true,
-      draggable: true,
       legend: {
         text: 'GPT-2',
         type: 'inside',

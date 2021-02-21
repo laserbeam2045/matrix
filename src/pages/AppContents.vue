@@ -11,12 +11,19 @@
       />
     </teleport>
 
+    <AppTestDraggable
+      v-center
+      v-draggable
+      v-resizable
+    />
+
     <teleport to="#layer-3">
       <div id="windows-tab">
         <AppVirtualWindowLegend
           v-for="name in matrix.state.hiddenWindows"
           :key="name"
           :legend="{ text: name, type: 'outside' }"
+          style="position: relative;"
           @touch="teleportToFront(name)"
         />
       </div>
@@ -62,13 +69,9 @@ export default defineComponent({
 }
 #windows-tab {
   position: fixed;
-  left: 0;
   right: 0;
   bottom: 0;
+  left: 0;
   display: flex;
-
-  & > ::v-deep(legend) {
-    position: relative;
-  }
 }
 </style>

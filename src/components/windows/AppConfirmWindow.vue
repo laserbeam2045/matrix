@@ -36,11 +36,6 @@ export default defineComponent ({
       required: false,
       default: 'Cancel',
     },
-    draggable: {
-      type: Boolean,
-      required: false,
-      default: true,
-    },
     legend: {
       type: Object,
       required: false,
@@ -60,7 +55,6 @@ export default defineComponent ({
     const root = ref(null)
 
     const windowState = {
-      draggable: props.draggable,
       legend: props.legend,
     }
 

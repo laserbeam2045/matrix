@@ -43,7 +43,6 @@ export default defineComponent({
       left: 'center',
       width: 'auto',
       height: 'auto',
-      draggable: true,
       legend: {
         text: 'MATRIX',
         type: 'inside',
@@ -139,13 +138,14 @@ body.dark-theme {
 
 span.private {
   @include textStyleA;
-  display: block;
+
   position: absolute;
-  font-size: 24px;
   top: 10%;
-  left: 0;
   right: 0;
+  left: 0;
+  display: block;
   margin: auto;
+  font-size: 24px;
   text-align: center;
   // margin-left: 0.1px;
 }

@@ -1,13 +1,7 @@
 <template>
-  <div
-    class="scrollbar"
-    :style="{ top, left, width, height }"
-  >
+  <div class="scrollbar" :style="{ top, left, width, height }">
     <div class="path" />
-    <div
-      class="progress"
-      :style="{ height: progress }"
-    />
+    <div class="progress" :style="{ height: progress }" />
   </div>
 </template>
 
@@ -52,11 +46,12 @@ export default defineComponent({
 }
 
 @keyframes animate {
-  0%,
-  100% {
+  0%, 100% 
+  {
     filter: hue-rotate(0deg);
   }
-  50% {
+  50%
+  {
     filter: hue-rotate(360deg);
   }
 }
@@ -66,23 +61,27 @@ export default defineComponent({
 
   .path {
     @extend %common;
+
     background: rgba(255, 255, 255, 0.15);
   }
   .progress {
     @extend %common;
     @extend %gradient;
+
     animation: animate 5s linear infinite;
 
     &::before {
       content: '';
       @extend %common;
       @extend %gradient;
+
       filter: blur(10px);
     }
     &::after {
       content: '';
       @extend %common;
       @extend %gradient;
+
       filter: blur(30px);
     }
   }

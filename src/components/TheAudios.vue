@@ -22,14 +22,15 @@
           :key="key"
           class="flex flex-wrap justify-center mt-6"
         >
+          {{ key }}
           <div
             v-for="(value2, key2) in value"
             :key="key2"
             class="m-3"
           >
-            <AppButtonEffects @[`${MOUSE_TOUCH_EVENT.START}Passive`]="playAudio(value2)">
+            <component :is="'AppButtonCircle'" @[`${MOUSE_TOUCH_EVENT.START}Passive`]="playAudio(value2)">
               {{ key2 }}
-            </AppButtonEffects>
+            </component>
           </div>
         </div>
       </AppScrollable>
@@ -54,8 +55,6 @@ export default defineComponent({
       left: 'center',
       width: '100%',
       height: '90%',
-      draggable: true,
-      resizableV: true,
       legend: {
         text: 'Audios',
         type: 'inside',

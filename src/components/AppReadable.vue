@@ -1,9 +1,5 @@
 <template>
-  <div
-    ref="readable"
-    v-window-resize="onResize"
-    class="readable"
-  >
+  <div ref="readable" v-window-resize="onResize" class="readable">
     <AppWritable
       ref="writable"
       :width="state.width"
@@ -115,8 +111,8 @@ export default defineComponent({
 .readable {
   position: absolute;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
+  left: 0;
 }
 </style>

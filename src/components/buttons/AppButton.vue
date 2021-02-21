@@ -12,15 +12,15 @@ export default defineComponent({})
 
 <style lang="scss" scoped>
 .app-button {
-  margin: 0 auto;
   padding: 4px 8px;
-  color: $grayLikeColor3;
-  background: transparent;
-  border-radius: 5px;
-  border: 1px solid $grayLikeColor3;
+  margin: 0 auto;
   font-family: $font-family-orbitron;
-  transition: all .1;
+  color: $grayLikeColor3;
   cursor: pointer;
+  background: transparent;
+  border: 1px solid $grayLikeColor3;
+  border-radius: 5px;
+  transition: all .1;
 
   &:hover {
     color: $blueLikeColor6;

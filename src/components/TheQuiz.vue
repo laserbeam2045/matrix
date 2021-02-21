@@ -120,8 +120,6 @@ export default defineComponent({
       left: 'center',
       width: 'auto',
       height: '95%',
-      resizableV: true,
-      draggable: true,
       legend: {
         text: 'QUIZ',
         type: 'inside'

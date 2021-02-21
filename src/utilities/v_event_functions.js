@@ -1,7 +1,12 @@
 
 /* イベントに関する関数 */
 
-import { DEVICE_TYPE } from '@/constants'
+// デバイスの種類
+export const DEVICE_TYPE = {
+  SMART_PHONE : 0,
+  TABLET      : 1,
+  PC          : 2,
+}
 
 // タッチイベントのサポートの有無
 export const IS_SUPPORT_TOUCH = 'ontouchend' in document
@@ -27,11 +32,6 @@ export const getDeviceType = () => {
   } else {
     return DEVICE_TYPE.PC
   }
-}
-
-// タッチイベントのサポートの有無による差異を吸収する関数
-export const getTouchEvent = evt => {
-  return IS_SUPPORT_TOUCH ? evt.changedTouches[0] : evt
 }
 
 // コピーされた文字列を返す関数

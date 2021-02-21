@@ -2,16 +2,7 @@
   <template v-if="isVisible">
     <teleport :to="`#layer-${level}`">
       <div class="modal-window">
-        <AppVirtualWindow
-          v-model:top="windowState.top"
-          v-model:left="windowState.left"
-          v-model:width="windowState.width"
-          v-model:height="windowState.height"
-          v-model:position="windowState.position"
-          v-model:draggable="windowState.draggable"
-          :contentsStyle="contentsStyle"
-          :legend="legend"
-        >
+        <AppVirtualWindow :legend="legend">
           <template #header>
             <AppHeaderItemBox>
               <AppHeaderItem name="times" @click="close" />
@@ -27,7 +18,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, watch } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import { useStore as useAudio, AUDIOS } from '@/store/audio'
 
 export default defineComponent({
@@ -47,27 +38,11 @@ export default defineComponent({
         }
       },
     },
-    contentsStyle: {
-      type: Object,
-      required: false,
-      default() {
-        return {}
-      },
-    },
   },
   emits: ['open', 'close'],
 
   setup(_, { emit }) {
     const { playAudio } = useAudio()
-
-    const windowState = reactive({
-      top: 'center',
-      left: 'center',
-      width: 'auto',
-      height: 'auto',
-      position: 'fixed',
-      draggable: true,
-    })
 
     const isVisible = ref(false)
     const open   = () => isVisible.value = true
@@ -84,7 +59,6 @@ export default defineComponent({
     })
 
     return {
-      windowState,
       isVisible,
       open,
       close,
@@ -98,9 +72,9 @@ export default defineComponent({
 .modal-window {
   position: fixed;
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
   background: rgb(0, 0, 0);
   background: rgba(0, 0, 0, 0.7);
 }

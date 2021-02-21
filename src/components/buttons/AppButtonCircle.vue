@@ -1,8 +1,5 @@
 <template>
-  <button
-    class="app-button-effects" 
-    @mouseenter="onMouseEnter"
-  >
+  <button class="app-button-effects" @mouseenter="onMouseEnter">
     <div class="circle" :style="circleStyle" />
     <div class="container">
       <slot />
@@ -34,11 +31,11 @@ export default defineComponent({
 .app-button-effects {
   position: relative;
   padding: 10px 30px;
-  letter-spacing: 2px;
-  color: $green-poison;
-  font-family: $font-poppins;
-  border: 2px solid $green-poison;
   overflow: hidden;
+  font-family: $font-poppins;
+  color: $green-poison;
+  letter-spacing: 2px;
+  border: 2px solid $green-poison;
   transition: 0.5s;
   @include unSelectable;
 
@@ -46,10 +43,10 @@ export default defineComponent({
     position: absolute;
     width: 0;
     height: 0;
-    border-radius: 50%;
     background: $green-poison;
-    transform: translate(-50%, -50%);
+    border-radius: 50%;
     transition: width 0.5s, height 0.5s;
+    transform: translate(-50%, -50%);
   }
 
   &:hover {

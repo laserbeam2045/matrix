@@ -55,7 +55,6 @@ export default defineComponent({
       left: 'center',
       width: '300px',
       height: 'auto',
-      draggable: true,
       legend: {
         text: 'MATRIX',
         type: 'inside',
@@ -100,6 +99,7 @@ export default defineComponent({
       switch (command.trim().toUpperCase()) {
       case 'DATA'   : openWindow(WINDOWS.THE_USER_DATA); break
       case 'AUDIO'  : openWindow(WINDOWS.THE_AUDIOS); break
+      case 'BUTTON' : openWindow(WINDOWS.THE_BUTTONS); break
       case 'GPT-2'  : openWindow(WINDOWS.THE_GPT_2); break
       case 'DARK'   : changeTheme(PAGE_THEME.DARK); break
       case 'LIGHT'  : changeTheme(PAGE_THEME.LIGHT); break

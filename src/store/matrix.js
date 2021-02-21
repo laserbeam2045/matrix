@@ -1,9 +1,10 @@
 import { reactive, computed, provide, inject, nextTick, markRaw } from 'vue'
-import { DEVICE_TYPE, PAGE_THEME } from '@/constants'
-import { getDeviceType } from '@/utilities/v_event_functions'
+import { PAGE_THEME } from '@/constants'
+import { DEVICE_TYPE, getDeviceType } from '@/utilities/v_event_functions'
 import TheMatrix from '@/components/TheMatrix'
 import TheMatrix2 from '@/components/TheMatrix2'
 import TheAudios from '@/components/TheAudios'
+import TheButtons from '@/components/TheButtons'
 import TheUserDataWindows from '@/components/TheUserDataWindows'
 import GPT2 from '@/components/GPT2'
 import Aset from '@/utilities/Aset'
@@ -13,6 +14,7 @@ const storeSymbol = Symbol('matrix')
 export const WINDOWS = {
   THE_MATRIX    : 'MATRIX',
   THE_AUDIOS    : 'AUDIOS',
+  THE_BUTTONS   : 'BUTTONS',
   THE_GPT_2     : 'GPT2',
   THE_USER_DATA : 'USER DATA',
 }
@@ -45,6 +47,10 @@ const createStore = () => {
       level: 5,
       component: markRaw(TheAudios),
     },
+    [WINDOWS.THE_BUTTONS]: {
+      level: 5,
+      component: markRaw(TheButtons),
+    }
   })
 
   // ユーザーの端末がPCの場合に真となる

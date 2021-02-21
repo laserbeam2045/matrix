@@ -68,7 +68,6 @@ const getElementalOffset = (node, offset) => {
   return textLengthSum
 }
 
-
 // テキストの選択範囲を扱うモジュール
 export default function useSelection() {
 

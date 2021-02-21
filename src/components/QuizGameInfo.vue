@@ -23,10 +23,6 @@ export default defineComponent({
         text: 'Info',
         type: 'inside',
       },
-      contentsStyle: {
-        padding: '5px 20px 20px',
-        textAlign: 'left',
-      },
     }
 
     onMounted(() => modalWindow.value.open())

@@ -91,13 +91,9 @@ export default defineComponent({
       left: 'center',
       width: '352px',
       height: 'auto',
-      draggable: true,
       legend: {
         text: 'QUIZ',
         type: 'inside',
-      },
-      contentsStyle: {
-        padding: '15px 20px 20px',
       },
     })
     const windowEvents = {

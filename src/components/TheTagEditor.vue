@@ -18,7 +18,7 @@
     </div>
   </AppModalWindow>
 
-  <ConfirmWindow
+  <AppConfirmWindow
     ref="confirmWindow"
     @positive="onClickPositive"
     @negative="onClickNegative"
@@ -28,7 +28,6 @@
 <script>
 import { defineComponent, reactive, ref, watch, inject } from 'vue'
 import TemplateFormQuizTag from '@/components/TemplateFormQuizTag'
-import ConfirmWindow from '@/components/ConfirmWindow'
 
 // 確認ダイアログがどのボタンによって表示されたかを表す定数
 const UPDATE_MODE = 0
@@ -36,7 +35,6 @@ const DELETE_MODE = 1
 
 export default defineComponent({
   components: {
-    ConfirmWindow,
     TemplateFormQuizTag,
   },
   props: {

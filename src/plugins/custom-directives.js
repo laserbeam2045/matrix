@@ -1,6 +1,66 @@
 import { MOUSE_TOUCH_EVENT as EVENT } from '@/utilities/v_event_functions'
+import useDraggable from '@/composables/useDraggable'
+import useResizable from '@/composables/useResizable'
 
-export default {
+export default function registerCustomDirectives(vm) {
+  // カスタムディレクティブを設定する
+  for (const directiveName in customDirectives) {
+    vm.directive(directiveName, customDirectives[directiveName])
+  }
+}
+
+const customDirectives = {
+  // ピン留めするディレクティブ
+  'pin': (el, binding) => {
+    el.style.position = 'fixed'
+    const s = binding.arg || 'top'
+    el.style[s] = binding.value + 'px'
+  },
+
+  // 上下中央配置にするディレクティブ
+  'center': {
+    mounted (el) {
+      const doc = document.documentElement
+      const top = Math.floor((doc.offsetHeight - el.offsetHeight) / 2)
+      const left = Math.floor((doc.offsetWidth - el.offsetWidth) / 2)
+      el.style.top = top + 'px'
+      el.style.left = left + 'px'
+      el.style.position = 'absolute'
+    }
+  },
+
+  // elementのドラッグ移動を可能にするディレクティブ
+  'draggable': {
+    mounted (el) {
+      useDraggable(el)
+    }
+  },
+
+  // elementのリサイズを可能にするディレクティブ
+  'resizable': {
+    mounted (el) {
+      const {
+        resizerTop,
+        resizerLeft,
+        resizerRight,
+        resizerBottom,
+        resizerTopLeft,
+        resizerTopRight,
+        resizerBottomLeft,
+        resizerBottomRight,
+      } = useResizable(el)
+
+      el.appendChild(resizerTop)
+      el.appendChild(resizerLeft)
+      el.appendChild(resizerRight)
+      el.appendChild(resizerBottom)
+      el.appendChild(resizerTopLeft)
+      el.appendChild(resizerTopRight)
+      el.appendChild(resizerBottomLeft)
+      el.appendChild(resizerBottomRight)
+    }
+  },
+
   // elementのスクロールイベントを感知するディレクティブ
   'scroll': {
     mounted (el, binding) {
