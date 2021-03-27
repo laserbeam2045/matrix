@@ -6,6 +6,7 @@ import TheMatrix2 from '@/components/TheMatrix2'
 import TheAudios from '@/components/TheAudios'
 import TheButtons from '@/components/TheButtons'
 import TheUserDataWindows from '@/components/TheUserDataWindows'
+import AppEditor from '@/components/windows/AppEditor'
 import GPT2 from '@/components/GPT2'
 import Aset from '@/utilities/Aset'
 
@@ -17,6 +18,7 @@ export const WINDOWS = {
   THE_BUTTONS   : 'BUTTONS',
   THE_GPT_2     : 'GPT2',
   THE_USER_DATA : 'USER DATA',
+  THE_EDITABLE  : 'EDITABLE',
 }
 
 const createStore = () => {
@@ -50,7 +52,11 @@ const createStore = () => {
     [WINDOWS.THE_BUTTONS]: {
       level: 5,
       component: markRaw(TheButtons),
-    }
+    },
+    [WINDOWS.THE_EDITABLE]: {
+      level: 5,
+      component: markRaw(AppEditor),
+    },
   })
 
   // ユーザーの端末がPCの場合に真となる

@@ -4,13 +4,7 @@
     class="user-data-quiz"
     v-on="windowEvents"
   >
-    <AppVirtualWindow
-      v-model:top="windowState.top"
-      v-model:left="windowState.left"
-      v-model:width="windowState.width"
-      v-model:height="windowState.height"
-      v-bind="windowState"
-    >
+    <AppVirtualWindow v-bind="windowState">
       <template #header>
         <AppHeaderItemBox>
           <AppHeaderItem
@@ -80,11 +74,15 @@ export default defineComponent({
   setup(props, { emit }) {
     const { user } = toRefs(props)
 
-    const { quizzes, getUserQuiz } = useUserQuizzes(user)
+    const {
+      quizzes,
+      getUserQuiz,
+    } = useUserQuizzes(user)
 
-    const { searchQuery, quizzesMatchingSearchQuery } = useQuizStringSearch(
-      quizzes
-    )
+    const {
+      searchQuery,
+      quizzesMatchingSearchQuery
+    } = useQuizStringSearch(quizzes)
 
     const {
       // filters,
@@ -116,10 +114,8 @@ export default defineComponent({
       }
     }
     const windowState = reactive({
-      top: 'center',
-      left: 'center',
       width: 'auto',
-      height: '95%',
+      height: '90%',
       legend: {
         text: 'QUIZ',
         type: 'inside'
@@ -162,6 +158,7 @@ export default defineComponent({
   .container {
     display: flex;
     justify-content: space-around;
+    height: 761px;
     overflow: hidden;
   }
 }

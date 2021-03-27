@@ -11,12 +11,6 @@
       />
     </teleport>
 
-    <AppTestDraggable
-      v-center
-      v-draggable
-      v-resizable
-    />
-
     <teleport to="#layer-3">
       <div id="windows-tab">
         <AppVirtualWindowLegend

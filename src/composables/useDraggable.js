@@ -3,23 +3,20 @@ import useWindow from '@/composables/useWindow'
 
 export default function useDraggable(el) {
   const {
-    state,
-    setTop,
-    setLeft,
-    setState,
-    getPageX,
-    getPageY,
+    frameX,
+    frameY,
+    setElementState,
+    setEventState,
+    replaceMargin,
   } = useWindow(el)
 
   // 状態をドラッグ後の値で更新する関数
   const drag = e => {
-    el.style.top = setTop(getPageY(e) - state.frameY) + 'px'
-    el.style.left = setLeft(getPageX(e) - state.frameX) + 'px'
+    el.style.top = (e.pageY - frameY.value) + 'px'
+    el.style.left = (e.pageX - frameX.value) + 'px'
   }
   // イベントを追加する関数
-  const addDragEvent = e => {
-    if (e.target !== e.currentTarget) return
-    setState(e, el)
+  const addDragEvent = () => {
     document.body.addEventListener(TOUCH.MOVE, drag)
     document.body.addEventListener(TOUCH.END, removeDragEvent)
   }
@@ -28,10 +25,16 @@ export default function useDraggable(el) {
     document.body.removeEventListener(TOUCH.MOVE, drag)
     document.body.removeEventListener(TOUCH.END, removeDragEvent)
   }
+  // ハンドル要素にイベントを追加する関数
+  const addDragEvent2Handle = handle => {
+    handle.addEventListener(TOUCH.START, e => {
+      if (e.target !== e.currentTarget) return
+      setElementState()
+      setEventState(e)
+      replaceMargin()
+      addDragEvent()
+    })
+  }
 
-  el.style.position = 'absolute'
-
-  el.querySelectorAll('.draggable-handle').forEach(elm => {
-    elm.addEventListener(TOUCH.START, addDragEvent)
-  })
+  return { addDragEvent2Handle }
 }

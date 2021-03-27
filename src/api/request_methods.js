@@ -23,11 +23,8 @@ export const postRequest = (url = '', data = {}) => {
     body: JSON.stringify(data),
   }
   return fetch(url, options)
-    // 1. ネットワーク周りなどのリクエスト以前の段階でのエラーを処理する
     .catch((e) => { throw Error(e) })
-    // 2. サーバサイドで発行されたエラーステータスを処理する
     .then(handleErrors)
-    // 3. 以上2つをパスした正常なレスポンスからJSONオブジェクトをパースする
     .then(response => response.json())
 }
 

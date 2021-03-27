@@ -1,86 +1,64 @@
-import { unref, reactive, computed, readonly } from 'vue'
+import { reactive, computed, toRefs } from 'vue'
 
-// タッチイベントのサポートの有無による差異を吸収する関数
-export const touchEvent = evt => {
-  return ('ontouchend' in document) ? evt.changedTouches[0] : evt
-}
-
-export default function useWindow(
-  top='center',
-  left='center',
-  width='auto',
-  height='auto'
-) {
-  const state = reactive({
-    top,
-    left,
-    width,
-    height,
-    pageX: 0,
-    pageY: 0,
-    frameX: 0,
-    frameY: 0,
-    clientWidth: 0,
-    clientHeight: 0,
+export default function useWindow(el) {
+  // elementが持つプロパティの状態
+  const elementState = reactive({
+    offsetParent: null, // 直近の祖先(CSS-positioned)要素
+    offsetTop: 0,       // offsetParentから見た垂直位置
+    offsetLeft: 0,      // offsetParentから見た水平位置
+    offsetWidth: 0,     // padding, borderを含む幅
+    offsetHeight: 0,    // padding, borderを含む高さ
+    clientWidth: 0,     // paddingを含む幅
+    clientHeight: 0,    // paddingを含む高さ
   })
 
-  const topRef = computed(() => {
-    return (state.top === 'center') ? 'auto' : `${state.top}px`
+  // eventが持つプロパティの状態
+  const eventState = reactive({
+    screenX: 0,   // 端末のスクリーンを起点とした水平位置
+    screenY: 0,   // 端末のスクリーンを起点とした垂直位置
+    clientX: 0,   // viewportの左上からの水平位置
+    clientY: 0,   // viewportの左上からの垂直位置
+    pageX: 0,     // page全体の左上からの水平位置
+    pageY: 0,     // page全体の左上からの垂直位置
   })
 
-  const leftRef = computed(() => {
-    return (state.left === 'center') ? 'auto' : `${state.left}px`
-  })
+  // (水平・垂直)位置のピクセル数値(el要素内での、相対位置)
+  const frameX = computed(() => eventState.pageX - elementState.offsetLeft)
+  const frameY = computed(() => eventState.pageY - elementState.offsetTop)
 
-  const widthRef = computed(() => {
-    return (state.width === 'auto') ? 'auto' : `${state.width}px`
-  })
-
-  const heightRef = computed(() => {
-    return (state.height === 'auto') ? 'auto' : `${state.height}px`
-  })
-
-  const setTop = num => state.top = num
-
-  const setLeft = num => state.left = num
-
-  const setWidth = num => state.width = num
-
-  const setHeight = num => state.height = num
-
-  // 状態を記録する関数
-  const setState = (e, target) => {
-    target = unref(target)
-    state.pageX = getPageX(e)
-    state.pageY = getPageY(e)
-    state.frameX = state.pageX - target.offsetLeft
-    state.frameY = state.pageY - target.offsetTop
-    state.clientWidth  = target.clientWidth
-    state.clientHeight = target.clientHeight
+  const setElementState = () => {
+    elementState.offsetParent = el.offsetParent
+    elementState.offsetTop = el.offsetTop
+    elementState.offsetLeft = el.offsetLeft
+    elementState.offsetWidth = el.offsetWidth
+    elementState.offsetHeight = el.offsetHeight
+    elementState.clientWidth = el.clientWidth
+    elementState.clientHeight = el.clientHeight
   }
 
-  // (水平・垂直)位置のピクセル数値(document全体からの相対位置)を取得する関数
-  const getPageX = e => touchEvent(e).pageX
-  const getPageY = e => touchEvent(e).pageY
-
-  // (水平・垂直)方向の変化量を計算する関数
-  const getDiffX = e => state.pageX - getPageX(e)
-  const getDiffY = e => state.pageY - getPageY(e)
+  const setEventState = e => {
+    eventState.screenX = e.screenX
+    eventState.screenY = e.screenY
+    eventState.clientX = e.clientX
+    eventState.clientY = e.clientY
+    eventState.pageX = e.pageX
+    eventState.pageY = e.pageY
+  }
+  
+  // マージンをなくし、絶対位置で置き換える関数
+  const replaceMargin = () => {
+    el.style.margin = 0
+    el.style.top = elementState.offsetTop + 'px'
+    el.style.left = elementState.offsetLeft + 'px'
+  }
 
   return {
-    state: readonly(state),
-    top: topRef,
-    left: leftRef,
-    width: widthRef,
-    height: heightRef,
-    setTop,
-    setLeft,
-    setWidth,
-    setHeight,
-    setState,
-    getPageX,
-    getPageY,
-    getDiffX,
-    getDiffY,
+    ...toRefs(elementState),
+    ...toRefs(eventState),
+    frameX,
+    frameY,
+    setElementState,
+    setEventState,
+    replaceMargin,
   }
 }

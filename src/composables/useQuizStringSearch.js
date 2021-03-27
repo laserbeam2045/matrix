@@ -2,6 +2,7 @@ import { ref, unref, computed } from 'vue'
 
 export default function useQuizStringSearch(quizzes) {
   const searchQuery = ref('')
+  
   const quizzesMatchingSearchQuery = computed(() => {
     return unref(quizzes).filter(quiz => {
       return (

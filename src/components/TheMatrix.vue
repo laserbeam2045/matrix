@@ -101,6 +101,7 @@ export default defineComponent({
       case 'AUDIO'  : openWindow(WINDOWS.THE_AUDIOS); break
       case 'BUTTON' : openWindow(WINDOWS.THE_BUTTONS); break
       case 'GPT-2'  : openWindow(WINDOWS.THE_GPT_2); break
+      case 'EDITOR' : openWindow(WINDOWS.THE_EDITABLE); break
       case 'DARK'   : changeTheme(PAGE_THEME.DARK); break
       case 'LIGHT'  : changeTheme(PAGE_THEME.LIGHT); break
       case 'CLASSIC': changeTheme(PAGE_THEME.CLASSIC); break

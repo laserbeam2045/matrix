@@ -25,13 +25,7 @@ export default defineComponent({
   props: {
     legend: {
       type: Object,
-      required: false,
-      default() {
-        return {
-          text: '',
-          type: 'inside',
-        }
-      },
+      required: true,
     },
   },
 })
@@ -52,6 +46,7 @@ $windowBoxShadow:
 .virtual-window {
   position: absolute;
   max-width: 100%;
+  max-height: 90%;
   color: $blueLikeColor6;
   border: 1px solid $blueLikeColor6;
   border-radius: 8px;

@@ -32,7 +32,14 @@ const customDirectives = {
   // elementのドラッグ移動を可能にするディレクティブ
   'draggable': {
     mounted (el) {
-      useDraggable(el)
+      const handleSelector = '.draggable-handle'
+      const { addDragEvent2Handle } = useDraggable(el)
+
+      el.style.position = 'absolute'
+      el.querySelectorAll(handleSelector).forEach(handle => {
+        handle.style.cursor = 'grab'
+        addDragEvent2Handle(handle)
+      })
     }
   },
 
@@ -50,6 +57,7 @@ const customDirectives = {
         resizerBottomRight,
       } = useResizable(el)
 
+      el.style.position = 'absolute'
       el.appendChild(resizerTop)
       el.appendChild(resizerLeft)
       el.appendChild(resizerRight)

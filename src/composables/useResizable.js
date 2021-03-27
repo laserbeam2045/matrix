@@ -18,34 +18,37 @@ const BOX_OFFSET = '-14px'  // 通常時のコーナーサイズに応じた位�
  */
 export default function useResizable(el, minWidth=0, minHeight=0) {
   const {
-    state,
-    setState,
-    getPageX,
-    getPageY,
-    getDiffX,
-    getDiffY,
-  } = useWindow()
+    pageX,
+    pageY,
+    frameX,
+    frameY,
+    offsetWidth,
+    offsetHeight,
+    setElementState,
+    setEventState,
+    replaceMargin,
+  } = useWindow(el)
 
-  const activeResizer = reactive({
+  const state = reactive({
     eventHandler: null,
   })
 
   // イベントを追加する関数
   const addResizeEvent = () => {
-    document.body.addEventListener(TOUCH.MOVE, activeResizer.eventHandler)
-    document.body.addEventListener(TOUCH.END,  removeResizeEvent)
+    document.body.addEventListener(TOUCH.MOVE, state.eventHandler)
+    document.body.addEventListener(TOUCH.END, removeResizeEvent)
   }
   // イベントを削除する関数
   const removeResizeEvent = () => {
-    document.body.removeEventListener(TOUCH.MOVE, activeResizer.eventHandler)
-    document.body.removeEventListener(TOUCH.END,  removeResizeEvent)
+    document.body.removeEventListener(TOUCH.MOVE, state.eventHandler)
+    document.body.removeEventListener(TOUCH.END, removeResizeEvent)
   }
 
   // リサイズ後の値を計算する関数
-  const getNewTop  = e => getPageY(e) - state.frameY
-  const getNewLeft = e => getPageX(e) - state.frameX
-  const getNewWidth  = (e, dir) => (state.clientWidth + dir * getDiffX(e))
-  const getNewHeight = (e, dir) => (state.clientHeight + dir * getDiffY(e))
+  const getNewTop  = e => e.pageY - frameY.value
+  const getNewLeft = e => e.pageX - frameX.value
+  const getNewWidth  = (e, dir) => offsetWidth.value + dir * (pageX.value - e.pageX)
+  const getNewHeight = (e, dir) => offsetHeight.value + dir * (pageY.value - e.pageY)
 
   /**
    * 垂直方向の位置を更新する関数
@@ -221,8 +224,10 @@ export default function useResizable(el, minWidth=0, minHeight=0) {
     }
     // リサイザーのイベントハンドラを設定する
     resizers[name].addEventListener(TOUCH.START, e => {
-      activeResizer.eventHandler = eventHandler
-      setState(e, el)
+      state.eventHandler = eventHandler
+      setElementState()
+      setEventState(e)
+      replaceMargin()
       addResizeEvent()
     })
   }
