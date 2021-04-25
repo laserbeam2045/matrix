@@ -1,37 +1,29 @@
 <template>
   <div
     v-if="filteredQuizzes.length && tree"
-    class="user-data-quiz"
     v-on="windowEvents"
   >
-    <AppVirtualWindow v-bind="windowState">
+    <AppVirtualWindow legend="QUIZ" height="75vh">
+      <template #buttons>
+        <AppHeaderItem
+          v-for="item in headerItems"
+          :key="item.type"
+          :name="item.name"
+          v-on="item.events"
+        />
+      </template>
       <template #header>
-        <AppHeaderItemBox>
-          <AppHeaderItem
-            v-for="item in headerItems"
-            :key="item.type"
-            :name="item.name"
-            v-on="item.events"
-          />
-        </AppHeaderItemBox>
         <QuizListQuery />
       </template>
       <template #default>
         <!-- <div class="menu">
           question tag
         </div> -->
-        <div class="container">
-          <AppScrollable
-            :width="windowState.width"
-            :height="windowState.height"
-            position="Left"
-          >
+        <div class="flex w-full h-full">
+          <AppScrollable position="left">
             <TheQuizList />
           </AppScrollable>
-          <AppScrollable
-            :width="windowState.width"
-            :height="windowState.height"
-          >
+          <AppScrollable position="right">
             <TheTagTree />
           </AppScrollable>
         </div>
@@ -43,7 +35,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, toRefs, provide } from 'vue'
+import { defineComponent, ref, toRefs, provide } from 'vue'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
@@ -113,14 +105,6 @@ export default defineComponent({
         emit('touch')
       }
     }
-    const windowState = reactive({
-      width: 'auto',
-      height: '90%',
-      legend: {
-        text: 'QUIZ',
-        type: 'inside'
-      }
-    })
 
     const { deactivate } = useMatrix()
     const { playAudio } = useSound()
@@ -138,28 +122,16 @@ export default defineComponent({
     }
     const headerItems = [
       { name: 'quora', events: { click: startQuiz } },
-      { name: 'times', events: { click: closeWindow } }
+      { name: 'times', events: { click: closeWindow } },
     ]
 
     return {
       windowEvents,
-      windowState,
       headerItems,
       quizMode,
       filteredQuizzes,
-      tree
+      tree,
     }
   }
 })
 </script>
-
-<style lang="scss" scoped>
-.user-data-quiz {
-  .container {
-    display: flex;
-    justify-content: space-around;
-    height: 761px;
-    overflow: hidden;
-  }
-}
-</style>

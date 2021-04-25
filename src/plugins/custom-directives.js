@@ -10,7 +10,7 @@ export default function registerCustomDirectives(vm) {
 }
 
 const customDirectives = {
-  // ピン留めするディレクティブ
+  // v-pin:[direction]="pinPadding"
   'pin': (el, binding) => {
     el.style.position = 'fixed'
     const s = binding.arg || 'top'
@@ -81,6 +81,21 @@ const customDirectives = {
     }
   },
 
+  // elementのresize(イベントではない)を感知するディレクティブ
+  'resize': {
+    mounted (el, binding) {
+      const resizeObserver = new ResizeObserver(entries => {
+        for (let entry of entries) {
+          if (binding?.value(entry.target)) {
+            resizeObserver.unobserve(entry.targetl)
+          }
+        }
+      })
+      const options = {}
+      resizeObserver.observe(el, options)
+    }
+  },
+
   // windowのresizeイベントを感知するディレクティブ
   'window-resize': {
     mounted (el, binding) {
@@ -90,22 +105,6 @@ const customDirectives = {
         }
       }
       window.addEventListener('resize', fn)
-    }
-  },
-
-  // elementのresizeイベント
-  'resize': {
-    mounted (el, binding) {
-      const observer = new MutationObserver((_, instance) => {
-        const width = el.getBoundingClientRect().width
-        const height = el.getBoundingClientRect().height
-        binding?.value(width, height, el) && instance.disconnect()
-      })
-      const options = {
-        attributes: true,
-        attributeFilter: ['style'],
-      }
-      observer.observe(el, options)
     }
   },
 

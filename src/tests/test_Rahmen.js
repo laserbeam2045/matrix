@@ -48,15 +48,15 @@ const test_getRect = () => {
      [0, 0, 0, 0, 0  , 0  , 0  , 30 , 119, 217],
      [0, 0, 0, 0, 0  , 0  , 0  , 0  , 26 , 118],
      [0, 0, 0, 0, 0  , 0  , 0  , 0  , 0  , 29 ]]]
-  );
-  const image = tensor.reshape([1, 20, 10, 1]);
-  const boxes = [[0.4, 0.3, 1, 1]];
-  const boxInd = [0];
-  const cropSize = [12, 7];
+  )
+  const image = tensor.reshape([1, 20, 10, 1])
+  const boxes = [[0.4, 0.3, 1, 1]]
+  const boxInd = [0]
+  const cropSize = [12, 7]
   // const method = 'bilinear';
-  const method = 'nearest';
-  const image2 = tf.image.cropAndResize(image, boxes, boxInd, cropSize, method);
-  image2.reshape([1, 12, 7]).print(1);}
+  const method = 'nearest'
+  const image2 = tf.image.cropAndResize(image, boxes, boxInd, cropSize, method)
+  image2.reshape([1, 12, 7]).print(1)}
 
   {const tensor = tf.tensor(
    [[[0, 0, 0, 0, 0  , 0  , 0  , 0  , 0  , 0  ],
@@ -79,12 +79,12 @@ const test_getRect = () => {
      [0, 0, 0, 0, 0  , 0  , 0  , 30 , 119, 217],
      [0, 0, 0, 0, 0  , 0  , 0  , 0  , 26 , 118],
      [0, 0, 0, 0, 0  , 0  , 0  , 0  , 0  , 29 ]]]
-  );
-  const images = tensor.reshape([1, 20, 10, 1]);
-  const size = [10, 5];
-  const alignCorners = true;
-  const image2 = tf.image.resizeBilinear(images, size, alignCorners);
-  image2.reshape([1, 10, 5]).round().print(1);}
+  )
+  const images = tensor.reshape([1, 20, 10, 1])
+  const size = [10, 5]
+  const alignCorners = true
+  const image2 = tf.image.resizeBilinear(images, size, alignCorners)
+  image2.reshape([1, 10, 5]).round().print(1)}
 
   {const tensor = tf.tensor(
     [[0, 0, 0, 0, 0  , 0  , 0  , 0  , 0  , 0  ],
@@ -107,7 +107,7 @@ const test_getRect = () => {
      [0, 0, 0, 0, 0  , 0  , 0  , 30 , 119, 217],
      [0, 0, 0, 0, 0  , 0  , 0  , 0  , 26 , 118],
      [0, 0, 0, 0, 0  , 0  , 0  , 0  , 0  , 29 ]]
-  );
+  )
     // // 水平方向に値を積算する
     // const sumH = tensor.cumsum(1, false, true)
     //                    .gather([0], 1)
@@ -117,19 +117,17 @@ const test_getRect = () => {
     //                     .cumsum(1, false, true)
     //                     .gather([0], 1)
     //                     .flatten()
-    width = 10;
-    heigh = 20;
+    width = 10
+    heigh = 20
     // 垂直方向に値を積算する
-    const sumV = tensor.sum(0);
+    const sumV = tensor.sum(0)
     // 水平方向に値を積算する
-    const sumH = tensor.sum(1);
-    sumV.print();
-    sumV.mul(tf.range(0, width, 1)).print();
-    sumH.print();
-    sumH.mul(tf.range(0, heigh, 1)).print();
+    const sumH = tensor.sum(1)
+    sumV.print()
+    sumV.mul(tf.range(0, width, 1)).print()
+    sumH.print()
+    sumH.mul(tf.range(0, heigh, 1)).print()
   }
-
-
 
   // Tensor(例2: 行ごとに右から左へ、値を積算した結果)
   // const tensor2 = tf.tensor(

@@ -31,6 +31,7 @@
 <script>
 import { defineComponent, ref, reactive, watch, inject } from 'vue'
 import TemplateFormQuiz from '@/components/TemplateFormQuiz'
+import useWindowManager from '@/store/windowManager'
 
 // 確認ダイアログがどのボタンによって表示されたかを表す定数
 const UPDATE_QUIZ_MODE = 0
@@ -88,11 +89,12 @@ export default defineComponent({
     const modalWindow = ref(null)
     const confirmWindow = ref(null)
 
-    // AppModalWindowの表示・非表示を行うラッパー関数
-    const open = () => modalWindow.value.open()
-    const close = () => modalWindow.value.close()
-    const showConfirm = () => confirmWindow.value.open()
-    const hideConfirm = () => confirmWindow.value.close()
+    const { open, close } = useWindowManager(modalWindow)
+
+    const {
+      open: openConfirm,
+      close: closeConfirm,
+    } = useWindowManager(confirmWindow)
 
     // 関係を削除する処理
     // TODO: REST API呼び出しへの置き換え
@@ -115,18 +117,18 @@ export default defineComponent({
     const onClickQuizTag = tagId => {
       modeRef.value = DELETE_TAG_MODE
       tagIdRef.value = tagId
-      showConfirm()
+      openConfirm()
     }
 
     // Updateボタン押下時の処理
     const onClickUpdate = () => {
       modeRef.value = UPDATE_QUIZ_MODE
-      showConfirm()
+      openConfirm()
     }
     // Deleteボタン押下時の処理
     const onClickDelete = () => {
       modeRef.value = DELETE_QUIZ_MODE
-      showConfirm()
+      openConfirm()
     }
     // Cancelボタン押下時の処理
     const onClickCancel = () => {
@@ -138,28 +140,28 @@ export default defineComponent({
       switch (modeRef.value) {
       case UPDATE_QUIZ_MODE:
         updateQuiz().then(() => {
-          hideConfirm()
+          closeConfirm()
           close()
           emit('updated')
         })
         break
       case DELETE_QUIZ_MODE:
         deleteQuiz().then(() => {
-          hideConfirm()
+          closeConfirm()
           close()
           emit('deleted')
         })
         break
       case DELETE_TAG_MODE:
         deleteRelation().then(() => {
-          hideConfirm()
+          closeConfirm()
         })
         break
       }
     }
     // 確認ダイアログのCancelボタン押下時の処理
     const onClickNegative = () => {
-      hideConfirm()
+      closeConfirm()
     }
 
     const buttons = [

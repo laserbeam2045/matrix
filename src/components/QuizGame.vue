@@ -7,25 +7,13 @@
 
     <AppVirtualWindow
       v-if="maxQuizNumber && currentQuiz"
-      v-model:top="windowState.top"
-      v-model:left="windowState.left"
-      v-model:width="windowState.width"
-      v-model:height="windowState.height"
       v-bind="windowState"
     >
-      <template #header>
-        <AppHeaderItemBox>
-          <AppHeaderItem
-            name="times"
-            @click="closeWindow"
-          />
-        </AppHeaderItemBox>
+      <template #buttons>
+        <AppHeaderItem name="times" @click="closeWindow" />
       </template>
       <template #default>
-        <AppScrollable
-          :width="windowState.width"
-          :height="windowState.height"
-        >
+        <AppScrollable>
           <QuizGameTimer
             ref="quizGameTimer"
             :currentNumber="gameData.currentQuizNumber"
@@ -87,14 +75,9 @@ export default defineComponent({
     const { playAudio } = useSound()
 
     const windowState = reactive({
-      top: 'center',
-      left: 'center',
       width: '352px',
       height: 'auto',
-      legend: {
-        text: 'QUIZ',
-        type: 'inside',
-      },
+      legend: 'QUIZ',
     })
     const windowEvents = {
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },

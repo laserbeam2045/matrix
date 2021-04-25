@@ -1,11 +1,7 @@
 <template>
-  <AppModalWindow
-    ref="root"
-    :level="1"
-    :windowState="windowState"
-  >
+  <AppModalWindow ref="modal" :level="1" :legend="legend">
     <div class="confirm-window">
-      <p>{{ text }}</p>
+      <p>{{ message }}</p>
       <AppButton @click="onClickPositive">
         {{ positiveLabel }}
       </AppButton>
@@ -18,13 +14,14 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+import useWindowManager from '@/store/windowManager'
 
-export default defineComponent ({
+export default defineComponent({
   props: {
-    text: {
+    message: {
       type: String,
       required: false,
-      default: 'Are you sure ?',
+      default: 'Are you sure?',
     },
     positiveLabel: {
       type: String,
@@ -37,14 +34,9 @@ export default defineComponent ({
       default: 'Cancel',
     },
     legend: {
-      type: Object,
+      type: [String, Object],
       required: false,
-      default() {
-        return {
-          text: '',
-          type: 'inside',
-        }
-      },
+      default: '',
     },
   },
   emits: [
@@ -52,21 +44,15 @@ export default defineComponent ({
     'negative',
   ],
   setup(props, { emit }) {
-    const root = ref(null)
+    const modal = ref(null)
 
-    const windowState = {
-      legend: props.legend,
-    }
+    const { open, close, toggle } = useWindowManager(modal)
 
-    const open   = () => root.value.open()
-    const close  = () => root.value.close()
-    const toggle = () => root.value.toggle()
     const onClickPositive = () => emit('positive')
     const onClickNegative = () => emit('negative')
 
     return {
-      root,
-      windowState,
+      modal,
       open,
       close,
       toggle,

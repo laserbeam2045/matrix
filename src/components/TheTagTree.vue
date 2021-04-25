@@ -27,6 +27,7 @@
 <script>
 import { defineComponent, ref, provide, inject } from 'vue'
 import { useStore as useAudio, AUDIOS } from '@/store/audio'
+import useWindowManager from '@/store/windowManager'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 import QuizTag from '@/components/QuizTag'
 import TreeAlpha from '@/components/TreeAlpha'
@@ -40,7 +41,7 @@ export default defineComponent({
     TheTagCreator,
     TheTagEditor,
   },
-  emits: [ 'touch' ],
+  emits: ['touch'],
 
   setup(props, { emit }) {
     const { playAudio } = useAudio()
@@ -52,6 +53,16 @@ export default defineComponent({
     const editId = ref(0)
     const theTagEditor = ref(null)
     const theTagCreator = ref(null)
+
+    const {
+      open: openEditor,
+      close: closeEditor,
+    } = useWindowManager(theTagEditor)
+
+    const {
+      open: openCreator,
+      close: closeCreator,
+    } = useWindowManager(theTagCreator)
 
     const {
       TREE_STATE,
@@ -96,7 +107,7 @@ export default defineComponent({
         break
       case TREE_STATE.EDIT_MODE:
         editId.value = id
-        theTagEditor.value.open()
+        openEditor()
         break
       }
     }
@@ -104,31 +115,31 @@ export default defineComponent({
     // タグが更新された時の処理
     const onUpdated = () => {
       // loadTree()
-      theTagEditor.value.close()
+      closeEditor()
     }
     // タグが削除された時の処理
     const onDeleted = () => {
       // loadTree()
-      theTagEditor.value.close()
+      closeEditor()
     }
     // EditorのCreateボタン押下時の処理
     const onClickCreate = () => {
-      theTagCreator.value.open()
+      openCreator()
     }
     // EditorのCancelボタン押下時の処理
     const onClickCancelEditor = () => {
-      theTagEditor.value.close()
+      closeEditor()
       playAudio(AUDIOS.ETC.CYBER_04_1)
     }
 
     // タグが挿入された時の処理
     const onInserted = () => {
       // loadTree()
-      theTagCreator.value.close()
+      closeCreator()
     }
     // CreatorのCancelボタン押下時の処理
     const onClickCancelCreator = () => {
-      theTagCreator.value.close()
+      closeCreator()
       playAudio(AUDIOS.ETC.CYBER_04_1)
     }
 

@@ -3,10 +3,8 @@
     <teleport :to="`#layer-${level}`">
       <div class="modal-window">
         <AppVirtualWindow :legend="legend">
-          <template #header>
-            <AppHeaderItemBox>
-              <AppHeaderItem name="times" @click="close" />
-            </AppHeaderItemBox>
+          <template #buttons>
+            <AppHeaderItem name="times" @click="close" />
           </template>
           <template #default>
             <slot />
@@ -29,19 +27,14 @@ export default defineComponent({
       default: 2,
     },
     legend: {
-      type: Object,
+      type: [String, Object],
       required: false,
-      default() {
-        return {
-          text: '',
-          type: 'inside',
-        }
-      },
+      default: '',
     },
   },
   emits: ['open', 'close'],
 
-  setup(_, { emit }) {
+  setup(props, { emit }) {
     const { playAudio } = useAudio()
 
     const isVisible = ref(false)

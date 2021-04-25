@@ -1,28 +1,28 @@
 <template>
-  <div id="contents" @click.once="loadAudios">
-    <teleport
-      v-for="name in matrix.state.frontWindows"
-      :key="name"
-      :to="`#layer-${matrix.state[name].level}`"
-    >
-      <component
-        :is="matrix.state[name].component"
+  <!-- <div id="contents" @click.once="loadAudios"> -->
+  <teleport
+    v-for="name in matrix.state.frontWindows"
+    :key="name"
+    :to="`#layer-${matrix.state[name].level}`"
+  >
+    <component
+      :is="matrix.state[name].component"
+      @touch="teleportToFront(name)"
+    />
+  </teleport>
+
+  <teleport to="#layer-3">
+    <div id="windows-tab">
+      <AppVirtualWindowLegend
+        v-for="name in matrix.state.hiddenWindows"
+        :key="name"
+        :legend="{ text: name, type: 'outside' }"
+        style="position: relative;"
         @touch="teleportToFront(name)"
       />
-    </teleport>
-
-    <teleport to="#layer-3">
-      <div id="windows-tab">
-        <AppVirtualWindowLegend
-          v-for="name in matrix.state.hiddenWindows"
-          :key="name"
-          :legend="{ text: name, type: 'outside' }"
-          style="position: relative;"
-          @touch="teleportToFront(name)"
-        />
-      </div>
-    </teleport>
-  </div>
+    </div>
+  </teleport>
+  <!-- </div> -->
 </template>
 
 <script>

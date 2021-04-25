@@ -13,7 +13,6 @@ export default {
           .catch(err => console.log(err))
   },
 
-
   // 汎用GETリクエストアクション
   get (_, payload) {
     const options = {
@@ -34,7 +33,6 @@ export default {
           .catch(err => console.error(err))
   },
 
-
   // 特定のクイズを取得するアクション
   getQuiz ({ dispatch }, { quizId }) {
     const options = {
@@ -43,7 +41,6 @@ export default {
     }
     return dispatch('get', options)
   },
-
 
   // 全てのクイズを取得するアクション
   getQuizzes ({ dispatch, commit }) {
@@ -54,7 +51,6 @@ export default {
           .then(data => commit('setQuizzes', data))
   },
 
-
   // クイズを作成するアクション
   postQuiz ({ dispatch }, { question, bestAnswer, answer }) {
     const options = {
@@ -63,7 +59,6 @@ export default {
     }
     return dispatch('post', options)
   },
-
 
   // クイズを更新するアクション
   updateQuiz ({ dispatch }, { question, bestAnswer, answer, quizId }) {
@@ -74,7 +69,6 @@ export default {
     return dispatch('post', options)
   },
 
-
   // クイズを削除するアクション
   deleteQuiz ({ dispatch }, { quizId }) {
     const options = {
@@ -83,7 +77,6 @@ export default {
     }
     return dispatch('post', options)
   },
-
 
   // 特定のタグを取得するアクション
   getQuizTag ({ dispatch }, { tagId }) {
@@ -94,7 +87,6 @@ export default {
     return dispatch('get', options)
   },
 
-
   // 全てのタグを取得するアクション
   getQuizTags ({ dispatch, commit }) {
     const options = {
@@ -103,7 +95,6 @@ export default {
     return dispatch('get', options)
           .then(data => commit('setQuizTags', data))
   },
-
 
   // タグを作成するアクション
   postQuizTag ({ dispatch }, { pID, label, background }) {
@@ -114,7 +105,6 @@ export default {
     return dispatch('post', options)
   },
 
-
   // タグを更新するアクション
   updateQuizTag ({ dispatch }, { id, label, background }) {
     const options = {
@@ -123,7 +113,6 @@ export default {
     }
     return dispatch('post', options)
   },
-
 
   // タグを削除するアクション
   deleteQuizTag ({ dispatch }, { tagId }) {
@@ -134,7 +123,6 @@ export default {
     return dispatch('post', options)
   },
 
-
   // クイズとタグを関連付けるアクション
   postRelation ({ dispatch }, { quizId, tagId }) {
     const options = {
@@ -144,7 +132,6 @@ export default {
     return dispatch('post', options)
   },
 
-
   // クイズとタグの関連付けを解除するアクション
   deleteRelation ({ dispatch }, { quizId, tagId }) {
     const options = {
@@ -153,7 +140,6 @@ export default {
     }
     return dispatch('post', options)
   },
-
 
   // タグのツリー構造に変更を加えるアクション
   moveTagTree ({ dispatch }, { cID, pID, idx }) {

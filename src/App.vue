@@ -15,6 +15,7 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import { provideStore as provideMatrix } from '@/store/matrix'
+import { provideStore as provideWindowManager } from '@/store/windowManager'
 import { provideStore as provideAudio } from '@/store/audio'
 import AppContents from '@/pages/AppContents'
 import AppLoading from '@/pages/AppLoading'
@@ -29,6 +30,7 @@ export default defineComponent({
     
     provideAudio()
     provideMatrix()
+    provideWindowManager()
 
     // TODO: ErrorHandling
     return { error }

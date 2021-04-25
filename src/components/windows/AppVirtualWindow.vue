@@ -4,15 +4,19 @@
     v-draggable
     v-resizable
     class="virtual-window"
+    :style="{ width, height }"
   >
-    <div class="contents-wrapper">
-      <div class="header draggable-handle">
-        <slot name="header" />
-      </div>
+    <div class="buttons">
+      <slot name="buttons" />
+    </div>
+    <div class="header draggable-handle">
+      <slot name="header" />
+    </div>
+    <div class="body">
       <slot />
-      <div class="footer">
-        <slot name="footer" />
-      </div>
+    </div>
+    <div class="footer">
+      <slot name="footer" />
     </div>
     <AppVirtualWindowLegend :legend="legend" />
   </div>
@@ -23,9 +27,20 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
+    width: {
+      type: String,
+      required: false,
+      default: 'auto',
+    },
+    height: {
+      type: String,
+      required: false,
+      default: 'auto',
+    },
     legend: {
-      type: Object,
-      required: true,
+      type: [String, Object],
+      required: false,
+      default: 'TEST',
     },
   },
 })
@@ -33,44 +48,54 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 $windowBoxShadow:
-  $outColor   $out-H-Offset    $out-V-Offset  $outBlur $outSpread,        // 外側右下
-  $outColor (-$out-H-Offset)   $out-V-Offset  $outBlur $outSpread,        // 外側左下
-  $outColor (-$out-H-Offset) (-$out-V-Offset) $outBlur $outSpread,        // 外側左上
-  $outColor   $out-H-Offset  (-$out-V-Offset) $outBlur $outSpread,        // 外側右上
-  $inColorH    $in-H-Offset                0   $inBlur  $inSpread inset,  // 内側左
-  $inColorH  (-$in-H-Offset)               0   $inBlur  $inSpread inset,  // 内側右
-  $inColorV               0   (-$in-V-Offset)  $inBlur  $inSpread inset,  // 内側下
+  // $outColor   $out-H-Offset    $out-V-Offset  $outBlur $outSpread,        // 外側右下
+  // $outColor (-$out-H-Offset)   $out-V-Offset  $outBlur $outSpread,        // 外側左下
+  // $outColor (-$out-H-Offset) (-$out-V-Offset) $outBlur $outSpread,        // 外側左上
+  // $outColor   $out-H-Offset  (-$out-V-Offset) $outBlur $outSpread,        // 外側右上
+  // $inColorH    $in-H-Offset                0   $inBlur  $inSpread inset,  // 内側左
+  // $inColorH  (-$in-H-Offset)               0   $inBlur  $inSpread inset,  // 内側右
+  // $inColorV               0   (-$in-V-Offset)  $inBlur  $inSpread inset,  // 内側下
   $inColorV               0     $in-V-Offset   $inBlur  $inSpread inset;  // 内側上
 
 // 外枠のスタイル
 .virtual-window {
   position: absolute;
-  max-width: 100%;
-  max-height: 90%;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  max-width: 100vw;
+  height: auto;
+  max-height: 100vh;
   color: $blueLikeColor6;
+  text-align: center;
   border: 1px solid $blueLikeColor6;
   border-radius: 8px;
   box-shadow: $windowBoxShadow;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  .contents-wrapper {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow: hidden;
-    text-align: center;
-    border-radius: 0 0 8px 8px;
-
-    .header {
-      height: auto;
-      padding-top: $windowHeaderItemSize;
-
-      @if $test { background: $greenLikeColor1; }
-    }
-    .footer {
-      @if $test { background: $greenLikeColor1; }
-    }
+  .buttons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    pointer-events: none;
+  }
+  .header {
+    width: 100%;
+    height: auto;
+    padding-top: $windowHeaderItemSize;
+    @if $test { background: $greenLikeColor1; }
+  }
+  .body {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+  }
+  .footer {
+    width: 100%;
+    height: auto;
+    @if $test { background: $greenLikeColor1; }
   }
 }
 

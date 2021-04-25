@@ -1,7 +1,7 @@
 <template>
   <legend
-    v-if="legend.text"
-    :class="legend.type"
+    v-if="text"
+    :class="type"
     v-on="events"
   >
     <div class="legend-div-1" />
@@ -10,20 +10,20 @@
     </div>
     <div class="legend-div-3" />
     <div class="legend-div-4">
-      {{ legend.text }}
+      {{ text }}
     </div>
     <div class="legend-div-5 draggable-handle" />
   </legend>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 
 export default defineComponent({
   props: {
     legend: {
-      type: Object,
+      type: [String, Object],
       required: true,
     },
   },
@@ -31,10 +31,21 @@ export default defineComponent({
     'touch',
   ],
   setup(props, { emit }) {
+    const text = computed(() => {
+      const { legend } = props
+      return typeof(legend) === 'string' ? legend : legend.text
+    })
+
+    const type = computed(() => {
+      const { legend } = props
+      return typeof(legend) === 'string' ? 'inside' : legend.type
+    })
+
     const events = {
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
-    return { events }
+
+    return { text, type, events }
   }
 })
 </script>

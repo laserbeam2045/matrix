@@ -105,30 +105,52 @@ export const isOnlyBlank = str => {
   return !!(exp && exp[0].length === str.length)
 }
 
-// 文字列中の数字部分だけを数値型として返す関数(※無ければ0が返る)
-export const str2num = val => {
-  if (typeof val === 'number')
-    return val
-  else
-    return Number(val.match(/[0-9.]*/)[0])
-}
+// snake_case -> lowerCamelCase
+export const snake2lowerCamel = str => (
+  str.replace(/_./g, m => m.charAt(1).toUpperCase())
+)
 
-// 文字列の全角を半角に変換する関数
-export const zenkaku2hankaku = str => {
-  return str.replace(/[Ａ-Ｚａ-ｚ０-９]/g,
-    s => String.fromCharCode(s.charCodeAt(0) - 0xFEE0)
+// snake_case -> UpperCamelCase
+export const snake2UpperCamel = str => (
+  str.replace(/^.|_./g, m => m.slice(-1).toUpperCase())
+)
+
+// CamelCase -> snake_case
+export const camel2snake = str => (
+  str.replace(/^[A-Z]/, m => m.toLowerCase())
+     .replace(/[A-Z]/g, m => '_' + m.toLowerCase())
+)
+
+// 全角英数字 -> 半角英数字
+export const zenkaku2hankaku = str => (
+  str.replace(/[Ａ-Ｚａ-ｚ０-９]/g, m =>
+    String.fromCharCode(m.charCodeAt(0) - 0xFEE0)
   )
-}
+)
 
-// 文字列の半角を全角に変換する関数
-export const hankaku2zenkaku = str => {
-  return str.replace(/[A-Za-z0-9]/g,
-    s => String.fromCharCode(s.charCodeAt(0) + 0xFEE0)
+// 半角英数字 -> 全角英数字
+export const hankaku2zenkaku = str => (
+  str.replace(/[A-Za-z0-9]/g, m =>
+    String.fromCharCode(m.charCodeAt(0) + 0xFEE0)
   )
-}
+)
 
-// 全角かなを半角カナに変換する関数
-export const zenkana2Hankana = str => {
+// 全角ひらがな -> 全角カタカナ
+export const hira2kata = str => (
+  str.replace(/[\u3041-\u3096]/g, m =>
+    String.fromCharCode(m.charCodeAt(0) + 0x60)
+  )
+)
+
+// 全角カタカナ -> 全角ひらがな
+export const kata2hira = str => (
+  str.replace(/[\u30a1-\u30f6]/g, m =>
+    String.fromCharCode(m.charCodeAt(0) - 0x60)
+  )
+)
+
+// 全角カタカナ -> 半角ｶﾀｶﾅ
+export const zenkana2hankana = str => {
   const kanaMap = {
     'ガ': 'ｶﾞ', 'ギ': 'ｷﾞ', 'グ': 'ｸﾞ', 'ゲ': 'ｹﾞ', 'ゴ': 'ｺﾞ',
     'ザ': 'ｻﾞ', 'ジ': 'ｼﾞ', 'ズ': 'ｽﾞ', 'ゼ': 'ｾﾞ', 'ゾ': 'ｿﾞ',
@@ -157,8 +179,8 @@ export const zenkana2Hankana = str => {
             .replace(/゜/g, 'ﾟ')
 }
 
-// 半角カナを全角かなに変換する関数
-export const hankana2Zenkana = str => {
+// 半角ｶﾀｶﾅ -> 全角カタカナ
+export const hankana2zenkana = str => {
   const kanaMap = {
     'ｶﾞ': 'ガ', 'ｷﾞ': 'ギ', 'ｸﾞ': 'グ', 'ｹﾞ': 'ゲ', 'ｺﾞ': 'ゴ',
     'ｻﾞ': 'ザ', 'ｼﾞ': 'ジ', 'ｽﾞ': 'ズ', 'ｾﾞ': 'ゼ', 'ｿﾞ': 'ゾ',
@@ -178,7 +200,7 @@ export const hankana2Zenkana = str => {
     'ﾜ': 'ワ', 'ｦ': 'ヲ', 'ﾝ': 'ン',
     'ｧ': 'ァ', 'ｨ': 'ィ', 'ｩ': 'ゥ', 'ｪ': 'ェ', 'ｫ': 'ォ',
     'ｯ': 'ッ', 'ｬ': 'ャ', 'ｭ': 'ュ', 'ｮ': 'ョ',
-    '｡': '。', '､': '、', 'ｰ': 'ー', '｢': '「', '｣': '」', '･': '・'
+    '｡': '。', '､': '、', 'ｰ': 'ー', '｢': '「', '｣': '」', '･': '・',
   }
   const reg = new RegExp('(' + Object.keys(kanaMap).join('|') + ')', 'g')
 
@@ -187,18 +209,12 @@ export const hankana2Zenkana = str => {
             .replace(/ﾟ/g, '゜')
 }
 
-// 文字列のひらがなをカタカナに変換する関数
-export const hira2kata = str => {
-  return str.replace(/[\u3041-\u3096]/g,
-    s => String.fromCharCode(s.charCodeAt(0) + 0x60)
-  )
-}
-
-// 文字列のカタカナをひらがなに変換する関数
-export const kata2hira = str => {
-  return str.replace(/[\u30a1-\u30f6]/g,
-    s => String.fromCharCode(s.charCodeAt(0) - 0x60)
-  )
+// 文字列中の数字部分だけを数値型として返す関数(※無ければ0が返る)
+export const str2num = val => {
+  if (typeof val === 'number')
+    return val
+  else
+    return Number(val.match(/[0-9.]*/)[0])
 }
 
 // LF(\n)以外の改行コードをLFに変換する関数

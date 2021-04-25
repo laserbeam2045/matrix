@@ -1,8 +1,8 @@
 <template>
-  <AppModalWindow ref="modalRef" v-bind="windowState">
+  <AppModalWindow ref="modal" legend="QUIZ CREATOR">
     <div id="quiz-creator">
       <TemplateFormQuiz
-        ref="tableRef"
+        ref="table"
         v-model:question="data.question"
         v-model:answer1="data.answer1"
         v-model:answer2="data.answer2"
@@ -20,6 +20,7 @@
 <script>
 import { defineComponent, ref, reactive } from 'vue'
 import TemplateFormQuiz from '@/components/TemplateFormQuiz'
+import useWindowManager from '@/store/windowManager'
 
 export default defineComponent({
   components: {
@@ -29,13 +30,6 @@ export default defineComponent({
     'inserted',
   ],
   setup(props, { emit }) {
-    // AppModalWindowに渡すプロパティ
-    const windowState = {
-      legend: {
-        text: 'QUIZ CREATOR',
-        type: 'inside',
-      },
-    }
     // 表示・編集の対象となるデータ
     const data = reactive({
       question: '',
@@ -44,12 +38,11 @@ export default defineComponent({
     })
 
     // コンポーネントの参照用
-    const modalRef = ref(null)
-    const tableRef = ref(null)
+    const modal = ref(null)
+    const table = ref(null)
 
     // AppModalWindowの表示・非表示を行うラッパー関数
-    const open = () => modalRef.value.open()
-    const close = () => modalRef.value.close()
+    const { open, close } = useWindowManager(modal)
 
     // クイズを作成する処理
     // TODO: REST API呼び出しへの置き換え
@@ -68,7 +61,7 @@ export default defineComponent({
     const onClickSubmit = () => {
       insertQuiz().then(() => {
         resetData()
-        tableRef.value.focusQuestion()
+        table.value.focusQuestion()
         emit('inserted')
       })
     }
@@ -78,10 +71,9 @@ export default defineComponent({
     }
 
     return {
-      windowState,
       data,
-      modalRef,
-      tableRef,
+      modal,
+      table,
       open,
       close,
       onClickSubmit,

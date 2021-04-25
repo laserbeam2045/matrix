@@ -1,22 +1,10 @@
 <template>
-  <AppVirtualWindow
-    v-model:top="windowState.top"
-    v-model:left="windowState.left"
-    v-model:width="windowState.width"
-    v-model:height="windowState.height"
-    v-bind="windowState"
-    v-on="windowEvents"
-  >
-    <template #header>
-      <AppHeaderItemBox>
-        <AppHeaderItem name="times" @click="closeWindow" />
-      </AppHeaderItemBox>
+  <AppVirtualWindow v-bind="windowState" v-on="windowEvents">
+    <template #buttons>
+      <AppHeaderItem name="times" @click="closeWindow" />
     </template>
     <template #default>
-      <AppScrollable
-        :width="windowState.width"
-        :height="windowState.height"
-      >
+      <AppScrollable>
         <div
           v-for="(value, key) in AUDIOS"
           :key="key"
@@ -45,20 +33,15 @@ import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 
 export default defineComponent({
-  emits: [ 'touch' ],
+  emits: ['touch'],
   setup(_, { emit }) {
     const { deactivate } = useMatrix()
     const { playAudio } = useSound()
 
     const windowState = reactive({
-      top: 'center',
-      left: 'center',
-      width: '100%',
-      height: '90%',
-      legend: {
-        text: 'Audios',
-        type: 'inside',
-      },
+      width: '99vw',
+      height: '90vh',
+      legend: 'Audios',
     })
 
     const windowEvents = {

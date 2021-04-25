@@ -1,8 +1,5 @@
 <template>
-  <AppModalWindow
-    ref="modalWindow"
-    v-bind="windowState"
-  >
+  <AppModalWindow ref="modal" legend="TAG CREATOR">
     <div id="quiz-tag-creator">
       <TemplateFormQuizTag
         v-model:parentLabel="data.parentLabel"
@@ -21,6 +18,7 @@
 <script>
 import { defineComponent, reactive, ref, watch, inject } from 'vue'
 import TemplateFormQuizTag from '@/components/TemplateFormQuizTag'
+import useWindowManager from '@/store/windowManager'
 
 export default defineComponent ({
   components: {
@@ -37,13 +35,6 @@ export default defineComponent ({
     'click-cancel',
   ],
   setup(props, { emit }) {
-    // AppModalWindowに渡すプロパティ
-    const windowState = {
-      legend: {
-        text: 'TAG CREATOR',
-        type: 'inside',
-      },
-    }
     // 表示・編集の対象となるデータ
     const data = reactive({
       parentLabel: '',
@@ -59,11 +50,10 @@ export default defineComponent ({
     })
 
     // コンポーネントの参照用
-    const modalWindow = ref(null)
+    const modal = ref(null)
 
     // AppModalWindowの表示・非表示を行うラッパー関数
-    const open = () => modalWindow.value.open()
-    const close = () => modalWindow.value.close()
+    const { open, close } = useWindowManager(modal)
 
     // タグを挿入する処理
     // TODO: REST API呼び出しへの置き換え
@@ -84,9 +74,8 @@ export default defineComponent ({
     }
 
     return {
-      windowState,
       data,
-      modalWindow,
+      modal,
       open,
       close,
       onClickSubmit,

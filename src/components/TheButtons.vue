@@ -1,12 +1,7 @@
 <template>
-  <AppVirtualWindow
-    v-bind="windowState"
-    v-on="windowEvents"
-  >
-    <template #header>
-      <AppHeaderItemBox>
-        <AppHeaderItem name="times" @click="closeWindow" />
-      </AppHeaderItemBox>
+  <AppVirtualWindow legend="Buttons" v-on="windowEvents">
+    <template #buttons>
+      <AppHeaderItem name="times" @click="closeWindow" />
     </template>
     <template #default>
       <div class="container">
@@ -25,7 +20,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
+import { defineComponent } from 'vue'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
@@ -35,13 +30,6 @@ export default defineComponent({
   setup(_, { emit }) {
     const { deactivate } = useMatrix()
     const { playAudio } = useSound()
-
-    const windowState = reactive({
-      legend: {
-        text: 'Buttons',
-        type: 'inside',
-      },
-    })
 
     const windowEvents = {
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
@@ -53,11 +41,7 @@ export default defineComponent({
       playAudio(AUDIOS.ETC.CYBER_04_1)
     }
 
-    return {
-      windowState,
-      windowEvents,
-      closeWindow,
-    }
+    return { windowEvents, closeWindow }
   }
 })
 </script>

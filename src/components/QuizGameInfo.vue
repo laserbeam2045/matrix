@@ -1,9 +1,5 @@
 <template>
-  <AppModalWindow
-    ref="modalWindow"
-    v-bind="windowState"
-    @close="$emit('close')"
-  >
+  <AppModalWindow ref="modal" legend="Info" @close="$emit('close')">
     <div>
       <p>There are no quizzes.</p>
       <p>Please select related tags.</p>
@@ -13,24 +9,18 @@
 
 <script>
 import { defineComponent, ref, onMounted } from 'vue'
+import useWindowManager from '@/store/windowManager'
 
 export default defineComponent({
-    emits: [ 'close' ],
+  emits: ['close'],
   setup() {
-    const modalWindow = ref(null)
-    const windowState = {
-      legend: {
-        text: 'Info',
-        type: 'inside',
-      },
-    }
+    const modal = ref(null)
 
-    onMounted(() => modalWindow.value.open())
+    const { open } = useWindowManager(modal)
 
-    return {
-      modalWindow,
-      windowState,
-    }
+    onMounted(() => open())
+
+    return { modal }
   }
 })
 </script>

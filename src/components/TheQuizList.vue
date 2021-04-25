@@ -1,6 +1,6 @@
 <template>
   <div v-on="windowEvents">
-    <QuizListTable @click-question="openEditor" />
+    <QuizListTable @clickQuestion="setQuizId, openEditor" />
 
     <TheQuizCreator
       ref="theQuizCreator"
@@ -8,7 +8,7 @@
     />
     <TheQuizEditor
       ref="theQuizEditor"
-      :quizId="quizId4Update"
+      :quizId="quizId"
       @updated="onUpdateQuiz"
       @deleted="onDeleteQuiz"
     />
@@ -21,6 +21,7 @@ import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 import QuizListTable from '@/components/QuizListTable'
 import TheQuizCreator from '@/components/TheQuizCreator'
 import TheQuizEditor from '@/components/TheQuizEditor'
+import useWindowManager from '@/store/windowManager'
 
 export default defineComponent({
   components: {
@@ -39,18 +40,13 @@ export default defineComponent({
     const theQuizEditor = ref(null)
     const theQuizCreator = ref(null)
 
-    // 更新・削除の対象となるクイズのid
-    const quizId4Update = ref(0)
+    const { open: openEditor } = useWindowManager(theQuizEditor)
+    const { open: openCreator } = useWindowManager(theQuizCreator)
 
-    // 問題の作成ウィンドウを開く処理
-    const openCreator = () => {
-      theQuizCreator.value.open()
-    }
-    // 問題の編集ウィンドウを開く処理
-    const openEditor = id => {
-      quizId4Update.value = id
-      theQuizEditor.value.open()
-    }
+    // 更新・削除の対象となるクイズのid
+    const quizId = ref(0)
+
+    const setQuizId = id => quizId.value = id
 
     // 問題の作成が完了した時の処理
     const onInsertQuiz = () => {
@@ -69,9 +65,10 @@ export default defineComponent({
       windowEvents,
       theQuizEditor,
       theQuizCreator,
-      quizId4Update,
-      openCreator,
+      quizId,
+      setQuizId,
       openEditor,
+      openCreator,
       onInsertQuiz,
       onUpdateQuiz,
       onDeleteQuiz,

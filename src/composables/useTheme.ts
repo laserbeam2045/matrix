@@ -17,5 +17,5 @@ export const useTheme = () => {
 
   const theme = readonly(t)
   const setTheme = (theme: Theme) => (t.value = theme)
-  return { theme, setTheme };
+  return { theme, setTheme }
 }

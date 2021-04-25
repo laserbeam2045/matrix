@@ -61,22 +61,22 @@ export default defineComponent({
 input {
   width: auto;
   padding: 6px 12px;
+  font: $normalFont;
   color: $blueLikeColor6;
   background: transparent;
   border: 1px solid $def-wrap-c2;
   transition: $neutral-transition;
-  font: $normalFont;
 
   &::placeholder {
     color: $grayLikeColor2;
     transition: $neutral-transition;
   }
   &:focus {
-    outline: none;
     color: $act-input-c1;
+    text-shadow: $text-shadow;
     background: $act-input-c2;
     border: 1px solid $act-wrap-c2;
-    text-shadow: $text-shadow;
+    outline: none;
     box-shadow : $act-input-c4  2px  2px 20px,
                  $act-input-c4 -2px -2px 20px,
                  $act-input-c4 -2px  2px 20px inset,

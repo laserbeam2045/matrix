@@ -15,7 +15,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    provideTheme(ref(props.theme));
+    provideTheme(ref(props.theme))
   },
-});
+})
 </script>

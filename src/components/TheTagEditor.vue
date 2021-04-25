@@ -1,8 +1,5 @@
 <template>
-  <AppModalWindow
-    ref="modalWindow"
-    v-bind="windowState"
-  >
+  <AppModalWindow ref="modal" legend="TAG EDITOR">
     <div id="quiz-tag-editor">
       <TemplateFormQuizTag
         v-model:id="data.id"
@@ -19,7 +16,7 @@
   </AppModalWindow>
 
   <AppConfirmWindow
-    ref="confirmWindow"
+    ref="confirm"
     @positive="onClickPositive"
     @negative="onClickNegative"
   />
@@ -28,6 +25,7 @@
 <script>
 import { defineComponent, reactive, ref, watch, inject } from 'vue'
 import TemplateFormQuizTag from '@/components/TemplateFormQuizTag'
+import useWindowManager from '@/store/windowManager'
 
 // 確認ダイアログがどのボタンによって表示されたかを表す定数
 const UPDATE_MODE = 0
@@ -50,13 +48,6 @@ export default defineComponent({
     'click-cancel',
   ],
   setup(props, { emit }) {
-    // AppModalWindowに渡すプロパティ
-    const windowState = {
-      legend: {
-        text: 'TAG EDITOR',
-        type: 'inside',
-      },
-    }
     // 表示・編集の対象となるデータ
     const data = reactive({
       id: props.tagId,
@@ -75,14 +66,15 @@ export default defineComponent({
     const modeRef = ref(null)
 
     // コンポーネントの参照用
-    const modalWindow = ref(null)
-    const confirmWindow = ref(null)
+    const modal = ref(null)
+    const confirm = ref(null)
 
-    // AppModalWindowの表示・非表示を行うラッパー関数
-    const open = () => modalWindow.value.open()
-    const close = () => modalWindow.value.close()
-    const showConfirm = () => confirmWindow.value.open()
-    const hideConfirm = () => confirmWindow.value.close()
+    const { open, close } = useWindowManager(modal)
+
+    const {
+      open: openConfirm,
+      close: closeConfirm,
+    } = useWindowManager(confirm)
 
     // タグを更新する処理
     // TODO: REST API呼び出しへの置き換え
@@ -99,12 +91,12 @@ export default defineComponent({
     // Updateボタン押下時の処理
     const onClickUpdate = () => {
       modeRef.value = UPDATE_MODE
-      showConfirm()
+      openConfirm()
     }
     // Deleteボタン押下時の処理
     const onClickDelete = () => {
       modeRef.value = DELETE_MODE
-      showConfirm()
+      openConfirm()
     }
     // Createボタン押下時の処理
     const onClickCreate = () => {
@@ -120,13 +112,13 @@ export default defineComponent({
       switch (modeRef.value) {
       case UPDATE_MODE:
         updateQuizTag().then(() => {
-          hideConfirm()
+          closeConfirm()
           emit('updated')
         })
         break
       case DELETE_MODE:
         deleteQuizTag().then(() => {
-          hideConfirm()
+          closeConfirm()
           emit('deleted')
         })
         break
@@ -134,7 +126,7 @@ export default defineComponent({
     }
     // 確認ダイアログのCancelボタン押下時の処理
     const onClickNegative = () => {
-      hideConfirm()
+      closeConfirm()
     }
 
     const buttons = [
@@ -165,10 +157,9 @@ export default defineComponent({
     ]
 
     return {
-      windowState,
       data,
-      modalWindow,
-      confirmWindow,
+      modal,
+      confirm,
       open,
       close,
       onClickPositive,

@@ -1,25 +1,14 @@
 <template>
   <div v-on="windowEvents">
-    <AppVirtualWindow
-      v-model:top="windowState.top"
-      v-model:left="windowState.left"
-      v-model:width="windowState.width"
-      v-model:height="windowState.height"
-      v-bind="windowState"
-    >
-      <template #header>
-        <AppHeaderItemBox>
-          <AppHeaderItem
-            name="times"
-            @click="closeWindow"
-          />
-        </AppHeaderItemBox>
+    <AppVirtualWindow legend="UserData">
+      <template #buttons>
+        <AppHeaderItem
+          name="times"
+          @click="closeWindow"
+        />
       </template>
       <template #default>
-        <AppScrollable
-          :width="windowState.width"
-          :height="windowState.height"
-        >
+        <AppScrollable v-bind="windowState">
           <div class="user-data">
             <ul class="menu">
               <li>Profile</li>
@@ -65,14 +54,8 @@ export default defineComponent({
   ],
   setup(props, { emit }) {
     const windowState = reactive({
-      top: 'center',
-      left: 'center',
       width: 'auto',
       height: 'auto',
-      legend: {
-        text: 'UserData',
-        type: 'inside',
-      },
     })
     const windowEvents = {
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },

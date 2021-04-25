@@ -1,27 +1,29 @@
 <template>
-  <div>
-    <AppVirtualWindow
-      v-model:top="windowState.top"
-      v-model:left="windowState.left"
-      v-model:width="windowState.width"
-      v-model:height="windowState.height"
-      v-bind="windowState"
-      v-on="windowEvents"
-    >
-      <EditableWindow
-        ref="editableWindow"
-        :value="command"
-        @input="onInput"
-        @keydown.up.exact="onKeydownUp"
-        @keydown.down.exact="onKeydownDown"
-        @keydown.enter.exact="onKeydownEnter"
-      />
-    </AppVirtualWindow>
-  </div>
+  <AppVirtualWindow legend="MATRIX" width="300px" v-on="windowEvents">
+    <EditableWindow
+      ref="editableWindow"
+      :value="command"
+      @input="onInput"
+      @keydown.up.exact="onKeydownUp"
+      @keydown.down.exact="onKeydownDown"
+      @keydown.enter.exact="onKeydownEnter"
+    />
+  </AppVirtualWindow>
+
+  <!-- <AppVirtualWindow legend="TEST" width="50vh" height="50vh">
+    <AppScrollable position="bottom">
+      <p>start</p>
+      <p v-for="i in 250" :key="i" style="white-space: nowrap;">
+        foo bar fizz bazz foo bar fizz bazz foo bar fizz bazz foo bar fizz bazz
+        foo bar fizz bazz foo bar fizz bazz foo bar fizz bazz foo bar fizz bazz
+      </p>
+      <p>end</p>
+    </AppScrollable>
+  </AppVirtualWindow> -->
 </template>
 
 <script>
-import { defineComponent, ref, reactive, watch } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
@@ -32,7 +34,6 @@ import useCommand from '@/composables/useCommand'
 export default defineComponent({
   components: { EditableWindow },
   emits: ['touch'],
-  
   setup(props, { emit }) {
     const editableWindow = ref(null)
 
@@ -50,16 +51,6 @@ export default defineComponent({
       }
     })
 
-    const windowState = reactive({
-      top: 'center',
-      left: 'center',
-      width: '300px',
-      height: 'auto',
-      legend: {
-        text: 'MATRIX',
-        type: 'inside',
-      },
-    })
     const windowEvents = {
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
@@ -112,7 +103,6 @@ export default defineComponent({
 
     return {
       editableWindow,
-      windowState,
       windowEvents,
       command: cmdManager.currentCommand,
       onInput,
