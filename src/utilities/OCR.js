@@ -57,9 +57,9 @@ export default class OCR {
 
     return tf.tidy(() => {
       return tf.browser.fromPixels(imageData, 1)
-                       .cast('float32')
-                       .div(tf.scalar(255))
-                       .reshape([1, INPUT_SIZE, INPUT_SIZE, 1])
+        .cast('float32')
+        .div(tf.scalar(255))
+        .reshape([1, INPUT_SIZE, INPUT_SIZE, 1])
     })
   }
 
@@ -90,26 +90,26 @@ export default class OCR {
     //              .toGrayScale()
     MIN_RECT_SIZE
     return input.downScaleTo(INPUT_SIZE)
-                .toNegative()
-                .toGrayScale()
+      .toNegative()
+      .toGrayScale()
   }
 
   // 前処理その３(中心の座標と重心の座標のずれ方を求め、必要領域だけ転写する)
   preprocessingStep3(input) {
     const centerOfFrame = input.getCenterOfFrame(),
-          centerOfGravity = input.getCenterOfGravity(),
-          sx = 0,
-          sy = 0,
-          sw = input.width,
-          sh = input.height,
-          dx = Math.round(centerOfFrame.x - centerOfGravity.x),
-          dy = Math.round(centerOfFrame.y - centerOfGravity.y),
-          dw = INPUT_SIZE,
-          dh = INPUT_SIZE
-    
+      centerOfGravity = input.getCenterOfGravity(),
+      sx = 0,
+      sy = 0,
+      sw = input.width,
+      sh = input.height,
+      dx = Math.round(centerOfFrame.x - centerOfGravity.x),
+      dy = Math.round(centerOfFrame.y - centerOfGravity.y),
+      dw = INPUT_SIZE,
+      dh = INPUT_SIZE
+
     return new Rahmen(INPUT_SIZE, INPUT_SIZE, 'white')
-                 .fillRect()
-                 .drawImage(input, sx, sy, sw, sh, dx, dy, dw, dh)
+      .fillRect()
+      .drawImage(input, sx, sy, sw, sh, dx, dy, dw, dh)
   }
 
   // 推論結果の数値を文字に変換するメソッド

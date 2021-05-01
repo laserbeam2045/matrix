@@ -41,7 +41,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
+, "src/composables/directive/useScroll.js", "src/composables/directive/useWindow.js", "src/composables/directive/useDraggable.js", "src/composables/directive/useResizable.js"  ],
   "exclude": [
     "node_modules"
   ]

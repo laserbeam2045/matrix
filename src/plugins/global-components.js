@@ -1,5 +1,5 @@
-import TreeAlphaBody from '@/components/TreeAlphaBody'
-import TreeBetaBody from '@/components/TreeBetaBody'
+import TreeAlphaBody from '@/components/tree/TreeAlphaBody'
+import TreeBetaBody from '@/components/tree/TreeBetaBody'
 
 export default function registerGlobalComponents(vm) {
   // 基底(ファイル名にAppを含む)コンポーネントをグローバル化する

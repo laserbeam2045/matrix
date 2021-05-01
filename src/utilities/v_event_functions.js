@@ -3,9 +3,9 @@
 
 // デバイスの種類
 export const DEVICE_TYPE = {
-  SMART_PHONE : 0,
-  TABLET      : 1,
-  PC          : 2,
+  PC         : 0,
+  TABLET     : 1,
+  SMART_PHONE: 2,
 }
 
 // タッチイベントのサポートの有無

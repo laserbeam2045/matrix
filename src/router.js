@@ -3,10 +3,10 @@ import AppContents from '@/pages/AppContents.vue'
 
 export const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes: [
+  routes : [
     {
-      name: 'global',
-      path: '/',
+      name     : 'global',
+      path     : '/',
       component: AppContents,
     },
   ],

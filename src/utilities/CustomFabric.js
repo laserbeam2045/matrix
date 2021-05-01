@@ -1,3 +1,6 @@
+/* eslint-disable array-element-newline */
+/* eslint-disable key-spacing */
+/* eslint-disable indent */
 import { fabric } from 'fabric'
 
 // fabric.PencilBrushに独自のカスタマイズを加えるためのクラス
@@ -23,7 +26,7 @@ class MyPencilBrush extends fabric.PencilBrush {
     if (!this.canvas._isMainEvent(options.e)) {
       return
     }
-    this.dotOnlyFlg = false    // + 
+    this.dotOnlyFlg = false    // +
     if (this._captureDrawingPath(pointer) && this._points.length > 1) {
       if (this.needsFullRender()) {
         // redraw curve
@@ -54,13 +57,13 @@ class MyPencilBrush extends fabric.PencilBrush {
     // + BEGIN
     if (this.dotOnlyFlg) {
       const moves = [
-                                                           {x:  0,  y: -3},
-                                          {x: -1,  y: -2}, {x:  0,  y: -2}, {x:  1,  y: -2},
-                         {x: -2,  y: -1}, {x: -1,  y: -1}, {x:  0,  y: -1}, {x:  1,  y: -1}, {x:  2,  y: -1},
-        {x: -3,  y:  0}, {x: -2,  y:  0}, {x: -1,  y:  0}, {x:  0,  y:  0}, {x:  1,  y:  0}, {x:  2,  y:  0}, {x:  3,  y:  0},
-                         {x: -2,  y:  1}, {x: -1,  y:  1}, {x:  0,  y:  1}, {x:  1,  y:  1}, {x:  2,  y:  1},
-                                          {x: -1,  y:  2}, {x:  0,  y:  2}, {x:  1,  y:  2},
-                                                           {x:  0,  y:  3},
+                                                        {x: 0, y: -3},
+                                        {x: -1, y: -2}, {x: 0, y: -2}, {x: 1, y: -2},
+                        {x: -2, y: -1}, {x: -1, y: -1}, {x: 0, y: -1}, {x: 1, y: -1}, {x: 2, y: -1},
+        {x: -3, y:  0}, {x: -2, y:  0}, {x: -1, y:  0}, {x: 0, y:  0}, {x: 1, y:  0}, {x: 2, y:  0}, {x: 3, y:  0},
+                        {x: -2, y:  1}, {x: -1, y:  1}, {x: 0, y:  1}, {x: 1, y:  1}, {x: 2, y:  1},
+                                        {x: -1, y:  2}, {x: 0, y:  2}, {x: 1, y:  2},
+                                                        {x: 0, y:  3},
       ]
       for (let move of moves) {
         const pointer = {

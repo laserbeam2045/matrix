@@ -4,7 +4,7 @@ import { reactive, computed, readonly } from 'vue'
 export default function useCommand() {
   const state = reactive({
     commands: [''],   // コマンドの履歴
-    cursor: 0,        // 現在入力中のコマンドの位置
+    cursor  : 0,      // 現在入力中のコマンドの位置
   })
 
   // 現在のコマンド

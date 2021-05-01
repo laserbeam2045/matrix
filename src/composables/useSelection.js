@@ -74,7 +74,7 @@ export default function useSelection() {
   // 簡易的に記録される選択範囲
   const localRange = reactive({
     startOffset: 0,
-    endOffset: 0,
+    endOffset  : 0,
   })
 
   // localRangeの値を、相対的に変更する関数

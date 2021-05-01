@@ -2,7 +2,13 @@ import { ref, onMounted, watch, computed } from 'vue'
 import { fetchQuizTags } from '@/api/tags'
 import Aset from '@/utilities/Aset'
 
-export default function useQuizTags(user) {
+export default function useQuizTags() {
+  const user = ref({
+    profile: {
+      name: 'Neo',
+    },
+  })
+
   const tags = ref([])
   const tree = computed(() => root.value ? getStruct(root.value) : {})
   const activeTagIds = ref(new Aset())

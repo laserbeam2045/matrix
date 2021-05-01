@@ -5,9 +5,15 @@
     </template>
     <template #default>
       <div class="container">
-        <AppButton>AppButton</AppButton>
-        <AppButtonCircle>AppButtonCircle</AppButtonCircle>
-        <AppButtonNeon>AppButtonNeon</AppButtonNeon>
+        <AppButton>
+          AppButton
+        </AppButton>
+        <AppButtonCircle>
+          AppButtonCircle
+        </AppButtonCircle>
+        <AppButtonNeon>
+          AppButtonNeon
+        </AppButtonNeon>
         <AppButtonNeon class="-pink">
           AppButtonNeon
         </AppButtonNeon>
@@ -26,7 +32,7 @@ import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 
 export default defineComponent({
-  emits: [ 'touch' ],
+  emits: ['touch'],
   setup(_, { emit }) {
     const { deactivate } = useMatrix()
     const { playAudio } = useSound()
@@ -42,7 +48,7 @@ export default defineComponent({
     }
 
     return { windowEvents, closeWindow }
-  }
+  },
 })
 </script>
 

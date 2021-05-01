@@ -1,3 +1,4 @@
+/* eslint-disable array-element-newline */
 
 /* 文字列処理全般の関数群 */
 
@@ -117,8 +118,9 @@ export const snake2UpperCamel = str => (
 
 // CamelCase -> snake_case
 export const camel2snake = str => (
-  str.replace(/^[A-Z]/, m => m.toLowerCase())
-     .replace(/[A-Z]/g, m => '_' + m.toLowerCase())
+  str
+    .replace(/^[A-Z]/, m => m.toLowerCase())
+    .replace(/[A-Z]/g, m => '_' + m.toLowerCase())
 )
 
 // 全角英数字 -> 半角英数字
@@ -174,9 +176,10 @@ export const zenkana2hankana = str => {
   }
   const reg = new RegExp('(' + Object.keys(kanaMap).join('|') + ')', 'g')
 
-  return str.replace(reg, match => kanaMap[match])
-            .replace(/゛/g, 'ﾞ')
-            .replace(/゜/g, 'ﾟ')
+  return str
+    .replace(reg, match => kanaMap[match])
+    .replace(/゛/g, 'ﾞ')
+    .replace(/゜/g, 'ﾟ')
 }
 
 // 半角ｶﾀｶﾅ -> 全角カタカナ
@@ -188,25 +191,26 @@ export const hankana2zenkana = str => {
     'ﾊﾞ': 'バ', 'ﾋﾞ': 'ビ', 'ﾌﾞ': 'ブ', 'ﾍﾞ': 'ベ', 'ﾎﾞ': 'ボ',
     'ﾊﾟ': 'パ', 'ﾋﾟ': 'ピ', 'ﾌﾟ': 'プ', 'ﾍﾟ': 'ペ', 'ﾎﾟ': 'ポ',
     'ｳﾞ': 'ヴ', 'ﾜﾞ': 'ヷ', 'ｦﾞ': 'ヺ',
-    'ｱ': 'ア', 'ｲ': 'イ', 'ｳ': 'ウ', 'ｴ': 'エ', 'ｵ': 'オ',
-    'ｶ': 'カ', 'ｷ': 'キ', 'ｸ': 'ク', 'ｹ': 'ケ', 'ｺ': 'コ',
-    'ｻ': 'サ', 'ｼ': 'シ', 'ｽ': 'ス', 'ｾ': 'セ', 'ｿ': 'ソ',
-    'ﾀ': 'タ', 'ﾁ': 'チ', 'ﾂ': 'ツ', 'ﾃ': 'テ', 'ﾄ': 'ト',
-    'ﾅ': 'ナ', 'ﾆ': 'ニ', 'ﾇ': 'ヌ', 'ﾈ': 'ネ', 'ﾉ': 'ノ',
-    'ﾊ': 'ハ', 'ﾋ': 'ヒ', 'ﾌ': 'フ', 'ﾍ': 'ヘ', 'ﾎ': 'ホ',
-    'ﾏ': 'マ', 'ﾐ': 'ミ', 'ﾑ': 'ム', 'ﾒ': 'メ', 'ﾓ': 'モ',
-    'ﾔ': 'ヤ', 'ﾕ': 'ユ', 'ﾖ': 'ヨ',
-    'ﾗ': 'ラ', 'ﾘ': 'リ', 'ﾙ': 'ル', 'ﾚ': 'レ', 'ﾛ': 'ロ',
-    'ﾜ': 'ワ', 'ｦ': 'ヲ', 'ﾝ': 'ン',
-    'ｧ': 'ァ', 'ｨ': 'ィ', 'ｩ': 'ゥ', 'ｪ': 'ェ', 'ｫ': 'ォ',
-    'ｯ': 'ッ', 'ｬ': 'ャ', 'ｭ': 'ュ', 'ｮ': 'ョ',
-    '｡': '。', '､': '、', 'ｰ': 'ー', '｢': '「', '｣': '」', '･': '・',
+    'ｱ' : 'ア', 'ｲ' : 'イ', 'ｳ' : 'ウ', 'ｴ' : 'エ', 'ｵ' : 'オ',
+    'ｶ' : 'カ', 'ｷ' : 'キ', 'ｸ' : 'ク', 'ｹ' : 'ケ', 'ｺ' : 'コ',
+    'ｻ' : 'サ', 'ｼ' : 'シ', 'ｽ' : 'ス', 'ｾ' : 'セ', 'ｿ' : 'ソ',
+    'ﾀ' : 'タ', 'ﾁ' : 'チ', 'ﾂ' : 'ツ', 'ﾃ' : 'テ', 'ﾄ' : 'ト',
+    'ﾅ' : 'ナ', 'ﾆ' : 'ニ', 'ﾇ' : 'ヌ', 'ﾈ' : 'ネ', 'ﾉ' : 'ノ',
+    'ﾊ' : 'ハ', 'ﾋ' : 'ヒ', 'ﾌ' : 'フ', 'ﾍ' : 'ヘ', 'ﾎ' : 'ホ',
+    'ﾏ' : 'マ', 'ﾐ' : 'ミ', 'ﾑ' : 'ム', 'ﾒ' : 'メ', 'ﾓ' : 'モ',
+    'ﾔ' : 'ヤ', 'ﾕ' : 'ユ', 'ﾖ' : 'ヨ',
+    'ﾗ' : 'ラ', 'ﾘ' : 'リ', 'ﾙ' : 'ル', 'ﾚ' : 'レ', 'ﾛ' : 'ロ',
+    'ﾜ' : 'ワ', 'ｦ' : 'ヲ', 'ﾝ' : 'ン',
+    'ｧ' : 'ァ', 'ｨ' : 'ィ', 'ｩ' : 'ゥ', 'ｪ' : 'ェ', 'ｫ' : 'ォ',
+    'ｯ' : 'ッ', 'ｬ' : 'ャ', 'ｭ' : 'ュ', 'ｮ' : 'ョ',
+    '｡' : '。', '､' : '、', 'ｰ' : 'ー', '｢' : '「', '｣' : '」', '･' : '・',
   }
   const reg = new RegExp('(' + Object.keys(kanaMap).join('|') + ')', 'g')
 
-  return str.replace(reg, match => kanaMap[match])
-            .replace(/ﾞ/g, '゛')
-            .replace(/ﾟ/g, '゜')
+  return str
+    .replace(reg, match => kanaMap[match])
+    .replace(/ﾞ/g, '゛')
+    .replace(/ﾟ/g, '゜')
 }
 
 // 文字列中の数字部分だけを数値型として返す関数(※無ければ0が返る)
@@ -219,8 +223,9 @@ export const str2num = val => {
 
 // LF(\n)以外の改行コードをLFに変換する関数
 export const convert2LF = str => {
-  return str.replace(regExpCRLF, LF)
-            .replace(regExpCR,   LF)
+  return str
+    .replace(regExpCRLF, LF)
+    .replace(regExpCR,   LF)
 }
 
 // テキストの末尾に改行コードが1つだけ残っている場合に取り除く関数
@@ -248,40 +253,43 @@ export const splitByBlank = str => {
 
 // HTML用にXSSのリスクがある記号をエスケープする関数
 export const escapeHTML = str => {
-  return str.replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/&/g, '&amp;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#x27;')
+  return str
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
 }
 
 // HTML用にエスケープした文字列をデコードする関数
 export const unescapeHTML = str => {
-  return str.replace(/&lt;/g,   '<')
-            .replace(/&gt;/g,   '>')
-            .replace(/&amp;/g,  '&')
-            .replace(/&quot;/g, '"')
-            .replace(/&#x27;/g, '\'')
+  return str
+    .replace(/&lt;/g,   '<')
+    .replace(/&gt;/g,   '>')
+    .replace(/&amp;/g,  '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, '\'')
 }
 
 // 正規表現用に文字列をエスケープする関数
 export const escapeRegExp = str => {
-  return str.replace('\\', '\\\\')
-            .replace('\'', '\\\'')
-            .replace('"', '\\"')
-            .replace('.', '\\.')
-            .replace('*', '\\*')
-            .replace('+', '\\+')
-            .replace('?', '\\?')
-            .replace('^', '\\^')
-            .replace('$', '\\$')
-            .replace('-', '\\-')
-            .replace('|', '\\|')
-            .replace('/', '\\/')
-            .replace('{', '\\{')
-            .replace('}', '\\}')
-            .replace('(', '\\(')
-            .replace(')', '\\)')
-            .replace('[', '\\[')
-            .replace(']', '\\]')
+  return str
+    .replace('\\', '\\\\')
+    .replace('\'', '\\\'')
+    .replace('"', '\\"')
+    .replace('.', '\\.')
+    .replace('*', '\\*')
+    .replace('+', '\\+')
+    .replace('?', '\\?')
+    .replace('^', '\\^')
+    .replace('$', '\\$')
+    .replace('-', '\\-')
+    .replace('|', '\\|')
+    .replace('/', '\\/')
+    .replace('{', '\\{')
+    .replace('}', '\\}')
+    .replace('(', '\\(')
+    .replace(')', '\\)')
+    .replace('[', '\\[')
+    .replace(']', '\\]')
 }

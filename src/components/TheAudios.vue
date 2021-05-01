@@ -5,17 +5,9 @@
     </template>
     <template #default>
       <AppScrollable>
-        <div
-          v-for="(value, key) in AUDIOS"
-          :key="key"
-          class="flex flex-wrap justify-center mt-6"
-        >
+        <div v-for="(value, key) in AUDIOS" :key="key" class="flex flex-wrap justify-center mt-6">
           {{ key }}
-          <div
-            v-for="(value2, key2) in value"
-            :key="key2"
-            class="m-3"
-          >
+          <div v-for="(value2, key2) in value" :key="key2" class="m-3">
             <component :is="'AppButtonCircle'" @[`${MOUSE_TOUCH_EVENT.START}Passive`]="playAudio(value2)">
               {{ key2 }}
             </component>
@@ -39,7 +31,7 @@ export default defineComponent({
     const { playAudio } = useSound()
 
     const windowState = reactive({
-      width: '99vw',
+      width : '99vw',
       height: '90vh',
       legend: 'Audios',
     })
@@ -62,6 +54,6 @@ export default defineComponent({
       closeWindow,
       MOUSE_TOUCH_EVENT,
     }
-  }
+  },
 })
 </script>

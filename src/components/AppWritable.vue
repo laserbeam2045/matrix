@@ -15,11 +15,11 @@ import _ from 'lodash'
 export default defineComponent({
   props: {
     width: {
-      type: Number,
+      type    : Number,
       required: true,
     },
     height: {
-      type: Number,
+      type    : Number,
       required: true,
     },
   },
@@ -32,20 +32,20 @@ export default defineComponent({
     const fabricCanvas = ref(null)
 
     const state = reactive({
-      isClean: true,      // 何も描かれていない状態かどうか
+      isClean   : true,   // 何も描かれていない状態かどうか
       isClearing: true,   // clearメソッドを呼び出したかどうか
     })
     const fabricProps = reactive({
-      id: 'fabric-canvas',
-      width: props.width,
-      height: props.height,
-      isDrawingMode: true,
+      id             : 'fabric-canvas',
+      width          : props.width,
+      height         : props.height,
+      isDrawingMode  : true,
       backgroundColor: 'transparent',
-      brush: {
-        width: 3,
-        color: 'white',
+      brush          : {
+        width : 3,
+        color : 'white',
         shadow: new fabric.Shadow({
-          blur: 3,
+          blur : 3,
           color: 'rgb(0, 255, 255)',
         }),
       },
@@ -71,7 +71,7 @@ export default defineComponent({
       }
       const { id, width, height, isDrawingMode, backgroundColor } = fabricProps
       fabricCanvas.value = new fabric.Canvas(id, {
-        width, height, isDrawingMode, backgroundColor
+        width, height, isDrawingMode, backgroundColor,
       })
     }
 
@@ -110,6 +110,6 @@ export default defineComponent({
     })
 
     return { fabricProps, canvas, clear }
-  }
+  },
 })
 </script>

@@ -25,8 +25,8 @@ export default defineComponent({
     const writable = ref(null)
 
     const state = reactive({
-      width: 0,
-      height: 0,
+      width  : 0,
+      height : 0,
       isFresh: true,
     })
 
@@ -103,7 +103,7 @@ export default defineComponent({
       send,
       onResize,
     }
-  }
+  },
 })
 </script>
 

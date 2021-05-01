@@ -6,7 +6,7 @@ const API_ROOT = process.env.VUE_APP_API_ROOT
 
 const createStore = () => {
   const state = reactive({
-    error: null,
+    error  : null,
     loading: false,
   })
   // Audioインスタンスを辞書式に管理するためのオブジェクト
@@ -18,7 +18,7 @@ const createStore = () => {
   // サーバーからfilePathを取得し、データを読み込む関数
   const loadAudio = async(labels) => {
     const audioLabels = labels2csv(labels)
-    
+
     if (audioLabels) {
       try {
         state.loading = true
@@ -26,7 +26,7 @@ const createStore = () => {
         const option = { audioLabels }
         const result = await getRequest(url, option)
         result.forEach(record => data[record.label] = createAudio(record))
-      } catch(e) {
+      } catch (e) {
         state.error = e
       } finally {
         state.loading = false
@@ -80,7 +80,7 @@ const createStore = () => {
   }
 
   // 引数のAudioインスタンスが、再生可能な状態のときにTrueを返す関数
-  const isReady = audio => audio && (audio.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA)
+  const isReady = audio => audio?.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA
 
   // 効果音を再生する関数
   const playAudio = async(label) => {
@@ -91,6 +91,11 @@ const createStore = () => {
       if (isReady(audio)) {
         audio.currentTime = 0
         audio.play()
+      } else {
+        audio.addEventListener('canplaythrough', function fn() {
+          audio.removeEventListener('canplaythrough', fn)
+          audio.play()
+        })
       }
     } else {
       state.error = Error(`Audio error(${label})`)

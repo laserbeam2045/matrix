@@ -20,8 +20,9 @@ export default defineComponent({})
 <style lang="scss" scoped>
 #app-loading {
   @include center;
-  font-size: 3rem;
+
   font-family: $font-family-consolas;
+  font-size: 3rem;
 
   .char {
     animation: loading 3s linear infinite;

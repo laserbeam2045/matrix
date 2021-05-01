@@ -59,8 +59,9 @@ export default class Rahmen {
   getRect() {
     const { imageData } = this.getImageData()
     const { sumV, sumH } = tf.tidy(() => {
-      const tensor = tf.browser.fromPixels(imageData, 1)
-                               .reshape([this.height, this.width])
+      const tensor = tf.browser
+        .fromPixels(imageData, 1)
+        .reshape([this.height, this.width])
 
       const sumV = tensor.sum(0).dataSync() // 垂直方向に値を積算する
       const sumH = tensor.sum(1).dataSync() // 水平方向に値を積算する
@@ -115,7 +116,7 @@ export default class Rahmen {
     // 現在のサイズを少し上回る、一辺が(size * 2^n)のキャンバスを作成
     // MEMO: この処理の理由は、画質を保つため
     while (tmpSize < this.width) tmpSize *= 2
-    const rahmens = [ new Rahmen(tmpSize) ]
+    const rahmens = [new Rahmen(tmpSize)]
     rahmens[0].drawImage(this, 0, 0, this.width, this.width, 0, 0, tmpSize, tmpSize)
 
     // 指定サイズになるまで2分の1ずつ縮小する
@@ -151,7 +152,7 @@ export default class Rahmen {
     const { imageData, data } = this.getImageData()
 
     for (let i = 0, len = data.length; i < len; i += 4) {
-      const [ r, g, b ] = [ data[i], data[i + 1], data[i + 2] ]
+      const [r, g, b] = [data[i], data[i + 1], data[i + 2]]
       const gray = (306 * r + 601 * g + 117 * b) >> 10
       data[i] = data[i + 1] = data[i + 2] = gray
     }

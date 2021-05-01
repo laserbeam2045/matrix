@@ -36,7 +36,7 @@ export default class Aset extends Array {
   }
 
   // Removes the element associated to the value
-  // and returns a boolean asserting whether 
+  // and returns a boolean asserting whether
   // an element was successfully removed or not.
   delete(value) {
     if (this.includes(value)) {
