@@ -9,7 +9,7 @@ export const fetchQuizTags = async(user) => {
     } else {
       throw Error('Invalid user.')
     }
-  } catch(e) {
+  } catch (e) {
     console.error(e)
   }
 }

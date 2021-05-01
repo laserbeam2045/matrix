@@ -2,6 +2,11 @@
 node_modules
 /dist
 /src/api/dbstash.php
+/src/api/db.php
+/src/api/ocr/*
+/src/api/path/*
+/src/api/quiz/*
+/src/api/sql/*
 
 # local env files
 .env

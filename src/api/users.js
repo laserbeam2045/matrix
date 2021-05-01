@@ -8,18 +8,18 @@ export const fetchUsers = async(userIds) => {
       // return getRequest(API_ADDRESS)
       return [
         {
-          id: 0,
+          id     : 0,
           profile: {
-            name: 'Neo',
+            name         : 'Neo',
             bulletinBoard: 'Welcome to the Matrix.',
-            iconSource: require('@/assets/images/profile/Neo.jpg'),
+            iconSource   : require('@/assets/images/profile/Neo.jpg'),
           },
         },
       ]
     } else {
       throw Error('Invalid user.')
     }
-  } catch(e) {
+  } catch (e) {
     console.error(e)
   }
 }

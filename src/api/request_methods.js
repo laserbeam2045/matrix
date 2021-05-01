@@ -3,7 +3,7 @@
 export const getRequest = (url = '', data = {}) => {
   const searchParams = createSearchParams(data)
   const options = {
-    method: 'GET',
+    method : 'GET',
     headers: { 'Content-Type': 'text/plain' },
   }
   return fetch(url + searchParams, options)
@@ -18,9 +18,9 @@ export const getRequest = (url = '', data = {}) => {
 // POSTリクエスト
 export const postRequest = (url = '', data = {}) => {
   const options = {
-    method: 'POST',
+    method : 'POST',
     headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify(data),
+    body   : JSON.stringify(data),
   }
   return fetch(url, options)
     .catch((e) => { throw Error(e) })
@@ -43,11 +43,11 @@ const handleErrors = response => {
   if (response.ok) return response
 
   switch (response.status) {
-    case 400: throw Error('INVALID_TOKEN')
-    case 401: throw Error('UNAUTHORIZED')
-    case 500: throw Error('INTERNAL_SERVER_ERROR')
-    case 502: throw Error('BAD_GATEWAY')
-    case 404: throw Error('NOT_FOUND')
-    default:  throw Error('UNHANDLED_ERROR')
-  } 
+  case 400: throw Error('INVALID_TOKEN')
+  case 401: throw Error('UNAUTHORIZED')
+  case 500: throw Error('INTERNAL_SERVER_ERROR')
+  case 502: throw Error('BAD_GATEWAY')
+  case 404: throw Error('NOT_FOUND')
+  default:  throw Error('UNHANDLED_ERROR')
+  }
 }
