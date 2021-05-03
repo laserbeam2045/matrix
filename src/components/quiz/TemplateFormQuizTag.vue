@@ -53,10 +53,10 @@ export default defineComponent({
     'update:label',
     'update:parentLabel',
   ],
-  setup(props, {emit}) {
-    const idRef = useModelValue(props, emit, 'id')
-    const labelRef = useModelValue(props, emit, 'label')
-    const parentLabelRef = useModelValue(props, emit, 'parentLabel')
+  setup(props) {
+    const idRef = useModelValue(props, 'id')
+    const labelRef = useModelValue(props, 'label')
+    const parentLabelRef = useModelValue(props, 'parentLabel')
 
     const isEditMode = computed(() => parentLabelRef.value === null)
 

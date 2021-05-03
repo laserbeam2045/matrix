@@ -28,22 +28,24 @@
 <script>
 import { defineComponent } from 'vue'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
-import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
+import { injectStore as injectWindowManager, WINDOWS } from '@/store/windowManager'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 
 export default defineComponent({
+  name : 'TheButtons',
   emits: ['touch'],
   setup(_, { emit }) {
-    const { deactivate } = useMatrix()
-    const { playAudio } = useSound()
-
     const windowEvents = {
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
 
+    const { close } = injectWindowManager()
+
+    const { playAudio } = useSound()
+
     // ウィンドウを閉じる処理
     const closeWindow = () => {
-      deactivate(WINDOWS.BUTTONS)
+      close(WINDOWS.THE_BUTTON)
       playAudio(AUDIOS.ETC.CYBER_04_1)
     }
 

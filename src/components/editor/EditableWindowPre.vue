@@ -84,14 +84,19 @@ export default defineComponent({
   }
 }
 
-body.light-theme {
+.main.dark {
+  .editable-pre {
+    background: $windowDarkBackgroundEditor;
+  }
+}
+.main.light {
   .editable-pre {
     background: $windowLightBackgroundEditor;
   }
 }
-body.dark-theme {
+.main.classic {
   .editable-pre {
-    background: $windowDarkBackgroundEditor;
+    background: $windowLightBackgroundEditor;
   }
 }
 </style>

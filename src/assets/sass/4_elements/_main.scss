@@ -23,15 +23,6 @@ body {
   &::-webkit-scrollbar {
     display: none;
   }
-
-  &.light-theme {
-    color: $black;
-    background: $white;
-  }
-  &.dark-theme {
-    color: $blueLikeColor6;
-    background: $black;
-  }
 }
 
 h1,

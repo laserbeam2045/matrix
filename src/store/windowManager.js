@@ -1,5 +1,24 @@
-import { reactive, unref, provide, inject } from 'vue'
+import { reactive, unref, markRaw, provide, inject, readonly } from 'vue'
 import { sleep } from '@/utilities/useDateTime'
+import SuperArray from '@/utilities/SuperArray'
+
+import TheMatrix3 from '@/components/TheMatrix3'
+import TheAudios  from '@/components/TheAudios'
+import TheButtons from '@/components/TheButtons'
+import TheEditor  from '@/components/editor/TheEditor'
+import GPT2       from '@/components/editor/GPT2'
+import TheUser    from '@/components/user/TheUser'
+import TheQuiz    from '@/components/quiz/TheQuiz'
+
+export const WINDOWS = {
+  THE_MATRIX: markRaw(TheMatrix3),
+  THE_AUDIO : markRaw(TheAudios),
+  THE_BUTTON: markRaw(TheButtons),
+  THE_EDITOR: markRaw(TheEditor),
+  THE_GPT_2 : markRaw(GPT2),
+  THE_USER  : markRaw(TheUser),
+  THE_QUIZ  : markRaw(TheQuiz),
+}
 
 const storeSymbol = Symbol('windowManager')
 
@@ -12,43 +31,26 @@ export const injectStore = () => inject(storeSymbol)
 // injectStoreを介すのが面倒な時はこれを使います
 export default function useWindowManager(window) {
   const {
-    stack,
+    windows,
     open,
     close,
     toggle,
-    pullUp,
+    moveToLast,
     closeAll,
   } = injectStore()
 
   return {
-    stack,
-    open  : () => open(window),
-    close : () => close(window),
-    toggle: () => toggle(window),
-    pullUp: () => pullUp(window),
+    windows,
+    open      : () => open(window),
+    close     : () => close(window),
+    toggle    : () => toggle(window),
+    moveToLast: () => moveToLast(window),
     closeAll,
   }
 }
 
 const createStore = () => {
-  const stack = reactive([])
-
-  const pop = () => stack.pop()
-
-  const push = window => stack.push(window)
-
-  const remove = window => stack.splice(stack.indexOf(window), 1)
-
-  const moveAt = (window, at) => {
-    if (stack.length <= at) return stack
-
-    const index = stack.indexOf(window)
-    const tail = stack.slice(index + 1)
-
-    stack.splice(index)
-    stack.push(...tail)
-    stack.splice(at, 0, window)
-  }
+  const stack = reactive(new SuperArray())
 
   const isOpened = window => stack.includes(window)
 
@@ -67,7 +69,8 @@ const createStore = () => {
   const open = async (window, { delay = 0 } = {}) => {
     if (isClosed(window)) {
       await sleep(delay)
-      push(window)
+      stack.push(window)
+
       if (openable(window)) {
         unref(window).open()
       }
@@ -83,7 +86,8 @@ const createStore = () => {
   const close = async (window, { delay = 0 } = {}) => {
     if (isOpened(window)) {
       await sleep(delay)
-      remove(window)
+      stack.delete(window)
+
       if (closable(window)) {
         unref(window).close()
       }
@@ -113,24 +117,34 @@ const createStore = () => {
   const closeAll = async ({ delay = 0, interval = 0 } = {}) => {
     await sleep(delay)
 
-    while (stack.length) {
-      const window = pop()
+    while (stack.size) {
+      const window = stack.pop()
       if (closable(window)) {
         unref(window).close()
       }
-      if (stack.length) {
+      if (stack.size) {
         await sleep(interval)
       }
     }
   }
 
   /**
-   * 第一引数のwindowを、最前面に表示する関数
-   * @param {object} window
+   * 第一引数のwindowを配列の末尾に移動させる関数
+   * @param {object} window   対象となるwindow
+   * @return {boolen}         移動できたかどうか
    */
-  const pullUp = window => {
-    moveAt(window, stack.length)
+  const moveToLast = window => {
+    const from = stack.indexOf(window)
+    const to = stack.lastIndex
+    return stack.move(from, to)
   }
 
-  return { stack, open, close, toggle, closeAll, pullUp }
+  return {
+    windows: readonly(stack),
+    open,
+    close,
+    toggle,
+    closeAll,
+    moveToLast,
+  }
 }

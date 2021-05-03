@@ -1,5 +1,4 @@
 <template>
-  <!-- <div id="contents" @click.once="loadAudios"> -->
   <!-- <teleport
     v-for="name in matrix.state.frontWindows"
     :key="name"
@@ -15,7 +14,9 @@
     />
   </template> -->
   <!-- </teleport> -->
-  <TheWindows />
+  <div class="main" :class="theme" @click.once="loadAudios">
+    <TheWindows />
+  </div>
 
   <!-- <teleport to="#layer-3">
     <div id="windows-tab">
@@ -28,20 +29,21 @@
       />
     </div>
   </teleport> -->
-  <!-- </div> -->
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
+import { WINDOWS } from '@/store/windowManager'
 import { useStore as useAudio, AUDIOS } from '@/store/audio'
 import { injectStore as injectWindowManager } from '@/store/windowManager'
 import TheWindows from '@/components/window/TheWindows'
+import { useTheme } from '@/composables/useTheme'
 
 export default defineComponent({
   components: { TheWindows },
   async setup() {
-    const matrix = useMatrix()
+    const { theme } = useTheme()
+
     const { loadAudio } = useAudio()
 
     const loadAudios = () => {
@@ -50,9 +52,8 @@ export default defineComponent({
     }
 
     const {
-      stack: windows,
+      windows,
       open: openWindow,
-      pullUp: pullUpWindow,
     } = injectWindowManager()
 
     openWindow(WINDOWS.THE_MATRIX)
@@ -65,20 +66,33 @@ export default defineComponent({
     // }
 
     return {
-      matrix,
+      theme,
       loadAudios,
       windows,
-      pullUpWindow,
     }
   },
 })
 </script>
 
 <style lang="scss" scoped>
-#contents {
-  position: relative;
-  height: 100%;
+.main {
+  width: 100vw;
+  height: 100vh;
+
+  &.dark {
+    color: $blueLikeColor6;
+    background: $black;
+  }
+  &.light {
+    color: $black;
+    background: $white;
+  }
+  &.classic {
+    color: $black;
+    background: $white;
+  }
 }
+
 #windows-tab {
   position: fixed;
   right: 0;

@@ -1,26 +1,14 @@
 <template>
-  <ul
-    v-if="quizzes.length"
-    class="quiz-list-table"
-  >
-    <li class="container">
-      <div class="question">
-        Question
-      </div>
+  <transition-group tag="ul" class="quiz-list">
+    <li v-if="quizzes.length === 0" class="zero">
+      <p>No data</p>
     </li>
-    <li
-      v-for="quiz in quizzes"
-      :key="quiz.id"
-      class="container"
-    >
-      <div
-        class="question"
-        @dblclick="onClickQuestion(quiz.id)"
-      >
+    <li v-for="quiz in quizzes" :key="quiz.id" class="item">
+      <div class="question" @click="onClickQuestion(quiz.id)">
         <pre>{{ quiz.question }}</pre>
       </div>
     </li>
-  </ul>
+  </transition-group>
 </template>
 
 <script>
@@ -40,43 +28,60 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.quiz-list-table {
+.quiz-list {
+  display: flex;
+  flex-direction: column;
   max-width: 100%;
+  margin: 5px 5px 5px 0;
   font-family: $font-family-normal;
   font-size: 16px;
 
-  .container {
-    display: flex;
+  .zero {
+    position: absolute;
+    left: 0;
     width: 100%;
-    height: 100%;
+    padding-top: 15px;
+    text-align: center;
+    transition: all 0.8s ease;
+    @include unSelectable;
+  }
+
+  .item {
+    display: inline-block;
+    width: 100%;
     border: 1px solid;
+    transition: all 0.8s ease;
 
     &:nth-child(n + 2) {
-      border-top: none;
+      margin-top: -1px;
+    }
+
+    .question {
+      width: 100%;
+      width: 300px;
+      min-width: 240px;
+      max-width: 300px;
+      padding: 15px 20px;
+      text-align: center;
+      text-align: left;
+      vertical-align: middle;
+      user-select: none;
+
+      pre {
+        font-family: inherit;
+        white-space: pre-wrap;
+      }
     }
   }
+}
 
-  .question {
-    width: 100%;
-    min-width: 240px;
-    max-width: 300px;
-    padding: 15px 20px;
-    text-align: center;
-    text-align: left;
-    vertical-align: middle;
-    user-select: none;
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
 
-    pre {
-      font-family: inherit;
-      white-space: pre-wrap;
-    }
-  }
-
-  .tag {
-    width: 37%;
-    max-width: 250px;
-    overflow-x: scroll;
-    border-left: 1px solid;
-  }
+.v-leave-active {
+  position: absolute;
 }
 </style>

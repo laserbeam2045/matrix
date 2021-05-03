@@ -1,6 +1,7 @@
 <template>
+  <!-- eslint-disable vue/singleline-html-element-content-newline -->
   <div
-    v-if="filteredQuizzes.length && tree"
+    v-if="tree"
     v-on="windowEvents"
   >
     <AppVirtualWindow legend="QUIZ" height="75vh">
@@ -16,14 +17,13 @@
         <QuizListQuery />
       </template>
       <template #default>
-        <!-- <div class="menu">
-          question tag
-        </div> -->
-        <div class="flex w-full h-full">
-          <AppScrollable position="left">
+        <div class="menu h-full">
+          <h1 class="headingA">Question</h1>
+          <h1 class="headingB">Tag</h1>
+          <AppScrollable class="question" position="left">
             <TheQuizList />
           </AppScrollable>
-          <AppScrollable position="right">
+          <AppScrollable class="tag-tree" position="right">
             <TheTagTree />
           </AppScrollable>
         </div>
@@ -50,6 +50,7 @@ import QuizListQuery from './QuizListQuery'
 import TheTagTree from '@/components/tag/TheTagTree'
 
 export default defineComponent({
+  name      : 'TheQuiz',
   components: {
     QuizListQuery,
     TheQuizList,
@@ -70,18 +71,22 @@ export default defineComponent({
     } = useQuizStringSearch(quizzes)
 
     const {
-      // filters,
-      // updateFilters,
+      updateFilters,
       filteredQuizzes,
     } = useQuizFilters(quizzesMatchingSearchQuery)
 
     const {
       tags,
       tree,
-      activeTagIds,
       getQuizTag,
+      activeTagIds,
       toggleActiveTagId,
     } = useQuizTags()
+
+    updateFilters([
+      // quiz => quiz.tagIds.length === 0,
+      quiz => quiz.tagIds.some(id => activeTagIds.value.includes(id)),
+    ])
 
     provide('quizzes', quizzes)
     provide('getUserQuiz', getUserQuiz)
@@ -89,8 +94,8 @@ export default defineComponent({
     provide('filteredQuizzes', filteredQuizzes)
     provide('tags', tags)
     provide('tree', tree)
-    provide('activeTagIds', activeTagIds)
     provide('getQuizTag', getQuizTag)
+    provide('activeTagIds', activeTagIds)
     provide('toggleActiveTagId', toggleActiveTagId)
 
     const windowEvents = {
@@ -124,3 +129,40 @@ export default defineComponent({
   },
 })
 </script>
+
+<style lang="scss" scoped>
+$headingHeight: 40px;
+
+%heading {
+  line-height: $headingHeight;
+  color: $green-poison;
+  border-bottom: 1px solid $blueLikeColor6;
+}
+
+.menu {
+  display: grid;
+  grid-template-areas:
+    "headingA headingB"
+    "question tagTree";
+  grid-template-rows: $headingHeight repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: 1fr 1fr;
+
+  .headingA {
+    grid-area: headingA;
+    @extend %heading;
+  }
+  .headingB {
+    grid-area: headingB;
+    border-left: 1px solid $blueLikeColor6;
+    @extend %heading;
+  }
+  .question {
+    grid-area: question;
+    overflow: hidden;
+  }
+  .tag-tree {
+    grid-area: tagTree;
+    border-left: 1px solid $blueLikeColor6;
+  }
+}
+</style>

@@ -1,8 +1,5 @@
 <template>
-  <AppModalWindow
-    ref="modalWindow"
-    legend="QUIZ EDITOR"
-  >
+  <AppModalWindow ref="modalWindow" legend="QUIZ EDITOR">
     <div id="quiz-editor">
       <TemplateFormQuiz
         v-model:question="data.question"

@@ -41,16 +41,6 @@ export default defineComponent({
       execute,
     } = useCommand()
 
-    // 最前面に表示された時に自動的にフォーカスする
-    // TODO: mousedownからmouseupまでに時間がかかるとフォーカスが外れる
-    // watch(() => state[WINDOWS.THE_MATRIX].level, level => {
-    //   if (level === 5) {
-    //     setTimeout(() => {
-    //       editable.value.focus()
-    //     }, 300)
-    //   }
-    // })
-
     const windowEvents = {
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
@@ -109,7 +99,10 @@ export default defineComponent({
     // Enterキー押下時の処理
     const onKeydownEnter = () => execCommand()
 
+    const focus = () => editable.value.focus()
+
     return {
+      focus,
       editable,
       windowEvents,
       currentCommand,

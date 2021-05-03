@@ -2,7 +2,7 @@ import { reactive, computed, readonly } from 'vue'
 import { postRequest } from '@/api/request_methods'
 import { splitByBlank, isOnlyBlank } from '@/utilities/v_string_functions'
 import { deepCopy } from '@/utilities/v_array_functions'
-import Aset from '@/utilities/Aset'
+import SuperArray from '@/utilities/SuperArray'
 
 const API_ADDRESS = process.env.VUE_APP_API_GPT_2
 
@@ -41,7 +41,7 @@ export default function useGPT_2() {
   })
 
   // 文章を空白文字により分割した配列
-  const textsArray = computed(() => new Aset(splitByBlank(state.text)))
+  const textsArray = computed(() => new SuperArray(splitByBlank(state.text)))
 
   // 全ての空白文字を半角スペースに変換した文章
   const preProcessedText = computed(() => textsArray.value.join(' '))

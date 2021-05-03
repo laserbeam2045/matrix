@@ -10,15 +10,15 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   props: {
     value: {
-      type: String,
+      type    : String,
       required: true,
     },
   },
   computed: {
     valueString() {
       return JSON.stringify(this.value, null, 2)
-    }
-  }
+    },
+  },
 })
 </script>
 

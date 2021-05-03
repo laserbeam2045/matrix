@@ -95,16 +95,22 @@ $windowBoxShadow:
   }
 }
 
-body.light-theme {
+.main.dark {
+  .virtual-window {
+    color: $windowDarkTextColor;
+    background: $windowDarkBackground;
+  }
+}
+.main.light {
   .virtual-window {
     color: $windowLightTextColor;
     background: $windowLightBackground;
   }
 }
-body.dark-theme {
+.main.classic {
   .virtual-window {
-    color: $windowDarkTextColor;
-    background: $windowDarkBackground;
+    color: $windowLightTextColor;
+    background: $windowLightBackground;
   }
 }
 </style>

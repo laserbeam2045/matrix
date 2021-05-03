@@ -1,11 +1,13 @@
 // import { watch, customRef } from 'vue'
-import { computed } from 'vue'
+import { computed, useContext } from 'vue'
 
 // propsの特定の値をリアクティブにする(改良版)
-export default function useModelValue(props, emit, name) {
+export default function useModelValue(props, name) {
+  const { emit } = useContext()
+
   return computed({
     get: () => props[name],
-    set: val => emit(`update:${name}`, val),
+    set: value => emit(`update:${name}`, value),
   })
 }
 

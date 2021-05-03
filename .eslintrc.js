@@ -16,6 +16,16 @@ module.exports = {
     '@vue/prettier',
   ],
 
+  overrides: [
+    {
+      files: ['*.vue'],
+      rules: {
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': 'error'
+      }
+    },
+  ],
+
   rules: {
     'no-console' : process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',

@@ -17,6 +17,7 @@ import useUsers from '@/composables/useUsers'
 import UserData from './UserData'
 
 export default defineComponent({
+  name      : 'TheUser',
   components: {
     UserData,
   },

@@ -149,7 +149,17 @@ legend {
   }
 }
 
-body.light-theme {
+.main.dark {
+  legend.outside {
+    & > div:nth-of-type(1) {
+      background: $windowDarkBackground;
+    }
+    // & > div:nth-of-type(3) {
+    //   border-bottom: 1px solid $windowDarkBackground;
+    // }
+  }
+}
+.main.light {
   legend.outside {
     & > div:nth-of-type(1) {
       background: $windowLightBackground;
@@ -159,13 +169,13 @@ body.light-theme {
     // }
   }
 }
-body.dark-theme {
+.main.classic {
   legend.outside {
     & > div:nth-of-type(1) {
-      background: $windowDarkBackground;
+      background: $windowLightBackground;
     }
     // & > div:nth-of-type(3) {
-    //   border-bottom: 1px solid $windowDarkBackground;
+    //   border-bottom: 1px solid $windowLightBackground;
     // }
   }
 }

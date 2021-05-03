@@ -1,29 +1,37 @@
 <template>
   <component
     :is="matrixComponent"
-    @touch="pullUp(matrixComponent)"
-    @windowCommand="openWindow"
+    ref="matrix"
+    @touch="pullUpMyself"
     @themeCommand="changeTheme"
+    @windowCommand="openWindow"
     @invalidCommand="reject"
   />
 </template>
 
 <script>
-import { defineComponent, computed, markRaw } from 'vue'
+import { defineComponent, ref, computed, markRaw } from 'vue'
 import { DEVICE_TYPE } from '@/utilities/v_event_functions'
 
-import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
-import { injectStore as injectWindowManager } from '@/store/windowManager'
+import { useStore as useMatrix, PAGE_THEME } from '@/store/matrix'
+import { injectStore as injectWindowManager, WINDOWS } from '@/store/windowManager'
+
+import { useTheme } from '@/composables/useTheme'
 
 import TheMatrix from '@/components/TheMatrix'
 import TheMatrix2 from '@/components/TheMatrix2'
 
 export default defineComponent({
+  name: 'TheMatrix3',
   setup() {
-    const { state, setPageTheme } = useMatrix()
-    const { open, pullUp } = injectWindowManager()
+    const matrix = ref(null)
+
+    const { state } = useMatrix()
     const { playAudio } = useSound()
+    const { open, moveToLast } = injectWindowManager()
+
+    const { setTheme } = useTheme()
 
     const matrixComponent = computed(() =>
       (state.deviceType === DEVICE_TYPE.PC) ?
@@ -31,15 +39,15 @@ export default defineComponent({
         markRaw(TheMatrix2)
     )
 
-    // 最前面に表示された時に自動的にフォーカスする
-    // TODO: mousedownからmouseupまでに時間がかかるとフォーカスが外れる
-    // watch(() => state[WINDOWS.THE_MATRIX].level, level => {
-    //   if (level === 5) {
-    //     setTimeout(() => {
-    //       editableWindow.value.focus()
-    //     }, 300)
-    //   }
-    // })
+    const pullUpMyself = () => {
+      if (moveToLast(WINDOWS.THE_MATRIX)) {
+        playAudio(AUDIOS.ETC.CYBER_15_3)
+        if (state.deviceType === DEVICE_TYPE.PC) {
+          // TODO: mousedownからmouseupまでに時間がかかるとフォーカスが外れる
+          setTimeout(matrix.value.focus, 300)
+        }
+      }
+    }
 
     // ウィンドウを開く関数
     const openWindow = windowName => {
@@ -49,7 +57,7 @@ export default defineComponent({
 
     // ページテーマを変更する関数
     const changeTheme = themeName => {
-      setPageTheme(themeName)
+      setTheme(PAGE_THEME[themeName])
       playAudio(AUDIOS.ETC.DECISION_33)
     }
 
@@ -59,11 +67,12 @@ export default defineComponent({
     }
 
     return {
+      matrix,
       matrixComponent,
       openWindow,
       changeTheme,
       reject,
-      pullUp,
+      pullUpMyself,
     }
   },
 })

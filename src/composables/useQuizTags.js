@@ -1,6 +1,6 @@
 import { ref, onMounted, watch, computed } from 'vue'
 import { fetchQuizTags } from '@/api/tags'
-import Aset from '@/utilities/Aset'
+import SuperArray from '@/utilities/SuperArray'
 
 export default function useQuizTags() {
   const user = ref({
@@ -11,7 +11,7 @@ export default function useQuizTags() {
 
   const tags = ref([])
   const tree = computed(() => root.value ? getStruct(root.value) : {})
-  const activeTagIds = ref(new Aset())
+  const activeTagIds = ref(new SuperArray())
 
   const getQuizTags = async () => {
     tags.value = await fetchQuizTags(user.value)

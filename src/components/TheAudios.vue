@@ -21,13 +21,15 @@
 <script>
 import { defineComponent, reactive } from 'vue'
 import { useStore as useSound, AUDIOS } from '@/store/audio'
-import { useStore as useMatrix, WINDOWS } from '@/store/matrix'
+import { injectStore as injectWindowManager, WINDOWS } from '@/store/windowManager'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 
 export default defineComponent({
-  emits: ['touch'],
+  name : 'TheAudios',
+  emits: [
+    'touch',
+  ],
   setup(_, { emit }) {
-    const { deactivate } = useMatrix()
     const { playAudio } = useSound()
 
     const windowState = reactive({
@@ -40,9 +42,11 @@ export default defineComponent({
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
 
+    const { close } = injectWindowManager()
+
     // ウィンドウを閉じる処理
     const closeWindow = () => {
-      deactivate(WINDOWS.THE_AUDIOS)
+      close(WINDOWS.THE_AUDIO)
       playAudio(AUDIOS.ETC.CYBER_04_1)
     }
 

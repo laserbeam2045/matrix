@@ -1,12 +1,10 @@
 <template>
-  <div
-    v-if="data"
+  <AppCheckbox
+    v-model="active"
+    :label="label"
     class="quiz-tag"
-    :class="{ active }"
     v-on="events"
-  >
-    {{ text }}
-  </div>
+  />
 </template>
 
 <script>
@@ -35,9 +33,12 @@ export default defineComponent({
 
     const activeTagIds = inject('activeTagIds')
 
-    const active = computed(() => activeTagIds.value.has(props.id))
+    const active = computed({
+      get: () => activeTagIds.value.includes(props.id),
+      set: value => value,
+    })
 
-    const text = computed(() => {
+    const label = computed(() => {
       if (props.showCount && data.quizCount)
         return `${data.label} (${data.quizCount})`
       else
@@ -51,9 +52,8 @@ export default defineComponent({
     }
 
     return {
-      data,
-      text,
       active,
+      label,
       events,
     }
   },
@@ -68,27 +68,21 @@ $textColor  : $blueLikeColor6;
 $borderColor: $blueLikeColor6;
 
 .quiz-tag {
-  @include unSelectable;
-
   display: inline-block;
   padding: 7px 9px;
   font-family: $font-family-normal;
   font-size: 14px;
   line-height: 14px;
   color: $textColor;
-  white-space: nowrap;
   background: $bgColor;
   border: 1px solid $borderColor;
   border-radius: 5px;
   transition: all .2s;
 
-  &:hover {
-    cursor: pointer;
-  }
   &:active {
     cursor: grabbing;
   }
-  &.active {
+  &.-checked {
     color: orange;
     border-color: orange;
   }

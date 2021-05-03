@@ -96,14 +96,19 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-body.light-theme {
+.main.dark {
+  .wrapper {
+    background: $windowDarkBackgroundEditor;
+  }
+}
+.main.light {
   .wrapper {
     background: $windowLightBackgroundEditor;
   }
 }
-body.dark-theme {
+.main.classic {
   .wrapper {
-    background: $windowDarkBackgroundEditor;
+    background: $windowLightBackgroundEditor;
   }
 }
 

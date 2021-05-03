@@ -23,6 +23,7 @@ import useGPT_2 from '@/composables/useGPT-2'
 import _ from 'lodash'
 
 export default defineComponent({
+  name      : 'GPT2',
   components: {
     EditableWindow,
   },

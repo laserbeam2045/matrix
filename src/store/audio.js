@@ -2,15 +2,21 @@ import { reactive, provide, inject, watch } from 'vue'
 import { getRequest } from '@/api/request_methods'
 
 const storeSymbol = Symbol('audio')
-const API_ROOT = process.env.VUE_APP_API_ROOT
+
+export const provideStore = () => provide(storeSymbol, createStore())
+
+export const useStore = () => inject(storeSymbol)
 
 const createStore = () => {
+  const API_ROOT = process.env.VUE_APP_API_ROOT
+
   const state = reactive({
     error  : null,
     loading: false,
   })
+
   // Audioインスタンスを辞書式に管理するためのオブジェクト
-  const data = reactive({ })
+  const data = reactive({})
 
   // エラーをコンソールで監視する
   watch(() => state.error, e => console.error(e))
@@ -120,13 +126,6 @@ const createStore = () => {
     stopAudio,
   }
 }
-
-export const provideStore = () => provide(
-  storeSymbol,
-  createStore(),
-)
-
-export const useStore = () => inject(storeSymbol)
 
 export const AUDIOS = {
   // Quiz系

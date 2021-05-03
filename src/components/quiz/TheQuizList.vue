@@ -1,6 +1,6 @@
 <template>
   <div v-on="windowEvents">
-    <QuizListTable @clickQuestion="setQuizId, openEditor" />
+    <QuizListTable @clickQuestion="setQuizId($event), openEditor()" />
 
     <TheQuizCreator
       ref="theQuizCreator"
@@ -46,7 +46,10 @@ export default defineComponent({
     // 更新・削除の対象となるクイズのid
     const quizId = ref(0)
 
-    const setQuizId = id => quizId.value = id
+    const setQuizId = id => {
+      quizId.value = id
+      console.log(1, quizId.value)
+    }
 
     // 問題の作成が完了した時の処理
     const onInsertQuiz = () => {

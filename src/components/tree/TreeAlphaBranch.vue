@@ -139,13 +139,19 @@ export default defineComponent({
   }
 }
 
-body.light-theme {
+.main.dark {
   .tree-alpha-branch {
     background: $greenLikeColor2;
     border: 1px solid $blueLikeColor1;
   }
 }
-body.dark-theme {
+.main.light {
+  .tree-alpha-branch {
+    background: $greenLikeColor2;
+    border: 1px solid $blueLikeColor1;
+  }
+}
+.main.classic {
   .tree-alpha-branch {
     background: $greenLikeColor2;
     border: 1px solid $blueLikeColor1;

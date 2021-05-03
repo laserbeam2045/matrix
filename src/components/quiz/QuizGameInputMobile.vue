@@ -25,7 +25,7 @@ import { defineComponent, reactive, computed } from 'vue'
 import { useStore as useAudio, AUDIOS }   from '@/store/audio'
 import { HIRAGANA, KATAKANA, ALPHABETS, NUMERICS, isHiragana, isKatakana, isAlphabet, isNumeric } from '@/utilities/v_string_functions'
 import { shuffle } from '@/utilities/v_array_functions'
-import Aset from '@/utilities/Aset'
+import SuperArray from '@/utilities/SuperArray'
 
 // 選択肢候補から除外する文字リスト
 const EXCLUDE_HIRAGANA = ['ゎ', 'ゐ', 'ゑ', 'ゔ', 'ゕ', 'ゖ']
@@ -74,7 +74,7 @@ export default defineComponent({
     const answerChar = computed(() => props.answer[state.answerIndex])
 
     const choices = computed(() => {
-      const data = new Aset()
+      const data = new SuperArray()
       if (answerChar.value === undefined) return data
 
       data.add(answerChar.value)

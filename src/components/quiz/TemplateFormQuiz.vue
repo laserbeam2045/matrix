@@ -2,12 +2,7 @@
   <table>
     <tr>
       <th><label>Question</label></th>
-      <td>
-        <AppTextarea
-          ref="textarea"
-          v-model:value="questionRef"
-        />
-      </td>
+      <td><AppTextarea ref="textarea" v-model:value="questionRef" /></td>
     </tr>
     <tr>
       <th><label>Answer1</label></th>
@@ -17,11 +12,11 @@
       <th><label>Answer2</label></th>
       <td><AppInputText v-model:value="answer2Ref" /></td>
     </tr>
-    <tr v-if="tagIdsRef">
+    <tr v-if="tagIds">
       <th><label>Tags</label></th>
       <td>
-        <AppQuizTag
-          v-for="tagId of tagIdsRef"
+        <QuizTag
+          v-for="tagId of tagIds"
           :id="tagId"
           :key="tagId"
           :showCount="false"
@@ -35,8 +30,12 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import useModelValue from '@/composables/useModelValue'
+import QuizTag from '@/components/quiz/QuizTag'
 
 export default defineComponent({
+  components: {
+    QuizTag,
+  },
   props: {
     question: {
       type    : String,
@@ -61,15 +60,15 @@ export default defineComponent({
     'update:answer2',
     'click',
   ],
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     const textarea = ref(null)
 
-    const questionRef = useModelValue(props, emit, 'question')
-    const answer1Ref  = useModelValue(props, emit, 'answer1')
-    const answer2Ref  = useModelValue(props, emit, 'answer2')
-    const tagIdsRef   = useModelValue(props, emit, 'tagIds')
+    const questionRef = useModelValue(props, 'question')
+    const answer1Ref  = useModelValue(props, 'answer1')
+    const answer2Ref  = useModelValue(props, 'answer2')
 
     const onClickTag = value => emit('click', value)
+
     const focusQuestion = () => textarea.value.focus()
 
     return {
@@ -77,7 +76,6 @@ export default defineComponent({
       questionRef,
       answer1Ref,
       answer2Ref,
-      tagIdsRef,
       onClickTag,
       focusQuestion,
     }

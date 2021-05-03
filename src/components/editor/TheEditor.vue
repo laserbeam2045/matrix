@@ -10,6 +10,7 @@ import EditableWindow from './EditableWindow'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 
 export default defineComponent({
+  name      : 'TheEditor',
   components: {
     EditableWindow,
   },

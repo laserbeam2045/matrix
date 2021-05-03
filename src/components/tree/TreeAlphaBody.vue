@@ -100,7 +100,7 @@ export default defineComponent({
   margin: 0 0 0 40px;
 
   &.top-level {
-    margin: 0;
+    margin: 5px 0 5px 5px;
   }
 }
 </style>

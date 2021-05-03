@@ -1,19 +1,27 @@
 import { ref, unref, computed } from 'vue'
 
 export default function useQuizFilters(quizzes) {
-  const filters = ref([
-    // quiz => quiz.tagIds.some(id => activeTagIds.value.has(id)),
-    quiz => quiz.tagIds.length === 0,
-  ])
+  // フィルター関数の配列
+  const filters = ref([])
 
-  const updateFilters = () => {}
+  /**
+   * フィルターを更新する関数
+   * @param {array | function} newFilter
+   */
+  const updateFilters = newFilter => {
+    if (Array.isArray(newFilter))
+      filters.value = newFilter
+    else
+      filters.value = [newFilter]
+  }
 
+  // フィルターにかけた結果として残るデータ
   const filteredQuizzes = computed(() => {
-    let tmpQuizzes = unref(quizzes)
+    let data = unref(quizzes)
     filters.value.forEach(filter => {
-      tmpQuizzes = tmpQuizzes.filter(filter)
+      data = data.filter(filter)
     })
-    return tmpQuizzes
+    return data
   })
 
   return {

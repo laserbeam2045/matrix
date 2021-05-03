@@ -116,13 +116,19 @@ export default defineComponent({
   }
 }
 
-body.light-theme {
+.main.dark {
   .tree-beta-branch {
     background: $greenLikeColor2;
     border: 1px solid $blueLikeColor1;
   }
 }
-body.dark-theme {
+.main.light {
+  .tree-beta-branch {
+    background: $greenLikeColor2;
+    border: 1px solid $blueLikeColor1;
+  }
+}
+.main.classic {
   .tree-beta-branch {
     background: $greenLikeColor2;
     border: 1px solid $blueLikeColor1;
