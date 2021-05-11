@@ -11,13 +11,11 @@
 
 <script>
 import { defineComponent, ref, computed, markRaw } from 'vue'
-import { DEVICE_TYPE } from '@/utilities/v_event_functions'
 
-import { useStore as useSound, AUDIOS } from '@/store/audio'
-import { useStore as useMatrix, PAGE_THEME } from '@/store/matrix'
+import { useTheme } from '@/store/useTheme'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
+import { injectStore as injectMatrix } from '@/store/matrix'
 import { injectStore as injectWindowManager, WINDOWS } from '@/store/windowManager'
-
-import { useTheme } from '@/composables/useTheme'
 
 import TheMatrix from '@/components/TheMatrix'
 import TheMatrix2 from '@/components/TheMatrix2'
@@ -27,27 +25,15 @@ export default defineComponent({
   setup() {
     const matrix = ref(null)
 
-    const { state } = useMatrix()
-    const { playAudio } = useSound()
+    const { isPC } = injectMatrix()
+    const { playAudio } = injectAudio()
     const { open, moveToLast } = injectWindowManager()
 
     const { setTheme } = useTheme()
 
     const matrixComponent = computed(() =>
-      (state.deviceType === DEVICE_TYPE.PC) ?
-        markRaw(TheMatrix) :
-        markRaw(TheMatrix2)
+      isPC.value ? markRaw(TheMatrix) : markRaw(TheMatrix2)
     )
-
-    const pullUpMyself = () => {
-      if (moveToLast(WINDOWS.THE_MATRIX)) {
-        playAudio(AUDIOS.ETC.CYBER_15_3)
-        if (state.deviceType === DEVICE_TYPE.PC) {
-          // TODO: mousedownからmouseupまでに時間がかかるとフォーカスが外れる
-          setTimeout(matrix.value.focus, 300)
-        }
-      }
-    }
 
     // ウィンドウを開く関数
     const openWindow = windowName => {
@@ -56,14 +42,25 @@ export default defineComponent({
     }
 
     // ページテーマを変更する関数
-    const changeTheme = themeName => {
-      setTheme(PAGE_THEME[themeName])
+    const changeTheme = theme => {
+      setTheme(theme)
       playAudio(AUDIOS.ETC.DECISION_33)
     }
 
     // 無効なコマンド
     const reject = () => {
       playAudio(AUDIOS.ETC.CYBER_06_4)
+    }
+
+    // 自身のウィンドウを最前面に表示させる関数
+    const pullUpMyself = () => {
+      if (moveToLast(WINDOWS.THE_MATRIX)) {
+        playAudio(AUDIOS.ETC.CYBER_15_3)
+      }
+      if (isPC.value) {
+        // TODO: mousedownからmouseupまでに時間がかかるとフォーカスが外れる
+        setTimeout(matrix.value.focus, 300)
+      }
     }
 
     return {

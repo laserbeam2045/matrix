@@ -76,9 +76,9 @@ export default defineComponent({
       case 'GPT2'   : return windowCommand('THE_GPT_2')
       case 'USER'   : return windowCommand('THE_USER')
       case 'QUIZ'   : return windowCommand('THE_QUIZ')
-      case 'DARK'   : return themeCommand('DARK')
-      case 'LIGHT'  : return themeCommand('LIGHT')
-      case 'CLASSIC': return themeCommand('CLASSIC')
+      case 'DARK'   : return themeCommand('dark')
+      case 'LIGHT'  : return themeCommand('light')
+      case 'CLASSIC': return themeCommand('classic')
       default       : return invalidCommand()
       }
     }

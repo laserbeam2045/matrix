@@ -1,9 +1,6 @@
 <template>
   <!-- eslint-disable vue/singleline-html-element-content-newline -->
-  <div
-    v-if="tree"
-    v-on="windowEvents"
-  >
+  <div v-if="tree" v-on="windowEvents">
     <AppVirtualWindow legend="QUIZ" height="75vh">
       <template #buttons>
         <AppHeaderItem
@@ -18,8 +15,8 @@
       </template>
       <template #default>
         <div class="menu h-full">
-          <h1 class="headingA">Question</h1>
-          <h1 class="headingB">Tag</h1>
+          <h1 class="heading-a">Question</h1>
+          <h1 class="heading-b">Tag</h1>
           <AppScrollable class="question" position="left">
             <TheQuizList />
           </AppScrollable>
@@ -29,14 +26,13 @@
         </div>
       </template>
     </AppVirtualWindow>
-
-    <QuizGame v-if="quizMode" />
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, provide } from 'vue'
-import { useStore as useSound, AUDIOS } from '@/store/audio'
+import { defineComponent, provide, markRaw } from 'vue'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
+import { injectStore as injectWindowManager, WINDOWS } from '@/store/windowManager'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 
 import useUserQuizzes from '@/composables/useUserQuizzes'
@@ -50,16 +46,15 @@ import QuizListQuery from './QuizListQuery'
 import TheTagTree from '@/components/tag/TheTagTree'
 
 export default defineComponent({
-  name      : 'TheQuiz',
+  name: 'TheQuiz',
+
   components: {
     QuizListQuery,
     TheQuizList,
     TheTagTree,
-    QuizGame,
   },
-  emits: ['touch'],
 
-  setup(props, { emit }) {
+  setup() {
     const {
       quizzes,
       getUserQuiz,
@@ -88,7 +83,6 @@ export default defineComponent({
       quiz => quiz.tagIds.some(id => activeTagIds.value.includes(id)),
     ])
 
-    provide('quizzes', quizzes)
     provide('getUserQuiz', getUserQuiz)
     provide('searchQuery', searchQuery)
     provide('filteredQuizzes', filteredQuizzes)
@@ -98,33 +92,44 @@ export default defineComponent({
     provide('activeTagIds', activeTagIds)
     provide('toggleActiveTagId', toggleActiveTagId)
 
-    const windowEvents = {
-      [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
-    }
+    const { playAudio } = injectAudio()
+    const { open, close, moveToLast } = injectWindowManager()
 
-    const { playAudio } = useSound()
-
-    const quizMode = ref(false)
+    const quizComponent = markRaw(QuizGame)
 
     // クイズを開始する関数
     const startQuiz = () => {
-      quizMode.value = true
+      playAudio(AUDIOS.ETC.DECISION_33)
+      open(quizComponent)
     }
+
     // ウィンドウを閉じる処理
     const closeWindow = () => {
       playAudio(AUDIOS.ETC.CYBER_04_1)
+      close(WINDOWS.THE_QUIZ)
     }
+
+    // 自身のウィンドウを最前面に表示させる関数
+    const pullUpMyself = () => {
+      if (moveToLast(WINDOWS.THE_QUIZ)) {
+        playAudio(AUDIOS.ETC.CYBER_15_3)
+      }
+    }
+
+    const windowEvents = {
+      [`${MOUSE_TOUCH_EVENT.START}Passive`]() { pullUpMyself() },
+    }
+
     const headerItems = [
       { name: 'quora', events: { click: startQuiz } },
       { name: 'times', events: { click: closeWindow } },
     ]
 
     return {
+      tree,
       windowEvents,
       headerItems,
-      quizMode,
-      filteredQuizzes,
-      tree,
+      pullUpMyself,
     }
   },
 })
@@ -147,11 +152,11 @@ $headingHeight: 40px;
   grid-template-rows: $headingHeight repeat(auto-fit, minmax(100px, 1fr));
   grid-template-columns: 1fr 1fr;
 
-  .headingA {
+  .heading-a {
     grid-area: headingA;
     @extend %heading;
   }
-  .headingB {
+  .heading-b {
     grid-area: headingB;
     border-left: 1px solid $blueLikeColor6;
     @extend %heading;

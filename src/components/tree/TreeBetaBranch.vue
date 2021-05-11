@@ -8,7 +8,7 @@
       <component
         :is="itemComponent"
         :id="value.id"
-        :class="handleClass"
+        :class="handle"
         v-on="itemEvents"
       />
     </VueDraggableNext>
@@ -26,7 +26,7 @@
 
 <script>
 import { defineComponent, ref, computed, inject } from 'vue'
-import { useStore as useSound, AUDIOS } from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
 import { VueDraggableNext } from 'vue-draggable-next'
 
 export default defineComponent({
@@ -49,12 +49,12 @@ export default defineComponent({
     'click',
   ],
   setup(props, { emit }) {
-    const { playAudio } = useSound()
+    const { playAudio } = injectAudio()
 
     const treeState = inject('treeState')
     const dragOptionSingle = inject('dragOptionSingle')
     const dragOption = computed(() => dragOptionSingle.value)
-    const handleClass = computed(() => treeState.handleClass)
+    const handle = computed(() => treeState.handle)
 
     const isOpenChildren = ref(true)
 
@@ -74,7 +74,7 @@ export default defineComponent({
 
     return {
       dragOption,
-      handleClass,
+      handle,
       isOpenChildren,
       onClickToggleButton,
       itemComponent,
@@ -105,7 +105,7 @@ export default defineComponent({
   &.sortable-drag {
     opacity: 0 !important;
   }
-  // コンテンツ(クラス名をTreeStoreのhandleClassと一致させる必要がある)
+  // コンテンツ(クラス名をTreeStoreのhandleと一致させる必要がある)
   // .tree-node {
     // position: relative;     // .tree-branchより手前に表示させる目的
     // display: inline-block;  // ToggleButtonを右側に配置させる目的

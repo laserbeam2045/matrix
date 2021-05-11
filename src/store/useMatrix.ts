@@ -1,18 +1,11 @@
-import { reactive, computed, provide, inject } from 'vue'
+import { reactive, computed, readonly, provide, inject } from 'vue'
 import { DEVICE_TYPE, getDeviceType } from '@/utilities/v_event_functions'
 
 const storeSymbol = Symbol('matrix')
 
 export const provideStore = () => provide(storeSymbol, createStore())
 
-export const useStore = () => inject(storeSymbol)
-
-// ページテーマ
-export const PAGE_THEME = {
-  DARK   : 'dark',
-  LIGHT  : 'light',
-  CLASSIC: 'classic',
-}
+export const useMatrix = () => inject(storeSymbol)
 
 const createStore = () => {
   const state = reactive({
@@ -31,7 +24,7 @@ const createStore = () => {
   ))
 
   return {
-    state, //: readonly(state),
+    state: readonly(state),
     isPC,
     isMobile,
   }

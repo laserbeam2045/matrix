@@ -1,8 +1,13 @@
 import { reactive, computed, readonly } from 'vue'
 
+interface State {
+  commands: Array<string>
+  cursor: number
+}
+
 // コマンドマネージャー
 export default function useCommand() {
-  const state = reactive({
+  const state: State = reactive({
     commands: [''],   // コマンドの履歴
     cursor  : 0,      // 現在入力中のコマンドの位置
   })
@@ -14,10 +19,10 @@ export default function useCommand() {
   })
 
   // コマンドをセットする
-  const setCommand = cmd => state.commands[state.cursor] = cmd
+  const setCommand = (cmd: string) => state.commands[state.cursor] = cmd
 
   // コマンドをセットする(+1文字)
-  const addCommand = char => state.commands[state.cursor] += char
+  const addCommand = (char: string) => state.commands[state.cursor] += char
 
   // コマンドを除去する(-1文字)
   const delCommand = () => currentCommand.value = currentCommand.value.slice(0, -1)

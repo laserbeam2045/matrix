@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { reactive, unref, markRaw, provide, inject, readonly } from 'vue'
 import { sleep } from '@/utilities/useDateTime'
 import SuperArray from '@/utilities/SuperArray'
@@ -9,16 +10,6 @@ import TheEditor  from '@/components/editor/TheEditor'
 import GPT2       from '@/components/editor/GPT2'
 import TheUser    from '@/components/user/TheUser'
 import TheQuiz    from '@/components/quiz/TheQuiz'
-
-export const WINDOWS = {
-  THE_MATRIX: markRaw(TheMatrix3),
-  THE_AUDIO : markRaw(TheAudios),
-  THE_BUTTON: markRaw(TheButtons),
-  THE_EDITOR: markRaw(TheEditor),
-  THE_GPT_2 : markRaw(GPT2),
-  THE_USER  : markRaw(TheUser),
-  THE_QUIZ  : markRaw(TheQuiz),
-}
 
 const storeSymbol = Symbol('windowManager')
 
@@ -56,9 +47,9 @@ const createStore = () => {
 
   const isClosed = window => !stack.includes(window)
 
-  const openable = window => typeof(unref(window).open) === 'function'
+  const openable = window => typeof(unref(window)?.open) === 'function'
 
-  const closable = window => typeof(unref(window).close) === 'function'
+  const closable = window => typeof(unref(window)?.close) === 'function'
 
   /**
    * 第一引数のwindowを開く関数
@@ -147,4 +138,14 @@ const createStore = () => {
     closeAll,
     moveToLast,
   }
+}
+
+export const WINDOWS = {
+  THE_MATRIX: markRaw(TheMatrix3),
+  THE_AUDIO : markRaw(TheAudios),
+  THE_BUTTON: markRaw(TheButtons),
+  THE_EDITOR: markRaw(TheEditor),
+  THE_GPT_2 : markRaw(GPT2),
+  THE_USER  : markRaw(TheUser),
+  THE_QUIZ  : markRaw(TheQuiz),
 }

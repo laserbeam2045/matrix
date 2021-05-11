@@ -4,10 +4,11 @@
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
-    "importHelpers": true,
     "moduleResolution": "node",
     "allowJs": true,
+    "declaration": true,
     "skipLibCheck": true,
+    "importHelpers": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
@@ -18,6 +19,9 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "@types/*": [
+        "src/@types/*"
       ]
     },
     "lib": [
@@ -29,19 +33,23 @@
     "outDir": "dist"
   },
   "include": [
-    "src/*.vue",
     "src/*.js",
+    "src/*.ts",
     "src/api/*.js",
-    "src/utils/*.js",
-    "src/store/*.js",
+    "src/api/*.ts",
+    "src/components/**/*.vue",
+    "src/composables/**/*.js",
+    "src/composables/**/*.ts",
+    "src/pages/*.vue",
     "src/plugins/*.js",
-    "src/composables/*.js",
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
+    "src/plugins/*.ts",
+    "src/store/*.js",
+    "src/store/*.ts",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
-, "src/composables/directive/useScroll.js", "src/composables/directive/useWindow.js", "src/composables/directive/useDraggable.js", "src/composables/directive/useResizable.js"  ],
+    "tests/**/*.tsx",
+    "src/utilities/*.js",
+    "src/utilities/*.ts"
+, ],
   "exclude": [
     "node_modules"
   ]

@@ -22,7 +22,7 @@
 
 <script>
 import { defineComponent, reactive, computed } from 'vue'
-import { useStore as useAudio, AUDIOS }   from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS }   from '@/store/audio'
 import { HIRAGANA, KATAKANA, ALPHABETS, NUMERICS, isHiragana, isKatakana, isAlphabet, isNumeric } from '@/utilities/v_string_functions'
 import { shuffle } from '@/utilities/v_array_functions'
 import SuperArray from '@/utilities/SuperArray'
@@ -56,7 +56,7 @@ export default defineComponent({
     'enter',
   ],
   setup(props, { emit }) {
-    const { playAudio } = useAudio()
+    const { playAudio } = injectAudio()
 
     const state = reactive({
       inputText  : '',    // 回答者が入力した文字列

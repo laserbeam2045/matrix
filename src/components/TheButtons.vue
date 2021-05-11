@@ -27,7 +27,7 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { useStore as useSound, AUDIOS } from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
 import { injectStore as injectWindowManager, WINDOWS } from '@/store/windowManager'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 
@@ -41,7 +41,7 @@ export default defineComponent({
 
     const { close } = injectWindowManager()
 
-    const { playAudio } = useSound()
+    const { playAudio } = injectAudio()
 
     // ウィンドウを閉じる処理
     const closeWindow = () => {

@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
-import { provideTheme, Theme } from '@/composables/useTheme'
+import { provideTheme, Theme } from '@/store/useTheme'
 
 export default defineComponent({
   props: {

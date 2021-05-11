@@ -8,8 +8,8 @@ const createStore = () => {
   const quizzes = ref([])
 
   const state = reactive({
-    error: null,
-    loaded: false,
+    error  : null,
+    loaded : false,
     loading: false,
   })
 
@@ -18,7 +18,7 @@ const createStore = () => {
     try {
       quizzes.value = await getRequest(API_ADDRESS)
       state.loaded = true
-    } catch(e) {
+    } catch (e) {
       state.error = e
     } finally {
       state.loading = false
@@ -30,7 +30,7 @@ const createStore = () => {
 
   return {
     quizzes: readonly(quizzes),
-    state: readonly(state),
+    state  : readonly(state),
     load,
     find,
   }

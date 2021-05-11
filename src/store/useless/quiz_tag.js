@@ -6,8 +6,8 @@ const API_ADDRESS = process.env.VUE_APP_API_SELECT_TAG
 
 const createStore = () => {
   const state = reactive({
-    error: null,
-    loaded: false,
+    error  : null,
+    loaded : false,
     loading: false,
   })
 
@@ -30,7 +30,7 @@ const createStore = () => {
       data.value = await getRequest(API_ADDRESS)
       tree.value = getStruct(root.value)
       state.loaded = true
-    } catch(e) {
+    } catch (e) {
       state.error = e
     } finally {
       state.loading = false
@@ -55,7 +55,7 @@ const createStore = () => {
   const childrenOf = id => data.value.filter(tag => tag.parentId === id)
 
   return {
-    data: readonly(data),
+    data : readonly(data),
     state: readonly(state),
     root,
     tree,

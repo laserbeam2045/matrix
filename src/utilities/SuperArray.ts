@@ -30,13 +30,13 @@ export default class SuperArray extends Array {
 
   // Returns a boolean asserting whether an element is
   // present with the given value in the SuperArray object or not.
-  has(value) {
+  has(value: any) {
     return this.includes(value)
   }
 
   // Appends value to the SuperArray object.
   // Returns the SuperArray object.
-  add(value) {
+  add(value: any) {
     if (!this.includes(value)) {
       this.splice(this.length, 0, value)
     }
@@ -46,7 +46,7 @@ export default class SuperArray extends Array {
   // Removes the element associated to the value
   // and returns a boolean asserting whether
   // an element was successfully removed or not.
-  delete(value) {
+  delete(value: any) {
     if (this.includes(value)) {
       this.splice(this.indexOf(value), 1)
       return true
@@ -61,7 +61,7 @@ export default class SuperArray extends Array {
   }
 
   // Expansion like element.classList.toggle method.
-  toggle(value) {
+  toggle(value: any) {
     if (this.includes(value)) {
       this.splice(this.indexOf(value), 1)
       return false
@@ -77,7 +77,7 @@ export default class SuperArray extends Array {
    * @param {number} to   移動先のindex
    * @return {boolean} 移動できたかどうか
    */
-  move(from, to) {
+  move(from: number, to: number): boolean {
     if (
       from === to ||
       this.length <= to ||

@@ -25,8 +25,8 @@
 
 <script>
 import { defineComponent, ref, reactive, computed, nextTick } from 'vue'
-import { useStore as useMatrix } from '@/store/matrix'
-import { useStore as useAudio, AUDIOS }   from '@/store/audio'
+import { injectStore as injectMatrix } from '@/store/matrix'
+import { injectStore as injectAudio, AUDIOS }   from '@/store/audio'
 import { HIRAGANA, KATAKANA, ALPHABETS, NUMERICS, isHiragana, isKatakana, isAlphabet, isNumeric } from '@/utilities/v_string_functions'
 import { shuffle } from '@/utilities/v_array_functions'
 import SuperArray from '@/utilities/SuperArray'
@@ -56,8 +56,8 @@ export default defineComponent({
     'tab',
   ],
   setup(props, { emit }) {
-    const { isPC, isMobile } = useMatrix()
-    const { playAudio } = useAudio()
+    const { isPC, isMobile } = injectMatrix()
+    const { playAudio } = injectAudio()
 
     const state = reactive({
       inputText  : '',      // 回答者が入力した文字列

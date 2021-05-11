@@ -26,7 +26,7 @@
 
 <script>
 import { defineComponent, ref, provide, inject } from 'vue'
-import { useStore as useAudio, AUDIOS } from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
 import useWindowManager from '@/store/windowManager'
 
 import QuizTag from '@/components/quiz/QuizTag'
@@ -34,7 +34,7 @@ import TreeAlpha from '@/components/tree/TreeAlpha'
 import TheTagCreator from './TheTagCreator'
 import TheTagEditor from './TheTagEditor'
 
-import useTree from '@/composables/useTree'
+import { default as useTree, TREE_STATES } from '@/composables/useTree'
 
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 
@@ -47,7 +47,7 @@ export default defineComponent({
   emits: ['touch'],
 
   setup(props, { emit }) {
-    const { playAudio } = useAudio()
+    const { playAudio } = injectAudio()
 
     const windowEvents = {
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
@@ -68,7 +68,6 @@ export default defineComponent({
     } = useWindowManager(theTagCreator)
 
     const {
-      TREE_STATE,
       state: treeState,
       dragOptionSingle,
       dragOptionUnit,
@@ -84,16 +83,16 @@ export default defineComponent({
     // タグへの(mousedown/touchstart)時の処理
     const onTouchTag = id => {
       switch (treeState.mode) {
-      case TREE_STATE.LOCK_MODE:
+      case TREE_STATES.LOCK_MODE:
         if (toggleActiveTagId(id))
           playAudio(AUDIOS.ETC.CYBER_15_1)
         else
           playAudio(AUDIOS.ETC.CYBER_15_2)
         break
-      case TREE_STATE.DROP_MODE:
+      case TREE_STATES.DROP_MODE:
         // TODO: something
         break
-      case TREE_STATE.EDIT_MODE:
+      case TREE_STATES.EDIT_MODE:
         // editId.value = id
         break
       }
@@ -102,13 +101,13 @@ export default defineComponent({
     // タグのclick時の処理
     const onClickTag = id => {
       switch (treeState.mode) {
-      case TREE_STATE.LOCK_MODE:
+      case TREE_STATES.LOCK_MODE:
         // TODO: something
         break
-      case TREE_STATE.DROP_MODE:
+      case TREE_STATES.DROP_MODE:
         // TODO: something
         break
-      case TREE_STATE.EDIT_MODE:
+      case TREE_STATES.EDIT_MODE:
         editId.value = id
         openEditor()
         break

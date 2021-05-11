@@ -12,7 +12,7 @@
 
 <script>
 import { defineComponent, toRefs, ref, computed } from 'vue'
-import { useStore as useSound, AUDIOS } from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
 import { GAME_STATE } from '@/composables/useQuizGame'
 import { hira2kata } from '@/utilities/v_string_functions'
 
@@ -32,7 +32,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { playAudio } = useSound()
+    const { playAudio } = injectAudio()
 
     const { answer1, answer2, gameData } = toRefs(props)
 

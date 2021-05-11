@@ -35,10 +35,12 @@ export const getDeviceType = () => {
 }
 
 // コピーされた文字列を返す関数
-export const getClipboardData = (event) => {
-  if (window.clipboardData) {
-    return window.clipboardData.getData('text')
+export const getClipboardData = (evt: Event): string => {
+  if ('clipboardData' in window) {
+    return (<any>window).clipboardData.getData('text')
+  } else if ('clipboardData' in evt) {
+    return (<any>evt).clipboardData.getData('text/plain')
   } else {
-    return event.clipboardData.getData('text/plain')
+    return ''
   }
 }

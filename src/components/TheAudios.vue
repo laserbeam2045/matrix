@@ -20,7 +20,7 @@
 
 <script>
 import { defineComponent, reactive } from 'vue'
-import { useStore as useSound, AUDIOS } from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
 import { injectStore as injectWindowManager, WINDOWS } from '@/store/windowManager'
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 
@@ -30,7 +30,7 @@ export default defineComponent({
     'touch',
   ],
   setup(_, { emit }) {
-    const { playAudio } = useSound()
+    const { playAudio } = injectAudio()
 
     const windowState = reactive({
       width : '99vw',

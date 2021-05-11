@@ -12,7 +12,7 @@
 
 <script>
 import { defineComponent, computed } from 'vue'
-import { useStore as useAudio, AUDIOS } from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
 import useUsers from '@/composables/useUsers'
 import UserData from './UserData'
 
@@ -27,7 +27,7 @@ export default defineComponent({
 
     const { users } = useUsers(userIds)
 
-    const { playAudio } = useAudio()
+    const { playAudio } = injectAudio()
 
     // ウィンドウを閉じる処理
     const closeWindow = () => {

@@ -1,50 +1,65 @@
-import { reactive, provide, inject, watch } from 'vue'
+import { InjectionKey, reactive, provide, inject, watch } from 'vue'
 import { getRequest } from '@/api/request_methods'
 
-const storeSymbol = Symbol('audio')
+const API_ROOT = process.env.VUE_APP_API_ROOT
 
-export const provideStore = () => provide(storeSymbol, createStore())
+// DBから取得したレコードの型定義
+type Record = {
+  path: string
+  fileName: string
+  extension: string
+  volume: number
+  label: string
+}
 
-export const useStore = () => inject(storeSymbol)
+// Audioインスタンスを辞書式に管理するためのオブジェクトの型定義
+type Data = {
+  [key: string]: object;
+}
 
+type State = {
+  data: Data
+  error: object | null
+  loading: boolean
+}
+
+const AudioSymbol: InjectionKey<null> = Symbol('audio')
+
+// ルートコンポーネントで一度だけ実行します
+export const provideAudio = () => provide(AudioSymbol, createStore())
+
+// storeを使用するコンポーネント内で実行します
+export const useAudio = () => inject(AudioSymbol)
+
+// storeを作成する関数(一度だけ実行されます)
 const createStore = () => {
-  const API_ROOT = process.env.VUE_APP_API_ROOT
-
-  const state = reactive({
+  const state: State = reactive({
+    data   : {},
     error  : null,
     loading: false,
   })
 
-  // Audioインスタンスを辞書式に管理するためのオブジェクト
-  const data = reactive({})
-
   // エラーをコンソールで監視する
   watch(() => state.error, e => console.error(e))
 
-  // サーバーからfilePathを取得し、データを読み込む関数
-  const loadAudio = async(labels) => {
-    const audioLabels = labels2csv(labels)
+  /**
+   * 引数(=ラベル)のデータが存在しないときにTrueを返す関数
+   * @param label 対象のAudioのラベル
+   */
+  const isNotExists = (label: string): boolean => (
+    state.data[label] === undefined
+  )
 
-    if (audioLabels) {
-      try {
-        state.loading = true
-        const url = `${API_ROOT}/path/audios/select.php`
-        const option = { audioLabels }
-        const result = await getRequest(url, option)
-        result.forEach(record => data[record.label] = createAudio(record))
-      } catch (e) {
-        state.error = e
-      } finally {
-        state.loading = false
-      }
-    }
-  }
-
-  // 引数(=ラベル)のデータが存在しないときにTrueを返す関数
-  const isNotExists = label => data[label] === undefined
+  /**
+   * 引数のAudioインスタンスが、再生可能な状態のときにTrueを返す関数
+   * @param audio Audioインスタンス
+   */
+  const isReady = (audio: HTMLAudioElement) => (
+    audio?.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA
+  )
 
   // APIリクエストの前処理を行う関数
-  const labels2csv = input => {
+  const labels2csv = (input: string | Array<string> | object) => {
     if (typeof(input) === 'string') {
       // まだ引数(=ラベル)のデータが存在しなければ、引数をそのまま返す
       return isNotExists(input) ? input : null
@@ -61,8 +76,12 @@ const createStore = () => {
     }
   }
 
-  // audio要素を作り、再生の準備をする関数
-  const createAudio = audioData => {
+  /**
+   * audio要素を作り、再生の準備をする関数
+   * @param audioData DBから取得したレコード
+   * @return          Audioインスタンス
+   */
+  const createAudio = (audioData: Record) => {
     const { path, fileName, extension, volume } = audioData
     const src = require(`../assets/audios/${path}${fileName}.${extension}`)
     const audio = new Audio(src)
@@ -71,25 +90,52 @@ const createStore = () => {
     return audio
   }
 
-  // 指定されたラベルのaudioを返す関数
-  const getAudio = async(label, execLoad = false) => {
-    if (data[label]) {
-      return data[label]
+  /**
+   * 指定されたラベルのaudioを返す関数
+   * @param label     取得するAudioのラベル
+   * @param execLoad  Audioが存在しない時にloadするかどうか
+   * @return {object | null}
+   */
+  const getAudio = async (label: string, execLoad: boolean = false): Promise<object | null> => {
+    if (state.data[label]) {
+      return state.data[label]
+    } else if (execLoad) {
+      await loadAudio(label)
+      return getAudio(label, false)
     } else {
-      if (execLoad) {
-        await loadAudio(label)
-        return getAudio(label, false)
-      } else {
-        return null
+      return null
+    }
+  }
+
+  /**
+   * サーバーからfilePathを取得し、データを読み込む関数
+   * @param {string | array | object} labels ロードするAudioのラベル
+   */
+  const loadAudio = async (labels: string | Array<string> | object): Promise<void> => {
+    const audioLabels: string | null | undefined = labels2csv(labels)
+
+    if (audioLabels) {
+      try {
+        state.loading = true
+        const url = `${API_ROOT}/path/audios/select.php`
+        const option = { audioLabels }
+        const result = await getRequest(url, option)
+        result.forEach((record: Record) => {
+          state.data[record.label] = createAudio(record)
+        })
+      } catch (e) {
+        state.error = e
+      } finally {
+        state.loading = false
       }
     }
   }
 
-  // 引数のAudioインスタンスが、再生可能な状態のときにTrueを返す関数
-  const isReady = audio => audio?.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA
-
-  // 効果音を再生する関数
-  const playAudio = async(label) => {
+  /**
+   * 効果音を再生する関数
+   * @param label ラベル
+   */
+  const playAudio = async (label: string): Promise<void> => {
     const audio = await getAudio(label, true)
 
     if (audio instanceof Audio) {
@@ -108,8 +154,11 @@ const createStore = () => {
     }
   }
 
-  // 効果音を停止する関数
-  const stopAudio = async label => {
+  /**
+   * 効果音を停止する関数
+   * @param label 停止するAudioのラベル
+   */
+  const stopAudio = async (label: string): Promise<void> => {
     const audio = await getAudio(label, false)
 
     if (audio instanceof Audio) {
@@ -126,6 +175,16 @@ const createStore = () => {
     stopAudio,
   }
 }
+
+// type LoadAudio = {
+//   (labels: string | Array<string> | object): Promise<void>
+// }
+// type PlayAudio = {
+//   (label: string): Promise<void>
+// }
+// type StopAudio = {
+//   (label: string): Promise<void>
+// }
 
 export const AUDIOS = {
   // Quiz系

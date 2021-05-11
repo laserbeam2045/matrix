@@ -17,7 +17,7 @@
 
 <script>
 import { defineComponent, ref, watch } from 'vue'
-import { useStore as useAudio, AUDIOS } from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
 
 export default defineComponent({
   props: {
@@ -33,7 +33,7 @@ export default defineComponent({
   emits: ['open', 'close'],
 
   setup(props, { emit }) {
-    const { playAudio } = useAudio()
+    const { playAudio } = injectAudio()
 
     const isVisible = ref(false)
     const open   = () => isVisible.value = true

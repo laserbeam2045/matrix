@@ -1,9 +1,13 @@
-import TreeAlphaBody from '@/components/tree/TreeAlphaBody'
-import TreeBetaBody from '@/components/tree/TreeBetaBody'
+import TreeAlphaBody from '@/components/tree/TreeAlphaBody.vue'
+import TreeBetaBody from '@/components/tree/TreeBetaBody.vue'
 
-export default function registerGlobalComponents(vm) {
-  // 基底(ファイル名にAppを含む)コンポーネントをグローバル化する
+/**
+ * 基底(ファイル名にAppを含む)コンポーネントをグローバル化する
+ * @param vm Vueインスタンス
+ */
+export default function registerGlobalComponents(vm: { component: Function }) {
   const requireComponents = require.context('@/components/', true, /App[A-Z]\w+\.(vue|js)$/)
+
   requireComponents.keys().forEach(fileName => {
     let AppConfig = requireComponents(fileName)
     AppConfig = AppConfig.default || AppConfig

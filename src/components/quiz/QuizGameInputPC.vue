@@ -13,7 +13,7 @@
 
 <script>
 import { defineComponent, ref, reactive, nextTick } from 'vue'
-import { useStore as useAudio, AUDIOS } from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
 
 export default defineComponent({
   props: {
@@ -32,7 +32,7 @@ export default defineComponent({
     'tab',
   ],
   setup(props, { emit }) {
-    const { playAudio } = useAudio()
+    const { playAudio } = injectAudio()
 
     const state = reactive({
       inputText  : '',      // 回答者が入力した文字列

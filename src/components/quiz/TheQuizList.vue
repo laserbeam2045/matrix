@@ -6,12 +6,14 @@
       ref="theQuizCreator"
       @inserted="onInsertQuiz"
     />
-    <TheQuizEditor
-      ref="theQuizEditor"
-      :quizId="quizId"
-      @updated="onUpdateQuiz"
-      @deleted="onDeleteQuiz"
-    />
+    <AppModalWindow ref="theQuizEditor" legend="QUIZ EDITOR">
+      <TheQuizEditor
+        :quizId="quizId"
+        @close="closeEditor"
+        @updated="onUpdateQuiz"
+        @deleted="onDeleteQuiz"
+      />
+    </AppModalWindow>
   </div>
 </template>
 
@@ -40,7 +42,11 @@ export default defineComponent({
     const theQuizEditor = ref(null)
     const theQuizCreator = ref(null)
 
-    const { open: openEditor } = useWindowManager(theQuizEditor)
+    const {
+      open: openEditor,
+      close: closeEditor,
+    } = useWindowManager(theQuizEditor)
+
     const { open: openCreator } = useWindowManager(theQuizCreator)
 
     // 更新・削除の対象となるクイズのid
@@ -71,6 +77,7 @@ export default defineComponent({
       quizId,
       setQuizId,
       openEditor,
+      closeEditor,
       openCreator,
       onInsertQuiz,
       onUpdateQuiz,

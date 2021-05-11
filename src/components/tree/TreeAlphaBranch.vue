@@ -8,7 +8,7 @@
       <component
         :is="itemComponent"
         :id="value.id"
-        :class="handleClass"
+        :class="handle"
         v-on="itemEvents"
       />
       <TreeToggleButton
@@ -31,7 +31,7 @@
 
 <script>
 import { defineComponent, ref, computed, inject } from 'vue'
-import { useStore as useSound, AUDIOS } from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
 import { VueDraggableNext } from 'vue-draggable-next'
 import TreeToggleButton from './TreeToggleButton'
 
@@ -56,14 +56,14 @@ export default defineComponent({
     'click',
   ],
   setup() {
-    const { playAudio } = useSound()
+    const { playAudio } = injectAudio()
 
     const itemEvents = inject('itemEvents')
     const itemComponent = inject('itemComponent')
 
     const treeState = inject('treeState')
     const dragOptionSingle = inject('dragOptionSingle')
-    const handleClass = computed(() => treeState.handleClass)
+    const handle = computed(() => treeState.handle)
 
     const isOpenChildren = ref(true)
 
@@ -76,7 +76,7 @@ export default defineComponent({
       itemEvents,
       itemComponent,
       dragOptionSingle,
-      handleClass,
+      handle,
       isOpenChildren,
       onClickToggleButton,
     }
@@ -107,7 +107,7 @@ export default defineComponent({
   &.sortable-drag {
     opacity: 0 !important;
   }
-  // コンテンツ(クラス名をTreeStoreのhandleClassと一致させる必要がある)
+  // コンテンツ(クラス名をTreeStoreのhandleと一致させる必要がある)
   .tree-node {
     @include unSelectable;
 

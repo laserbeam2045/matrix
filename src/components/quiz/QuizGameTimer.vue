@@ -11,7 +11,7 @@
 
 <script>
 import { defineComponent, reactive, computed } from 'vue'
-import { useStore as useSound, AUDIOS } from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
 import TWEEN from '@tweenjs/tween.js'
 import Color from 'color-js'
 
@@ -34,7 +34,7 @@ export default defineComponent({
     'timeover',
   ],
   setup(props, { emit }) {
-    const { playAudio, stopAudio } = useSound()
+    const { playAudio, stopAudio } = injectAudio()
 
     const state = reactive({
       isInitial   : true,   // 初期状態かどうか

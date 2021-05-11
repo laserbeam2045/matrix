@@ -11,7 +11,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import { useStore as useSound, AUDIOS } from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
 import useCommand from '@/composables/useCommand'
 
 import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
@@ -37,7 +37,7 @@ export default defineComponent({
       execute,
     } = useCommand()
 
-    const { playAudio } = useSound()
+    const { playAudio } = injectAudio()
 
     const onPredict = ({ data, isFresh }) => {
       if (data === 'DEL') {
@@ -78,9 +78,9 @@ export default defineComponent({
       case 'GPT2'   : return windowCommand('THE_GPT_2')
       case 'USER'   : return windowCommand('THE_USER')
       case 'QUIZ'   : return windowCommand('THE_QUIZ')
-      case 'DARK'   : return themeCommand('DARK')
-      case 'LIGHT'  : return themeCommand('LIGHT')
-      case 'CLASSIC': return themeCommand('CLASSIC')
+      case 'DARK'   : return themeCommand('dark')
+      case 'LIGHT'  : return themeCommand('light')
+      case 'CLASSIC': return themeCommand('classic')
       default       : return false
       }
     }

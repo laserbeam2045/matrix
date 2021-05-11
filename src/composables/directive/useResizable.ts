@@ -1,6 +1,7 @@
 import { reactive } from 'vue'
 import { MOUSE_TOUCH_EVENT as TOUCH } from '@/utilities/v_event_functions'
 import useWindow from './useWindow'
+import '@types/events'
 
 const WEIGHT = '11px'       // 通常時の太さ
 const LENGTH = '100%'       // 通常時の長さ
@@ -9,14 +10,48 @@ const STRIDE = '0px'        // 通常時の長さに応じた位置調整
 const BOX_WEIGHT = '27px'   // 通常時のコーナーサイズ
 const BOX_OFFSET = '-14px'  // 通常時のコーナーサイズに応じた位置調整
 
+type Arguments = {
+  el: HTMLElement
+  minWidth?: number
+  minHeight?: number
+}
+
+type EventHandler = (e: Events.MouseTouch) => void
+
+type State = {
+  eventHandler: EventHandler
+}
+
+// 全リサイザーの設定(型定義)
+type ResizerSettings = {
+  [key: string]: {
+    style: {
+      [key: string]: string
+    }
+    eventHandler: EventHandler
+  }
+}
+
+// 全リサイザー(型定義)
+type Resizers = {
+  [key: string]: Resizer
+}
+
+// リサイザー(型定義)
+type Resizer = HTMLDivElement & {
+  style: {
+    [key: string]: any
+  }
+}
+
 /**
  * // リサイズを可能にするハンドル要素を返す
- * @param {Object} el         // リサイズ対象のHTML要素
- * @param {Number} minWidth   // 横幅の最小値
- * @param {Number} minHeight  // 高さの最小値
- * @returns {Object}          // ハンドル要素
+ * @param {object} el         // リサイズ対象のHTML要素
+ * @param {number} minWidth   // 横幅の最小値
+ * @param {number} minHeight  // 高さの最小値
+ * @returns {object}          // ハンドル要素
  */
-export default function useResizable(el, minWidth=0, minHeight=0) {
+export default function useResizable({ el, minWidth = 0, minHeight = 0 }: Arguments) {
   const {
     pageX,
     pageY,
@@ -29,46 +64,48 @@ export default function useResizable(el, minWidth=0, minHeight=0) {
     replaceMargin,
   } = useWindow(el)
 
-  const state = reactive({
-    eventHandler: null,
+  const state: State = reactive({
+    eventHandler: (e: Events.MouseTouch) => {},
   })
 
   // イベントを追加する関数
   const addResizeEvent = () => {
-    document.body.addEventListener(TOUCH.MOVE, state.eventHandler)
+    const eventHandler = state.eventHandler as EventListener
+    document.body.addEventListener(TOUCH.MOVE, eventHandler)
     document.body.addEventListener(TOUCH.END, removeResizeEvent)
   }
   // イベントを削除する関数
   const removeResizeEvent = () => {
-    document.body.removeEventListener(TOUCH.MOVE, state.eventHandler)
+    const eventHandler = state.eventHandler as EventListener
+    document.body.removeEventListener(TOUCH.MOVE, eventHandler)
     document.body.removeEventListener(TOUCH.END, removeResizeEvent)
   }
 
   // リサイズ後の値を計算する関数
-  const getNewTop  = e => e.pageY - frameY.value
-  const getNewLeft = e => e.pageX - frameX.value
-  const getNewWidth  = (e, dir) => offsetWidth.value + dir * (pageX.value - e.pageX)
-  const getNewHeight = (e, dir) => offsetHeight.value + dir * (pageY.value - e.pageY)
+  const getNewTop    = (e: Events.MouseTouch) => e.pageY - frameY.value
+  const getNewLeft   = (e: Events.MouseTouch) => e.pageX - frameX.value
+  const getNewWidth  = (e: Events.MouseTouch, dir: number) => offsetWidth.value + dir * (pageX.value - e.pageX)
+  const getNewHeight = (e: Events.MouseTouch, dir: number) => offsetHeight.value + dir * (pageY.value - e.pageY)
 
   /**
    * 垂直方向の位置を更新する関数
-   * @param {Object} e eventObject
+   * @param e   eventObject
    */
-  const updateTop  = e => el.style.top = getNewTop(e) + 'px'
+  const updateTop  = (e: Events.MouseTouch) => el.style.top = getNewTop(e) + 'px'
 
   /**
    * 水平方向の位置を更新する関数
-   * @param {Object} e eventObject
+   * @param e   eventObject
    */
-  const updateLeft = e => el.style.left = getNewLeft(e) + 'px'
+  const updateLeft = (e: Events.MouseTouch) => el.style.left = getNewLeft(e) + 'px'
 
   /**
    * 横幅を更新する関数
-   * @param {Object} e    eventObject
-   * @param {Number} dir  方向(1 or -1)
-   * @return {Boolean}    true(更新時) or false
+   * @param e    eventObject
+   * @param dir  方向(1 or -1)
+   * @return     true(更新時) or false(無更新時)
    */
-  const updateWidth  = (e, dir) => {
+  const updateWidth  = (e: Events.MouseTouch, dir: number): boolean => {
     const newWidth = getNewWidth(e, dir)
 
     if (minWidth <= newWidth) {
@@ -83,9 +120,9 @@ export default function useResizable(el, minWidth=0, minHeight=0) {
    * 高さを更新する関数
    * @param {Object} e    eventObject
    * @param {Number} dir  方向(1 or -1)
-   * @return {Boolean}    true(更新時) or false
+   * @return {Boolean}    true(更新時) or false(無更新時)
    */
-  const updateHeight = (e, dir) => {
+  const updateHeight = (e: Events.MouseTouch, dir: number): boolean => {
     const newHeight = getNewHeight(e, dir)
 
     if (minHeight <= newHeight) {
@@ -96,9 +133,9 @@ export default function useResizable(el, minWidth=0, minHeight=0) {
     }
   }
 
-  // 各リサイザーの設定
-  const resizerSettings = {
-    // 上
+  // 全リサイザーの設定
+  const resizerSettings: ResizerSettings = {
+    // 上辺
     resizerTop: {
       style: {
         top   : OFFSET,
@@ -107,11 +144,11 @@ export default function useResizable(el, minWidth=0, minHeight=0) {
         height: WEIGHT,
         cursor: 'ns-resize',
       },
-      eventHandler: e => {
+      eventHandler: (e: Events.MouseTouch) => {
         updateHeight(e, 1) && updateTop(e)
       },
     },
-    // 左
+    // 左辺
     resizerLeft: {
       style: {
         top   : STRIDE,
@@ -120,11 +157,11 @@ export default function useResizable(el, minWidth=0, minHeight=0) {
         height: LENGTH,
         cursor: 'ew-resize',
       },
-      eventHandler: e => {
+      eventHandler: (e: Events.MouseTouch) => {
         updateWidth(e, 1) && updateLeft(e)
       },
     },
-    // 右
+    // 右辺
     resizerRight: {
       style: {
         top   : STRIDE,
@@ -133,11 +170,11 @@ export default function useResizable(el, minWidth=0, minHeight=0) {
         height: LENGTH,
         cursor: 'ew-resize',
       },
-      eventHandler: e => {
+      eventHandler: (e: Events.MouseTouch) => {
         updateWidth(e, -1)
       },
     },
-    // 下
+    // 下辺
     resizerBottom: {
       style: {
         bottom: OFFSET,
@@ -146,7 +183,7 @@ export default function useResizable(el, minWidth=0, minHeight=0) {
         height: WEIGHT,
         cursor: 'ns-resize',
       },
-      eventHandler: e => {
+      eventHandler: (e: Events.MouseTouch) => {
         updateHeight(e, -1)
       },
     },
@@ -159,7 +196,7 @@ export default function useResizable(el, minWidth=0, minHeight=0) {
         height: BOX_WEIGHT,
         cursor: 'nwse-resize',
       },
-      eventHandler: e => {
+      eventHandler: (e: Events.MouseTouch) => {
         updateWidth(e, 1) && updateLeft(e)
         updateHeight(e, 1) && updateTop(e)
       },
@@ -173,7 +210,7 @@ export default function useResizable(el, minWidth=0, minHeight=0) {
         height: BOX_WEIGHT,
         cursor: 'nesw-resize',
       },
-      eventHandler: e => {
+      eventHandler: (e: Events.MouseTouch) => {
         updateWidth(e, -1)
         updateHeight(e, 1) && updateTop(e)
       },
@@ -187,7 +224,7 @@ export default function useResizable(el, minWidth=0, minHeight=0) {
         height: BOX_WEIGHT,
         cursor: 'nesw-resize',
       },
-      eventHandler: e => {
+      eventHandler: (e: Events.MouseTouch) => {
         updateHeight(e, -1)
         updateWidth(e, 1) && updateLeft(e)
       },
@@ -201,35 +238,39 @@ export default function useResizable(el, minWidth=0, minHeight=0) {
         height: BOX_WEIGHT,
         cursor: 'nwse-resize',
       },
-      eventHandler: e => {
+      eventHandler: (e: Events.MouseTouch) => {
         updateWidth(e, -1)
         updateHeight(e, -1)
       },
     },
   }
 
-  const resizers = {}
+  // 全リサイザー
+  const resizers: Resizers = {}
 
   for (const name of Object.keys(resizerSettings)) {
     const { style, eventHandler } = resizerSettings[name]
 
-    // resizerSettingsと同じプロパティでresizersにelementを作成する
-    resizers[name] = document.createElement('div')
+    const resizer: Resizer = document.createElement('div')
 
     // リサイザーのスタイルを設定する
     for (const prop of Object.keys(style)) {
-      resizers[name].style[prop] = style[prop]
-      resizers[name].style.position = 'absolute'
-      // resizers[name].style.background = 'rgba(100,100,255,0.5)' // デバッグ時
+      resizer.style[prop] = style[prop]
+      resizer.style.position = 'absolute'
+      // resizer.style.background = 'rgba(100,100,255,0.5)' // デバッグ用
     }
+
     // リサイザーのイベントハンドラを設定する
-    resizers[name].addEventListener(TOUCH.START, e => {
+    resizer.addEventListener(TOUCH.START, ((e: Events.MouseTouch) => {
       state.eventHandler = eventHandler
       setElementState()
       setEventState(e)
       replaceMargin()
       addResizeEvent()
-    })
+    }) as EventListener)
+
+    // resizerSettingsと同じプロパティでresizersに登録する
+    resizers[name] = resizer
   }
 
   return { ...resizers }

@@ -23,6 +23,8 @@ import TemplateFormQuiz from './TemplateFormQuiz'
 import useWindowManager from '@/store/windowManager'
 
 export default defineComponent({
+  name: 'TheQuizCreator',
+
   components: {
     TemplateFormQuiz,
   },

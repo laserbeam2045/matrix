@@ -1,8 +1,28 @@
 import { reactive, computed, toRefs } from 'vue'
+import '@types/events'
 
-export default function useWindow(el) {
+type ElementState = {
+  offsetParent: HTMLElement | Element | null
+  offsetTop   : number
+  offsetLeft  : number
+  offsetWidth : number
+  offsetHeight: number
+  clientWidth : number
+  clientHeight: number
+}
+
+type EventState = {
+  screenX: number
+  screenY: number
+  clientX: number
+  clientY: number
+  pageX  : number
+  pageY  : number
+}
+
+export default function useWindow(el: HTMLElement) {
   // elementが持つプロパティの状態
-  const elementState = reactive({
+  const elementState: ElementState = reactive({
     offsetParent: null, // 直近の祖先(CSS-positioned)要素
     offsetTop   : 0,    // offsetParentから見た垂直位置
     offsetLeft  : 0,    // offsetParentから見た水平位置
@@ -13,7 +33,7 @@ export default function useWindow(el) {
   })
 
   // eventが持つプロパティの状態
-  const eventState = reactive({
+  const eventState: EventState = reactive({
     screenX: 0,   // 端末のスクリーンを起点とした水平位置
     screenY: 0,   // 端末のスクリーンを起点とした垂直位置
     clientX: 0,   // viewportの左上からの水平位置
@@ -36,7 +56,7 @@ export default function useWindow(el) {
     elementState.clientHeight = el.clientHeight
   }
 
-  const setEventState = e => {
+  const setEventState = (e: Events.MouseTouch) => {
     eventState.screenX = e.screenX
     eventState.screenY = e.screenY
     eventState.clientX = e.clientX
@@ -47,7 +67,7 @@ export default function useWindow(el) {
 
   // マージンをなくし、絶対位置で置き換える関数
   const replaceMargin = () => {
-    el.style.margin = 0
+    el.style.margin = '0px'
     el.style.top = elementState.offsetTop + 'px'
     el.style.left = elementState.offsetLeft + 'px'
   }

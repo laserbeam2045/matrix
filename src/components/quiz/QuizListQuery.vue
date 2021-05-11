@@ -14,12 +14,12 @@
 
 <script>
 import { defineComponent, ref, inject } from 'vue'
-import { useStore as useSound, AUDIOS } from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
 import _ from 'lodash'
 
 export default defineComponent({
   setup() {
-    const { playAudio } = useSound()
+    const { playAudio } = injectAudio()
 
     const searchQuery = inject('searchQuery')
     const filteredQuizzes = inject('filteredQuizzes')

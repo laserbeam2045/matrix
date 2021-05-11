@@ -46,7 +46,7 @@
 
 <script>
 import { defineComponent, ref, reactive, computed, onMounted, inject } from 'vue'
-import { useStore as useSound, AUDIOS } from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
 import { default as useQuizGame, GAME_STATE } from '@/composables/useQuizGame'
 import QuizGameTimer    from './QuizGameTimer'
 import QuizGameQuestion from './QuizGameQuestion'
@@ -72,7 +72,7 @@ export default defineComponent({
   },
   emits: ['touch'],
   setup(props, { emit }) {
-    const { playAudio } = useSound()
+    const { playAudio } = injectAudio()
 
     const windowState = reactive({
       width : '352px',

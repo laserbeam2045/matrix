@@ -15,14 +15,14 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { injectStore } from '@/store/windowManager'
-import { useStore as useAudio, AUDIOS } from '@/store/audio'
+import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
+import { injectStore as injectWindowManager } from '@/store/windowManager'
 
 export default defineComponent({
   setup() {
-    const { windows, moveToLast } = injectStore()
+    const { windows, moveToLast } = injectWindowManager()
 
-    const { playAudio } = useAudio()
+    const { playAudio } = injectAudio()
 
     const pullUp = window => {
       if (moveToLast(window)) {

@@ -1,22 +1,20 @@
 <template>
-  <AppModalWindow ref="modalWindow" legend="QUIZ EDITOR">
-    <div id="quiz-editor">
-      <TemplateFormQuiz
-        v-model:question="data.question"
-        v-model:answer1="data.answer1"
-        v-model:answer2="data.answer2"
-        v-model:tagIds="data.tagIds"
-        @click="onClickQuizTag"
-      />
-      <AppButton
-        v-for="button in buttons"
-        :key="button.text"
-        v-on="button.events"
-      >
-        {{ button.text }}
-      </AppButton>
-    </div>
-  </AppModalWindow>
+  <div id="quiz-editor">
+    <TemplateFormQuiz
+      v-model:question="data.question"
+      v-model:answer1="data.answer1"
+      v-model:answer2="data.answer2"
+      v-model:tagIds="data.tagIds"
+      @click="onClickQuizTag"
+    />
+    <AppButton
+      v-for="button in buttons"
+      :key="button.text"
+      v-on="button.events"
+    >
+      {{ button.text }}
+    </AppButton>
+  </div>
 
   <AppConfirmWindow
     ref="confirmWindow"
@@ -36,6 +34,8 @@ const DELETE_QUIZ_MODE = 1
 const DELETE_TAG_MODE  = 2
 
 export default defineComponent({
+  name: 'TheQuizEditor',
+
   components: {
     TemplateFormQuiz,
   },
@@ -46,6 +46,7 @@ export default defineComponent({
     },
   },
   emits: [
+    'close',
     'updated',
     'deleted',
   ],
@@ -63,7 +64,9 @@ export default defineComponent({
 
     // 親コンポーネントから受け取るクイズIDを監視し、変化時にデータを更新する
     watch(() => props.quizId, (id) => {
+      console.log(id)
       const quiz = getUserQuiz(id)
+      console.log(quiz)
       if (quiz) {
         const { question, answer1, answer2, tagIds } = quiz
         Object.assign(data, { id, question, answer1, answer2, tagIds })
@@ -122,7 +125,7 @@ export default defineComponent({
     }
     // Cancelボタン押下時の処理
     const onClickCancel = () => {
-      close()
+      emit('close')
     }
 
     // 確認ダイアログのOKボタン押下時の処理
@@ -131,14 +134,14 @@ export default defineComponent({
       case UPDATE_QUIZ_MODE:
         updateQuiz().then(() => {
           closeConfirm()
-          close()
+          emit('close')
           emit('updated')
         })
         break
       case DELETE_QUIZ_MODE:
         deleteQuiz().then(() => {
           closeConfirm()
-          close()
+          emit('close')
           emit('deleted')
         })
         break

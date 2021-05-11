@@ -1,4 +1,4 @@
-import { reactive, computed } from 'vue'
+import { Ref, reactive, computed } from 'vue'
 
 // スクロールバーの太さ(px)
 const SCROLLBAR_THICKNESS = 5
@@ -12,7 +12,13 @@ const BORDER_1 = `0 0 0 ${BORDER_RADIUS}px`
 const BORDER_2 = `0 0 ${BORDER_RADIUS}px 0`
 const BORDER_3 = `0 0 ${BORDER_RADIUS}px ${BORDER_RADIUS}px`
 
-export default function useScrollable({ width, height, position }) {
+type Arguments = {
+  width: Ref<string>
+  height: Ref<string>
+  position: Ref<string>
+}
+
+export default function useScrollable({ width, height, position }: Arguments) {
   const state = reactive({
     clientRect: {
       top   : 0,
@@ -91,6 +97,7 @@ export default function useScrollable({ width, height, position }) {
     case 'left'  : return scroll.height - clientRect.height - scroll.top
     case 'right' : return scroll.height - clientRect.height - scroll.top
     case 'bottom': return scroll.width - clientRect.width - scroll.left
+    default      : return scroll.height - clientRect.height - scroll.top
     }
   })
 
@@ -102,13 +109,14 @@ export default function useScrollable({ width, height, position }) {
     case 'left'  : return scroll.height - clientRect.height
     case 'right' : return scroll.height - clientRect.height
     case 'bottom': return scroll.width - clientRect.width
+    default      : return scroll.height - clientRect.height
     }
   })
 
   // 現在のスクロールされている割合（百分率）
-  const progress = computed(() => {
-    return Math.max(0, Math.min(100, (1 - currentArea.value / maximumArea.value) * 100))
-  })
+  const progress = computed(() => (
+    Math.max(0, Math.min(100, (1 - currentArea.value / maximumArea.value) * 100))
+  ))
 
   // 最大までスクロールされたかどうか
   const isReachedMax = computed(() => 99 < progress.value)
@@ -135,7 +143,7 @@ export default function useScrollable({ width, height, position }) {
   })
 
   // stateを更新する関数
-  const updateState = elm => {
+  const updateState = (elm: HTMLElement) => {
     { // スコープを分ける意味のブロック
       const { top, left, width, height } = elm.getBoundingClientRect()
       state.clientRect = { top, left, width, height }
@@ -145,10 +153,10 @@ export default function useScrollable({ width, height, position }) {
   }
 
   // scrollイベントハンドラ(scrollableに設定する)
-  const onScroll = evt => updateState(evt.target)
+  const onScroll = (evt: { target: HTMLElement }) => updateState(evt.target)
 
   // resizeイベントハンドラ(scrollableに設定する)
-  const onResize = elm => updateState(elm)
+  const onResize = (elm: HTMLElement) => updateState(elm)
 
   return {
     containerStyle,
