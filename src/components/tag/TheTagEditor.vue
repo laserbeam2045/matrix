@@ -22,10 +22,10 @@
   />
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, reactive, ref, watch, inject } from 'vue'
-import TemplateFormQuizTag from '@/components/quiz/TemplateFormQuizTag'
-import useWindowManager from '@/store/windowManager'
+import { useWindowManager } from 'store/useWindowManager'
+import TemplateFormQuizTag from 'components/quiz/TemplateFormQuizTag.vue'
 
 // 確認ダイアログがどのボタンによって表示されたかを表す定数
 const UPDATE_MODE = 0
@@ -57,7 +57,7 @@ export default defineComponent({
     const getQuizTag = inject('getQuizTag')
 
     // 親コンポーネントから受け取るタグIDを監視し、変化時にデータを更新する
-    watch(() => props.tagId, id => {
+    watch(() => props.tagId, (id: number) => {
       const tag = getQuizTag(id)
       if (tag) Object.assign(data, { id, label: tag.label })
     })

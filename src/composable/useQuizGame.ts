@@ -1,5 +1,6 @@
 import { reactive, unref, computed } from 'vue'
-import { hira2kata }   from '@/utilities/v_string_functions'
+import { Quizzes } from 'types/api'
+import { hira2kata }   from 'utilities/v_string_functions'
 
 export const GAME_STATE = {
   OPENING    : 0,  // ゲームを開始する段階
@@ -10,7 +11,7 @@ export const GAME_STATE = {
   ENDING     : 5,  // ゲームが終了した状態
 }
 
-export default function useQuizGame(quizzes) {
+export default function useQuizGame(quizzes: Quizzes) {
   const gameData = reactive({
     state            : GAME_STATE.OPENING,  // 状態フラグ
     inputText        : '',                  // ユーザーの入力
@@ -27,7 +28,7 @@ export default function useQuizGame(quizzes) {
   const nextQuiz = computed(() => unref(quizzes)[gameData.currentQuizNumber])
 
   // 入力された文字列が、正解と等しいかどうかを返す関数
-  const isCorrect = (answer) => {
+  const isCorrect = (answer: string): boolean => {
     const convertedInput = hira2kata(gameData.inputText)
     const convertedAnswer = hira2kata(unref(answer))
     const exp = new RegExp(`^${convertedAnswer}.*`)

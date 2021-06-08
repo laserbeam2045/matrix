@@ -29,21 +29,23 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, provide, markRaw } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
-import { injectStore as injectWindowManager, WINDOWS } from '@/store/windowManager'
-import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
 
-import useUserQuizzes from '@/composables/useUserQuizzes'
-import useQuizStringSearch from '@/composables/useQuizStringSearch'
-import useQuizFilters from '@/composables/useQuizFilters'
-import useQuizTags from '@/composables/useQuizTags'
+import { useAudio, AUDIOS } from 'store/useAudio'
+import { useWindowManager, WINDOWS } from 'store/useWindowManager'
 
-import QuizGame from './QuizGame'
-import TheQuizList from './TheQuizList'
-import QuizListQuery from './QuizListQuery'
-import TheTagTree from '@/components/tag/TheTagTree'
+import { MOUSE_TOUCH_EVENT } from 'utilities/v_event_functions'
+
+import useUserQuizzes from 'composable/useUserQuizzes'
+import useQuizStringSearch from 'composable/useQuizStringSearch'
+import useQuizFilters from 'composable/useQuizFilters'
+import useQuizTags from 'composable/useQuizTags'
+
+import QuizGame from './QuizGame.vue'
+import TheQuizList from './TheQuizList.vue'
+import QuizListQuery from './QuizListQuery.vue'
+import TheTagTree from 'components/tag/TheTagTree.vue'
 
 export default defineComponent({
   name: 'TheQuiz',
@@ -92,8 +94,8 @@ export default defineComponent({
     provide('activeTagIds', activeTagIds)
     provide('toggleActiveTagId', toggleActiveTagId)
 
-    const { playAudio } = injectAudio()
-    const { open, close, moveToLast } = injectWindowManager()
+    const { playAudio } = useAudio()
+    const { open, close, moveToLast } = useWindowManager()
 
     const quizComponent = markRaw(QuizGame)
 

@@ -7,7 +7,7 @@
       <AppButton
         v-for="char in choices"
         :key="char"
-        @touchend="onSelectCharactor(char)"
+        @touchend="onSelectCharacter(char)"
       >
         {{ char }}
       </AppButton>
@@ -20,12 +20,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, reactive, computed } from 'vue'
-import { injectStore as injectAudio, AUDIOS }   from '@/store/audio'
-import { HIRAGANA, KATAKANA, ALPHABETS, NUMERICS, isHiragana, isKatakana, isAlphabet, isNumeric } from '@/utilities/v_string_functions'
-import { shuffle } from '@/utilities/v_array_functions'
-import SuperArray from '@/utilities/SuperArray'
+import { useAudio, AUDIOS }   from 'store/useAudio'
+import { HIRAGANA, KATAKANA, ALPHABETS, NUMERICS, isHiragana, isKatakana, isAlphabet, isNumeric } from 'utilities/v_string_functions'
+import { shuffle } from 'utilities/v_array_functions'
+import SuperArray from 'utilities/SuperArray'
 
 // 選択肢候補から除外する文字リスト
 const EXCLUDE_HIRAGANA = ['ゎ', 'ゐ', 'ゑ', 'ゔ', 'ゕ', 'ゖ']
@@ -56,11 +56,12 @@ export default defineComponent({
     'enter',
   ],
   setup(props, { emit }) {
-    const { playAudio } = injectAudio()
+    const { playAudio } = useAudio()
 
     const state = reactive({
       inputText  : '',    // 回答者が入力した文字列
       answerIndex: 0,     // 現在回答済みの文字数
+      isPressed  : false,
     })
 
     const addRandomChoices = (set, choices, size) => {
@@ -96,7 +97,7 @@ export default defineComponent({
 
     const onPressButton = () => emit('start-answer')
 
-    const onSelectCharactor = char => {
+    const onSelectCharacter = (char: string) => {
       if (!state.isPressed) {
         state.isPressed = true
         emit('push')
@@ -118,7 +119,7 @@ export default defineComponent({
       choices,
       initialize,
       onPressButton,
-      onSelectCharactor,
+      onSelectCharacter,
     }
   },
 })

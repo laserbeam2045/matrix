@@ -9,7 +9,7 @@
 
 <script>
 import { defineComponent, ref, onMounted } from 'vue'
-import useWindowManager from '@/store/windowManager'
+import { useWindowManager } from 'store/useWindowManager'
 
 export default defineComponent({
   emits: ['close'],

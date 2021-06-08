@@ -24,9 +24,9 @@
   </li>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, computed, inject } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
+import { useAudio, AUDIOS } from 'store/useAudio'
 import { VueDraggableNext } from 'vue-draggable-next'
 
 export default defineComponent({
@@ -49,7 +49,7 @@ export default defineComponent({
     'click',
   ],
   setup(props, { emit }) {
-    const { playAudio } = injectAudio()
+    const { playAudio } = useAudio()
 
     const treeState = inject('treeState')
     const dragOptionSingle = inject('dragOptionSingle')

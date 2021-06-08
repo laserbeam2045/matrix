@@ -12,7 +12,7 @@
 
 <script>
 import { defineComponent, ref, reactive, onMounted } from 'vue'
-import OCR from '@/utilities/OCR'
+import OCR from 'utilities/OCR'
 import _ from 'lodash'
 
 const API_ROOT_2 = process.env.VUE_APP_API_ROOT_2

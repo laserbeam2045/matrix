@@ -1,6 +1,6 @@
-import { MOUSE_TOUCH_EVENT as EVENT } from '@/utilities/v_event_functions'
-import useDraggable from '@/composables/directive/useDraggable'
-import useResizable from '@/composables/directive/useResizable'
+import { MOUSE_TOUCH_EVENT as EVENT } from 'utilities/v_event_functions'
+import useDraggable from 'composable/directive/useDraggable'
+import useResizable from 'composable/directive/useResizable'
 
 /**
  * カスタムディレクティブを設定する関数
@@ -138,8 +138,8 @@ const customDirectives: AnyPropertyObject = {
    */
   'resize': {
     mounted (el: HTMLElement, binding: Binding) {
-      const resizeObserver = new ResizeObserver(entries => {
-        for (let entry of entries) {
+      const resizeObserver = new ResizeObserver((entries: any) => {
+        for (const entry of entries) {
           if (binding?.value(entry.target)) {
             resizeObserver.unobserve(entry.target)
           }

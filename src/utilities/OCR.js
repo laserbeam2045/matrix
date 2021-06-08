@@ -1,7 +1,7 @@
 import * as tf from '@tensorflow/tfjs'
 import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
 import { unref } from 'vue'
-import Rahmen from '@/utilities/Rahmen'
+import Rahmen from 'utilities/Rahmen'
 
 const INPUT_SIZE = 40       // NNに渡す画像データの一辺のサイズ
 const MIN_RECT_SIZE = 114   // 描画部分のみ切り出すときのサイズの下限

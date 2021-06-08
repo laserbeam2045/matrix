@@ -12,36 +12,41 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "baseUrl": ".",
     "types": [
-      "webpack-env"
+      "webpack-env",
+      "resize-observer-browser",
     ],
+    "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@types/*": [
-        "src/@types/*"
-      ]
+      "app/*": ["./*"],
+      "@/*": ["./src/*"],
+      "api/*": ["./src/api/*"],
+      "types/*": ["./src/@types/*"],
+      "store/*": ["./src/store/*"],
+      "utilities/*": ["./src/utilities/*"],
+      "components/*": ["./src/components/*"],
+      "composable/*": ["./src/composable/*"],
     },
     "lib": [
+      "es5",
+      "es6",
       "esnext",
       "dom",
       "dom.iterable",
       "scripthost"
     ],
-    "outDir": "dist"
+    "outDir": "./dist/"
   },
   "include": [
     "src/*.js",
     "src/*.ts",
     "src/api/*.js",
     "src/api/*.ts",
+    "src/@types/*/d.ts",
     "src/components/**/*.vue",
-    "src/composables/**/*.js",
-    "src/composables/**/*.ts",
+    "src/composable/**/*.js",
+    "src/composable/**/*.ts",
     "src/pages/*.vue",
-    "src/plugins/*.js",
     "src/plugins/*.ts",
     "src/store/*.js",
     "src/store/*.ts",

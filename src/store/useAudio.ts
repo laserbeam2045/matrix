@@ -1,38 +1,40 @@
 import { InjectionKey, reactive, provide, inject, watch } from 'vue'
-import { getRequest } from '@/api/request_methods'
+import { getRequest } from 'api/request_methods'
+import { Audio } from 'types/api'
 
-const API_ROOT = process.env.VUE_APP_API_ROOT
-
-// DBから取得したレコードの型定義
-type Record = {
-  path: string
-  fileName: string
-  extension: string
-  volume: number
-  label: string
+// Audioインスタンスを辞書形式で管理するためのオブジェクトの型定義
+interface AudioData {
+  [key: string]: object
 }
 
-// Audioインスタンスを辞書式に管理するためのオブジェクトの型定義
-type Data = {
-  [key: string]: object;
-}
-
-type State = {
-  data: Data
+interface State {
+  data: AudioData
   error: object | null
   loading: boolean
 }
 
+interface AudioStore {
+  loadAudio: (labels: string | Array<string> | object) => Promise<void>
+  playAudio: (label: string) => Promise<void>
+  stopAudio: (label: string) => Promise<void>
+}
+
 const AudioSymbol: InjectionKey<null> = Symbol('audio')
 
-// ルートコンポーネントで一度だけ実行します
 export const provideAudio = () => provide(AudioSymbol, createStore())
 
-// storeを使用するコンポーネント内で実行します
-export const useAudio = () => inject(AudioSymbol)
+export const useAudio = (): AudioStore => {
+  const audioStore = inject(AudioSymbol)
+  if (!audioStore) {
+    throw new Error('useAudio() is called without provider.')
+  }
 
-// storeを作成する関数(一度だけ実行されます)
+  return audioStore
+}
+
 const createStore = () => {
+  const API_ROOT = process.env.VUE_APP_API_ROOT
+
   const state: State = reactive({
     data   : {},
     error  : null,
@@ -81,7 +83,7 @@ const createStore = () => {
    * @param audioData DBから取得したレコード
    * @return          Audioインスタンス
    */
-  const createAudio = (audioData: Record) => {
+  const createAudio = (audioData: Audio) => {
     const { path, fileName, extension, volume } = audioData
     const src = require(`../assets/audios/${path}${fileName}.${extension}`)
     const audio = new Audio(src)
@@ -120,7 +122,7 @@ const createStore = () => {
         const url = `${API_ROOT}/path/audios/select.php`
         const option = { audioLabels }
         const result = await getRequest(url, option)
-        result.forEach((record: Record) => {
+        result.forEach((record: Audio) => {
           state.data[record.label] = createAudio(record)
         })
       } catch (e) {

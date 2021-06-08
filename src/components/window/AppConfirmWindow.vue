@@ -12,9 +12,9 @@
   </AppModalWindow>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from 'vue'
-import useWindowManager from '@/store/windowManager'
+import { useWindowManager } from 'store/useWindowManager'
 
 export default defineComponent({
   props: {

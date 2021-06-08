@@ -23,13 +23,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, reactive, computed, nextTick } from 'vue'
-import { injectStore as injectMatrix } from '@/store/matrix'
-import { injectStore as injectAudio, AUDIOS }   from '@/store/audio'
-import { HIRAGANA, KATAKANA, ALPHABETS, NUMERICS, isHiragana, isKatakana, isAlphabet, isNumeric } from '@/utilities/v_string_functions'
-import { shuffle } from '@/utilities/v_array_functions'
-import SuperArray from '@/utilities/SuperArray'
+import { useMatrix } from 'store/useMatrix'
+import { useAudio, AUDIOS }   from 'store/useAudio'
+import { HIRAGANA, KATAKANA, ALPHABETS, NUMERICS, isHiragana, isKatakana, isAlphabet, isNumeric } from 'utilities/v_string_functions'
+import { shuffle } from 'utilities/v_array_functions'
+import SuperArray from 'utilities/SuperArray'
 
 // 選択肢候補から除外する文字リスト
 const EXCLUDE_HIRAGANA = ['ゎ', 'ゐ', 'ゑ', 'ゔ', 'ゕ', 'ゖ']
@@ -56,8 +56,8 @@ export default defineComponent({
     'tab',
   ],
   setup(props, { emit }) {
-    const { isPC, isMobile } = injectMatrix()
-    const { playAudio } = injectAudio()
+    const { isPC, isMobile } = useMatrix()
+    const { playAudio } = useAudio()
 
     const state = reactive({
       inputText  : '',      // 回答者が入力した文字列
@@ -102,7 +102,7 @@ export default defineComponent({
       state.answerIndex = 0
     }
 
-    const onPressButton = char => {
+    const onPressButton = (char: string) => {
       if (!state.isPressed) {
         state.isPressed = true
         emit('push')
@@ -121,7 +121,7 @@ export default defineComponent({
     }
 
     // 回答欄に変化が生じたときのイベント
-    const onUpdateText = value => {
+    const onUpdateText = (value: string) => {
       state.inputText = value
       nextTick(() => state.inputText = value.trim())
     }

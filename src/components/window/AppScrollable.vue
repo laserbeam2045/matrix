@@ -11,7 +11,7 @@
 
 <script>
 import { defineComponent, toRefs } from 'vue'
-import useScrollable from '@/composables/directive/useScrollable'
+import useScrollable from 'composable/directive/useScrollable'
 
 export default defineComponent({
   props: {

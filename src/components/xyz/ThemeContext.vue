@@ -4,13 +4,16 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
-import { provideTheme, Theme } from '@/store/useTheme'
+import { Theme } from 'types/theme'
+import { provideTheme } from 'store/useTheme'
 
 export default defineComponent({
+  name : 'ThemeContext',
   props: {
     theme: {
-      type   : String as PropType<Theme>,
-      default: 'dark',
+      type    : String as PropType<Theme>,
+      required: false,
+      default : 'dark',
     },
   },
   setup(props) {

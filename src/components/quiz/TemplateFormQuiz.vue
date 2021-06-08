@@ -29,8 +29,8 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import useModelValue from '@/composables/useModelValue'
-import QuizTag from '@/components/quiz/QuizTag'
+import useModelValue from 'composable/useModelValue'
+import QuizTag from 'components/quiz/QuizTag'
 
 export default defineComponent({
   components: {

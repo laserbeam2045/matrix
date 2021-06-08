@@ -1,6 +1,7 @@
-import { ref, unref, computed } from 'vue'
+import { Ref, ref, unref, computed } from 'vue'
+import { Quizzes } from 'types/api'
 
-export default function useQuizStringSearch(quizzes) {
+export default function useQuizStringSearch(quizzes: Ref<Quizzes>) {
   const searchQuery = ref('')
 
   const quizzesMatchingSearchQuery = computed(() => {

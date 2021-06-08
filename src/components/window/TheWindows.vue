@@ -1,7 +1,7 @@
 <template>
   <p>
     <span
-      v-for="window in windows"
+      v-for="window in windows.stack"
       :key="window.name"
       @click="pullUp(window)"
     >
@@ -13,18 +13,19 @@
   </template>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
-import { injectStore as injectWindowManager } from '@/store/windowManager'
+
+import { useAudio, AUDIOS } from 'store/useAudio'
+import { useWindowManager } from 'store/useWindowManager'
 
 export default defineComponent({
   setup() {
-    const { windows, moveToLast } = injectWindowManager()
+    const { playAudio } = useAudio()
 
-    const { playAudio } = injectAudio()
+    const { state: windows, moveToLast } = useWindowManager()
 
-    const pullUp = window => {
+    const pullUp = (window: any) => {
       if (moveToLast(window)) {
         playAudio(AUDIOS.ETC.CYBER_15_3)
       }

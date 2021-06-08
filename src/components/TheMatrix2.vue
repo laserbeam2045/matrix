@@ -9,13 +9,22 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
-import useCommand from '@/composables/useCommand'
+<script lang="ts">
+import { defineComponent, Ref, ref } from 'vue'
 
-import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
-import { isAlphabet } from '@/utilities/v_string_functions'
+import { Theme } from 'types/theme'
+import { WindowName } from 'types/windows'
+
+import { useAudio, AUDIOS } from 'store/useAudio'
+
+import useCommand from 'composable/useCommand'
+
+import AppReadable from 'components/AppReadable.vue'
+
+import { isAlphabet } from 'utilities/v_string_functions'
+import { MOUSE_TOUCH_EVENT } from 'utilities/v_event_functions'
+
+type Readable = Ref<InstanceType<typeof AppReadable> | null>
 
 export default defineComponent({
   emits: [
@@ -24,7 +33,7 @@ export default defineComponent({
     'themeCommand',
   ],
   setup(props, { emit }) {
-    const readable = ref(null)
+    const readable: Readable = ref(null)
 
     const windowEvents = {
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
@@ -37,17 +46,20 @@ export default defineComponent({
       execute,
     } = useCommand()
 
-    const { playAudio } = injectAudio()
+    const { playAudio } = useAudio()
 
-    const onPredict = ({ data, isFresh }) => {
+    const onPredict = (
+      { data, isFresh }:
+      { data: string, isFresh: boolean }
+    ) => {
       if (data === 'DEL') {
         if (isFresh) {
           delCommand()
         }
-        readable.value.clear()
+        readable.value?.clear()
         playAudio(AUDIOS.ETC.CYBER_15_2)
       } else if (isAlphabet(data)) {
-        readable.value.clear()
+        readable.value?.clear()
         addCommand(data)
         if (checkCommand()) {
           execute()
@@ -56,14 +68,14 @@ export default defineComponent({
     }
 
     // ウィンドウを開くコマンド
-    const windowCommand = windowName => {
+    const windowCommand = (windowName: WindowName) => {
       emit('windowCommand', windowName)
       return true
     }
 
     // ページテーマを変更するコマンド
-    const themeCommand = themeName => {
-      emit('themeCommand', themeName)
+    const themeCommand = (theme: Theme) => {
+      emit('themeCommand', theme)
       return true
     }
 
@@ -85,7 +97,11 @@ export default defineComponent({
       }
     }
 
+    // TheMatrixとメソッドを共通化する目的
+    const focus = () => {}
+
     return {
+      focus,
       readable,
       currentCommand,
       windowEvents,

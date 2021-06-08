@@ -1,5 +1,5 @@
 import { reactive, ref, readonly, provide, inject } from 'vue'
-import { getRequest } from '@/api/request_methods'
+import { getRequest } from 'api/request_methods'
 
 const storeSymbol = Symbol('quiz')
 const API_ADDRESS = process.env.VUE_APP_API_SELECT_QUIZZES

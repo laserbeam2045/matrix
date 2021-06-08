@@ -1,14 +1,14 @@
 {
-  // "editor.formatOnSave": true,
   // "html.format.preserveNewLines": false,
   "json.format.enable": false,
-  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "css.validate": false,
   "scss.validate": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.stylelint": true,
     "source.fixAll.eslint": true
   },
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+
   // 非表示にするファイル・フォルダー
   "files.exclude": {
     // "dist": true,

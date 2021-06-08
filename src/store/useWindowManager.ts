@@ -1,55 +1,54 @@
-// @ts-nocheck
-import { reactive, unref, markRaw, provide, inject, readonly } from 'vue'
-import { sleep } from '@/utilities/useDateTime'
-import SuperArray from '@/utilities/SuperArray'
 
-import TheMatrix3 from '@/components/TheMatrix3'
-import TheAudios  from '@/components/TheAudios'
-import TheButtons from '@/components/TheButtons'
-import TheEditor  from '@/components/editor/TheEditor'
-import GPT2       from '@/components/editor/GPT2'
-import TheUser    from '@/components/user/TheUser'
-import TheQuiz    from '@/components/quiz/TheQuiz'
+import { InjectionKey, reactive, unref, markRaw, provide, inject, readonly } from 'vue'
+import { sleep } from 'utilities/useDateTime'
+import SuperArray from 'utilities/SuperArray'
+import { Windows } from 'types/windows'
 
-const storeSymbol = Symbol('windowManager')
+import TheMatrix3 from 'components/TheMatrix3.vue'
+import TheAudios  from 'components/TheAudios.vue'
+import TheButtons from 'components/TheButtons.vue'
+import TheEditor  from 'components/editor/TheEditor.vue'
+import GPT2       from 'components/editor/GPT2.vue'
+import TheUser    from 'components/user/TheUser.vue'
+import TheQuiz    from 'components/quiz/TheQuiz.vue'
 
-// ルートコンポーネントで一度だけ実行します
-export const provideStore = () => provide(storeSymbol, createStore())
-
-// 遅延などの特殊な処理が必要な時はinjectします
-export const injectStore = () => inject(storeSymbol)
-
-// injectStoreを介すのが面倒な時はこれを使います
-export default function useWindowManager(window) {
-  const {
-    windows,
-    open,
-    close,
-    toggle,
-    moveToLast,
-    closeAll,
-  } = injectStore()
-
-  return {
-    windows,
-    open      : () => open(window),
-    close     : () => close(window),
-    toggle    : () => toggle(window),
-    moveToLast: () => moveToLast(window),
-    closeAll,
-  }
+export interface State {
+  stack: any
 }
 
-const createStore = () => {
-  const stack = reactive(new SuperArray())
+interface WindowManager {
+  state: State
+  open: (window: any, option?: { delay?: number }) => void
+  close: (window: any, option?: { delay?: number }) => void
+  toggle: (window: any, option?: { delay?: number }) => void
+  closeAll: (window: any, option?: { delay?: number, interval?: number }) => void
+  moveToLast: (window: any, option?: { delay?: number }) => Promise<boolean>
+}
 
-  const isOpened = window => stack.includes(window)
+const storeSymbol: InjectionKey<null> = Symbol('windowManager')
 
-  const isClosed = window => !stack.includes(window)
+export const provideWindowManager = () => provide(storeSymbol, createStore())
 
-  const openable = window => typeof(unref(window)?.open) === 'function'
+export const useWindowManager = (): WindowManager => {
+  const storeValues = inject(storeSymbol)
+  if (!storeValues) {
+    throw new Error('useWindowManager is called without provider.')
+  }
+  return storeValues
+}
 
-  const closable = window => typeof(unref(window)?.close) === 'function'
+const createStore = (): WindowManager => {
+  const state = reactive<State>({
+    stack: new SuperArray<any>(),
+  })
+
+  const isOpened = (window: any) => state.stack.includes(window)
+
+  const isClosed = (window: any) => !state.stack.includes(window)
+
+  const openable = (window: any) => typeof(unref(window)?.open) === 'function'
+
+  const closable = (window: any) => typeof(unref(window)?.close) === 'function'
 
   /**
    * 第一引数のwindowを開く関数
@@ -57,10 +56,10 @@ const createStore = () => {
    * @param {object}
    * @prop {number} delay   // windowを開くまでの待機時間(ms)
    */
-  const open = async (window, { delay = 0 } = {}) => {
+  const open = async (window: any, { delay = 0 } = {}) => {
     if (isClosed(window)) {
       await sleep(delay)
-      stack.push(window)
+      state.stack.push(window)
 
       if (openable(window)) {
         unref(window).open()
@@ -74,10 +73,10 @@ const createStore = () => {
    * @param {object}
    * @prop {number} delay   // windowを閉じるまでの待機時間(ms)
    */
-  const close = async (window, { delay = 0 } = {}) => {
+  const close = async (window: any, { delay = 0 } = {}) => {
     if (isOpened(window)) {
       await sleep(delay)
-      stack.delete(window)
+      state.stack.delete(window)
 
       if (closable(window)) {
         unref(window).close()
@@ -91,7 +90,7 @@ const createStore = () => {
    * @param {object}
    * @prop {number} delay   // windowを(開く/閉じる)までの待機時間(ms)
    */
-  const toggle = async (window, { delay = 0 } = {}) => {
+  const toggle = async (window: any, { delay = 0 } = {}) => {
     if (isClosed(window)) {
       open(window, { delay })
     } else {
@@ -108,12 +107,12 @@ const createStore = () => {
   const closeAll = async ({ delay = 0, interval = 0 } = {}) => {
     await sleep(delay)
 
-    while (stack.size) {
-      const window = stack.pop()
+    while (state.stack.size) {
+      const window = state.stack.pop()
       if (closable(window)) {
         unref(window).close()
       }
-      if (stack.size) {
+      if (state.stack.size) {
         await sleep(interval)
       }
     }
@@ -122,16 +121,17 @@ const createStore = () => {
   /**
    * 第一引数のwindowを配列の末尾に移動させる関数
    * @param {object} window   対象となるwindow
-   * @return {boolen}         移動できたかどうか
+   * @return {boolean}        移動できたかどうか
    */
-  const moveToLast = window => {
-    const from = stack.indexOf(window)
-    const to = stack.lastIndex
-    return stack.move(from, to)
+  const moveToLast = async (window: any, { delay = 0 } = {}): Promise<boolean> => {
+    const from = state.stack.indexOf(window)
+    const to = state.stack.lastIndex
+    await sleep(delay)
+    return state.stack.move(from, to)
   }
 
   return {
-    windows: readonly(stack),
+    state,
     open,
     close,
     toggle,
@@ -140,7 +140,7 @@ const createStore = () => {
   }
 }
 
-export const WINDOWS = {
+export const WINDOWS: Windows = {
   THE_MATRIX: markRaw(TheMatrix3),
   THE_AUDIO : markRaw(TheAudios),
   THE_BUTTON: markRaw(TheButtons),

@@ -21,8 +21,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
+
+// interface Window {
+//   width?: string
+//   height?: string
+//   legend?: string | object
+// }
 
 export default defineComponent({
   props: {

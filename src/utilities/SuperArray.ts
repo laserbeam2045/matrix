@@ -1,5 +1,5 @@
 // An array class that can be used like the Set class
-export default class SuperArray extends Array {
+export default class SuperArray<T = any> extends Array<T> {
 
   constructor(arr = []) {
     super()

@@ -25,11 +25,11 @@
   </AppVirtualWindow>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
-import { injectStore as injectWindowManager, WINDOWS } from '@/store/windowManager'
-import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
+import { useAudio, AUDIOS } from 'store/useAudio'
+import { useWindowManager, WINDOWS } from 'store/useWindowManager'
+import { MOUSE_TOUCH_EVENT } from 'utilities/v_event_functions'
 
 export default defineComponent({
   name : 'TheButtons',
@@ -39,9 +39,9 @@ export default defineComponent({
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
 
-    const { close } = injectWindowManager()
+    const { close } = useWindowManager()
 
-    const { playAudio } = injectAudio()
+    const { playAudio } = useAudio()
 
     // ウィンドウを閉じる処理
     const closeWindow = () => {
@@ -49,7 +49,10 @@ export default defineComponent({
       playAudio(AUDIOS.ETC.CYBER_04_1)
     }
 
-    return { windowEvents, closeWindow }
+    return {
+      windowEvents,
+      closeWindow,
+    }
   },
 })
 </script>

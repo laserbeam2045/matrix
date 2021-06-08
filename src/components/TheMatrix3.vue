@@ -9,25 +9,33 @@
   />
 </template>
 
-<script>
-import { defineComponent, ref, computed, markRaw } from 'vue'
+<script lang="ts">
+import { defineComponent, Ref, ref, computed, markRaw } from 'vue'
 
-import { useTheme } from '@/store/useTheme'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
-import { injectStore as injectMatrix } from '@/store/matrix'
-import { injectStore as injectWindowManager, WINDOWS } from '@/store/windowManager'
+import { Theme } from 'types/theme'
+import { WindowName } from 'types/windows'
 
-import TheMatrix from '@/components/TheMatrix'
-import TheMatrix2 from '@/components/TheMatrix2'
+import { useMatrix } from 'store/useMatrix'
+import { useWindowManager, WINDOWS } from 'store/useWindowManager'
+import { useAudio, AUDIOS } from 'store/useAudio'
+import { useTheme } from 'store/useTheme'
+
+import TheMatrix from 'components/TheMatrix.vue'
+import TheMatrix2 from 'components/TheMatrix2.vue'
+
+type Matrix = Ref<null |
+  InstanceType<typeof TheMatrix> |
+  InstanceType<typeof TheMatrix2>
+>
 
 export default defineComponent({
   name: 'TheMatrix3',
   setup() {
-    const matrix = ref(null)
+    const matrix: Matrix = ref(null)
 
-    const { isPC } = injectMatrix()
-    const { playAudio } = injectAudio()
-    const { open, moveToLast } = injectWindowManager()
+    const { isPC } = useMatrix()
+    const { playAudio } = useAudio()
+    const { open, moveToLast } = useWindowManager()
 
     const { setTheme } = useTheme()
 
@@ -36,13 +44,13 @@ export default defineComponent({
     )
 
     // ウィンドウを開く関数
-    const openWindow = windowName => {
+    const openWindow = (windowName: WindowName) => {
       open(WINDOWS[windowName])
       playAudio(AUDIOS.ETC.DECISION_33)
     }
 
     // ページテーマを変更する関数
-    const changeTheme = theme => {
+    const changeTheme = (theme: Theme) => {
       setTheme(theme)
       playAudio(AUDIOS.ETC.DECISION_33)
     }
@@ -59,7 +67,7 @@ export default defineComponent({
       }
       if (isPC.value) {
         // TODO: mousedownからmouseupまでに時間がかかるとフォーカスが外れる
-        setTimeout(matrix.value.focus, 300)
+        setTimeout(() => matrix.value?.focus(), 300)
       }
     }
 

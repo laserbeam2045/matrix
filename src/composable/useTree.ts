@@ -4,9 +4,9 @@ import { reactive, computed, readonly } from 'vue'
 export type TreeState = 0 | 1 | 2
 
 export interface TreeStates {
-  LOCK_MODE: TreeState;
-  DROP_MODE: TreeState;
-  EDIT_MODE: TreeState;
+  LOCK_MODE: TreeState
+  DROP_MODE: TreeState
+  EDIT_MODE: TreeState
 }
 
 export const TREE_STATES: TreeStates = {
@@ -27,7 +27,7 @@ const optionSingle = {
   sort         : false,
   animation    : 200,
   group        : {
-    name: 'treenode',
+    name: 'treeNode',
     pull: 'clone',
     put : false,
   },
@@ -40,7 +40,7 @@ const optionUnit = {
   sort         : true,
   animation    : 250,
   group        : {
-    name: 'treebranch',
+    name: 'treeBranch',
     pull: true,
     put : true,
   },
@@ -57,6 +57,7 @@ export default function useTree() {
     case TREE_STATES.LOCK_MODE: return 'lock-mode'
     case TREE_STATES.DROP_MODE: return 'drop-mode'
     case TREE_STATES.EDIT_MODE: return 'edit-mode'
+    default                   : return 'lock-mode'
     }
   })
 
@@ -66,6 +67,7 @@ export default function useTree() {
     case TREE_STATES.LOCK_MODE: return optionDisabled
     case TREE_STATES.DROP_MODE: return { ...optionSingle, handle }
     case TREE_STATES.EDIT_MODE: return optionDisabled
+    default                   : return optionDisabled
     }
   })
 
@@ -75,6 +77,7 @@ export default function useTree() {
     case TREE_STATES.LOCK_MODE: return optionDisabled
     case TREE_STATES.DROP_MODE: return optionDisabled
     case TREE_STATES.EDIT_MODE: return { ...optionUnit, handle }
+    default                   : return optionDisabled
     }
   })
 

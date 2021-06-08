@@ -10,11 +10,11 @@
 import { defineComponent, ref, reactive, watch, onMounted } from 'vue'
 import EditableWindowPre from './EditableWindowPre'
 
-import useSelection from '@/composables/useSelection'
+import useSelection from 'composable/useSelection'
 
-import { getRootElement } from '@/utilities/v_dom_functions'
-import { getClipboardData } from '@/utilities/v_event_functions'
-import { LF, convert2LF, trimLastLF, doubleLastLF } from '@/utilities/v_string_functions'
+import { getRootElement } from 'utilities/v_dom_functions'
+import { getClipboardData } from 'utilities/v_event_functions'
+import { LF, convert2LF, trimLastLF, doubleLastLF } from 'utilities/v_string_functions'
 
 export default defineComponent({
   components: {
@@ -131,18 +131,18 @@ export default defineComponent({
     }
 
     // mousedownイベントハンドラ
-    const onMousedown = () => {
+    const onMousedown = event => {
       emit('mousedown', event)
     }
 
     // mouseupイベントハンドラ
-    const onMouseup = () => {
+    const onMouseup = event => {
       emit('mouseup', event)
     }
 
     // keydownイベントハンドラ
     // MEMO: Enterキーの入力処理は特別に処理する（brやdivタグを作らせないようにするため）
-    const onKeydown = () => {
+    const onKeydown = event => {
       if (event.key === 'Process') {
         // 全角入力の未確定時にtrue、確定時にfalseとなる
         state.isComposing = (event.code !== 'Enter')
@@ -158,11 +158,11 @@ export default defineComponent({
           recordLocalRange(preElement.value)
         }
       }
-      emit('keydown', event)
+      emit('keydown', { event })
     }
 
     // keyupイベントハンドラ
-    const onKeyup = () => {
+    const onKeyup = event => {
       if (event.key !== 'Process') {
         scrollByArrowKey(event)
         recordLocalRange(preElement.value)
@@ -171,17 +171,18 @@ export default defineComponent({
     }
 
     // inputイベントハンドラ
-    const onInput = () => {
+    const onInput = event => {
       if (!state.isComposing) {
+        const value = trimLastLF(getInnerText())
         event.preventDefault()
         recordLocalRange(preElement.value)
-        emit('input', trimLastLF(getInnerText()))
+        emit('input', { event, value })
       }
     }
 
     // pasteイベントハンドラ
     // MEMO: キャレット位置のずれ等につながるため、改行コードをLFに統一させる
-    const onPaste = () => {
+    const onPaste = event => {
       const text = getClipboardData(event)
       event.preventDefault()
       insertText(convert2LF(text))
@@ -192,7 +193,7 @@ export default defineComponent({
     const onBlur  = () => state.isFocused = false
 
     // scrollイベントハンドラ
-    const onScroll = () => {
+    const onScroll = event => {
       emit('scroll', event.target.scrollTop)
       emit('update:scrollTop', event.target.scrollTop)
     }

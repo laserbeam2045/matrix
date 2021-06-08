@@ -12,14 +12,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, inject } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
+import { useAudio, AUDIOS } from 'store/useAudio'
 import _ from 'lodash'
 
 export default defineComponent({
   setup() {
-    const { playAudio } = injectAudio()
+    const { playAudio } = useAudio()
 
     const searchQuery = inject('searchQuery')
     const filteredQuizzes = inject('filteredQuizzes')
@@ -41,7 +41,7 @@ export default defineComponent({
       searchQuery.value = valueRef.value
     }, 200)
 
-    const onClickTag = id => {
+    const onClickTag = (id: number) => {
       playAudio(AUDIOS.ETC.CYBER_15_2)
       id// store.toggleActiveTagId(id)
     }

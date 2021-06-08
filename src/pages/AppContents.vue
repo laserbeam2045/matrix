@@ -4,37 +4,36 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
-import { WINDOWS } from '@/store/windowManager'
-import { useTheme } from '@/store/useTheme'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
-import { injectStore as injectWindowManager } from '@/store/windowManager'
-import TheWindows from '@/components/window/TheWindows'
+
+import { useTheme } from 'store/useTheme'
+import { useAudio, AUDIOS } from 'store/useAudio'
+import { useWindowManager, WINDOWS } from 'store/useWindowManager'
+
+import TheWindows from 'components/window/TheWindows.vue'
 
 export default defineComponent({
-  components: { TheWindows },
+  components: {
+    TheWindows,
+  },
   async setup() {
     const { theme } = useTheme()
 
-    const { loadAudio } = injectAudio()
+    const { loadAudio } = useAudio()
+
+    const { open: openWindow } = useWindowManager()
 
     const loadAudios = () => {
       loadAudio(AUDIOS.QUIZ)
       loadAudio(AUDIOS.ETC)
     }
 
-    const {
-      windows,
-      open: openWindow,
-    } = injectWindowManager()
-
     openWindow(WINDOWS.THE_MATRIX)
 
     return {
       theme,
       loadAudios,
-      windows,
     }
   },
 })

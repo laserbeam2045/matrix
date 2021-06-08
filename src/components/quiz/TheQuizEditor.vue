@@ -23,10 +23,10 @@
   />
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, reactive, watch, inject } from 'vue'
-import TemplateFormQuiz from './TemplateFormQuiz'
-import useWindowManager from '@/store/windowManager'
+import TemplateFormQuiz from './TemplateFormQuiz.vue'
+import { useWindowManager } from 'store/useWindowManager'
 
 // 確認ダイアログがどのボタンによって表示されたかを表す定数
 const UPDATE_QUIZ_MODE = 0
@@ -107,7 +107,7 @@ export default defineComponent({
     }
 
     // タグ押下時の処理
-    const onClickQuizTag = tagId => {
+    const onClickQuizTag = (tagId: number) => {
       modeRef.value = DELETE_TAG_MODE
       tagIdRef.value = tagId
       openConfirm()

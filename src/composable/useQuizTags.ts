@@ -1,26 +1,19 @@
 import { Ref, ComputedRef, ref, onMounted, watch, computed } from 'vue'
-import { fetchQuizTags } from '@/api/tags'
-import SuperArray from '@/utilities/SuperArray'
+import { fetchQuizTags } from 'api/tags'
+import { Tag, Tags } from 'types/api'
+import { User } from 'types/users'
+import SuperArray from 'utilities/SuperArray'
 
-export type Tag = {
-  id: number
-  lft: number
-  label: string
-  parentId: number
-  children: Array<Tag>
-  quizCount: number
-}
-export type Tags = Array<Tag>
-export type TagsRef = Ref<Tags>
-
-const user = ref({
+const userRef: Ref<User> = ref({
   profile: {
-    name: 'Neo',
+    name         : 'Neo',
+    iconSource   : '',
+    bulletinBoard: '',
   },
 })
 
 export default function useQuizTags() {
-  const tags: TagsRef = ref([])
+  const tags: Ref<Tags> = ref([])
 
   const root: ComputedRef = computed(() => {
     return tags.value.length
@@ -34,7 +27,7 @@ export default function useQuizTags() {
   const activeTagIds = ref(new SuperArray())
 
   const getQuizTags = async () => {
-    tags.value = await fetchQuizTags(user.value)
+    tags.value = await fetchQuizTags(userRef.value)
   }
 
   /**
@@ -75,7 +68,7 @@ export default function useQuizTags() {
   }
 
   onMounted(getQuizTags)
-  watch(user, getQuizTags)
+  watch(userRef, getQuizTags)
 
   return {
     tags,

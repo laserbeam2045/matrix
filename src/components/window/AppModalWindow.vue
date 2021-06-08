@@ -15,9 +15,9 @@
   </template>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
+import { useAudio, AUDIOS } from 'store/useAudio'
 
 export default defineComponent({
   props: {
@@ -33,7 +33,7 @@ export default defineComponent({
   emits: ['open', 'close'],
 
   setup(props, { emit }) {
-    const { playAudio } = injectAudio()
+    const { playAudio } = useAudio()
 
     const isVisible = ref(false)
     const open   = () => isVisible.value = true

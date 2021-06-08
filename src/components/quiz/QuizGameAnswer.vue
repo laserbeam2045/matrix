@@ -10,11 +10,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, toRefs, ref, computed } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
-import { GAME_STATE } from '@/composables/useQuizGame'
-import { hira2kata } from '@/utilities/v_string_functions'
+import { useAudio, AUDIOS } from 'store/useAudio'
+import { GAME_STATE } from 'composable/useQuizGame'
+import { hira2kata } from 'utilities/v_string_functions'
 
 export default defineComponent({
   props: {
@@ -32,7 +32,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { playAudio } = injectAudio()
+    const { playAudio } = useAudio()
 
     const { answer1, answer2, gameData } = toRefs(props)
 

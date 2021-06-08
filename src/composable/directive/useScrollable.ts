@@ -48,6 +48,7 @@ export default function useScrollable({ width, height, position }: Arguments) {
     case 'left'  : return 0
     case 'right' : return 0
     case 'bottom': return state.clientRect.height
+    default      : return 0
     }
   })
 
@@ -58,6 +59,7 @@ export default function useScrollable({ width, height, position }: Arguments) {
     case 'left'  : return 0
     case 'right' : return state.clientRect.width
     case 'bottom': return 0
+    default      : return 0
     }
   })
 
@@ -68,6 +70,7 @@ export default function useScrollable({ width, height, position }: Arguments) {
     case 'left'  : return SCROLLBAR_THICKNESS
     case 'right' : return SCROLLBAR_THICKNESS
     case 'bottom': return state.clientRect.width
+    default      : return state.clientRect.width
     }
   })
 
@@ -78,6 +81,7 @@ export default function useScrollable({ width, height, position }: Arguments) {
     case 'left'  : return state.clientRect.height
     case 'right' : return state.clientRect.height
     case 'bottom': return SCROLLBAR_THICKNESS
+    default      : return SCROLLBAR_THICKNESS
     }
   })
 
@@ -128,6 +132,7 @@ export default function useScrollable({ width, height, position }: Arguments) {
     case 'left'  : return isReachedMax.value ? BORDER_1 : BORDER_0
     case 'right' : return isReachedMax.value ? BORDER_2 : BORDER_0
     case 'bottom': return isReachedMax.value ? BORDER_3 : BORDER_1
+    default      : return BORDER_0
     }
   })
 
@@ -139,6 +144,7 @@ export default function useScrollable({ width, height, position }: Arguments) {
     case 'left'  : return { height: progress.value + '%', borderRadius }
     case 'right' : return { height: progress.value + '%', borderRadius }
     case 'bottom': return { width: progress.value + '%', borderRadius }
+    default      : return { width: progress.value + '%', borderRadius }
     }
   })
 

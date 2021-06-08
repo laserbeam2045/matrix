@@ -3,22 +3,23 @@ module.exports = {
 
   env: { node: true },
 
+  extends: [
+    'plugin:vue/vue3-recommended',
+    'eslint:recommended',
+    '@vue/typescript',
+    '@vue/prettier',
+    // 'airbnb',
+  ],
+
   parserOptions: {
     parser     : '@typescript-eslint/parser',
     sourceType : 'module',
     ecmaVersion: 2020,
   },
 
-  extends: [
-    'plugin:vue/vue3-recommended',
-    'eslint:recommended',
-    '@vue/typescript',
-    '@vue/prettier',
-  ],
-
   overrides: [
     {
-      files: ['*.vue'],
+      files: ['*.vue', '*.d.ts'],
       rules: {
         'no-unused-vars': 'off',
         '@typescript-eslint/no-unused-vars': 'error'
@@ -26,9 +27,33 @@ module.exports = {
     },
   ],
 
+  // settings: {
+  //   'import/resolver': {
+  //     'node': {
+  //       'extensions': [
+  //         '.js',
+  //         '.jsx',
+  //         '.json',
+  //         '.ts',
+  //         '.tsx'
+  //       ]
+  //     }
+  //   }
+  // },
+
   rules: {
     'no-console' : process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+
+    // 'import/no-unresolved': [
+    //   2,
+    //   {
+    //     'ignore': [
+    //       '^@components',
+    //       '^@types'
+    //     ]
+    //   }
+    // ],
 
     /**
      * plugin:vue/vue3-recommended
@@ -186,7 +211,7 @@ module.exports = {
     'indent': ['error', 2],
 
     // オブジェクトのコロンの前後にスペースをあけるかどうか。
-    'key-spacing': ['error', {
+    'key-spacing': ['warn', {
       'multiLine': {            // 複数行のvalueの場合
         'beforeColon': false,   // コロンの前はスペースなし
         'afterColon' : true,    // コロンの後はスペースあり

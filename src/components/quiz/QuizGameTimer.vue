@@ -9,9 +9,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, reactive, computed } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
+import { useAudio, AUDIOS } from 'store/useAudio'
 import TWEEN from '@tweenjs/tween.js'
 import Color from 'color-js'
 
@@ -34,7 +34,7 @@ export default defineComponent({
     'timeover',
   ],
   setup(props, { emit }) {
-    const { playAudio, stopAudio } = injectAudio()
+    const { playAudio, stopAudio } = useAudio()
 
     const state = reactive({
       isInitial   : true,   // 初期状態かどうか

@@ -29,11 +29,11 @@
   </li>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, computed, inject } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
+import { useAudio, AUDIOS } from 'store/useAudio'
 import { VueDraggableNext } from 'vue-draggable-next'
-import TreeToggleButton from './TreeToggleButton'
+import TreeToggleButton from './TreeToggleButton.vue'
 
 export default defineComponent({
   components: {
@@ -56,7 +56,7 @@ export default defineComponent({
     'click',
   ],
   setup() {
-    const { playAudio } = injectAudio()
+    const { playAudio } = useAudio()
 
     const itemEvents = inject('itemEvents')
     const itemComponent = inject('itemComponent')

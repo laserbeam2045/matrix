@@ -1,5 +1,5 @@
 import { reactive, ref, computed, watch, readonly, provide, inject } from 'vue'
-import { getRequest } from '@/api/request_methods'
+import { getRequest } from 'api/request_methods'
 
 const storeSymbol = Symbol('quizTag')
 const API_ADDRESS = process.env.VUE_APP_API_SELECT_TAG

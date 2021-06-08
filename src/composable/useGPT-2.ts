@@ -1,8 +1,8 @@
 import { reactive, computed, readonly } from 'vue'
-import { postRequest } from '@/api/request_methods'
-import { splitByBlank, isOnlyBlank } from '@/utilities/v_string_functions'
-import { deepCopy } from '@/utilities/v_array_functions'
-import SuperArray from '@/utilities/SuperArray'
+import { postRequest } from 'api/request_methods'
+import { splitByBlank, isOnlyBlank } from 'utilities/v_string_functions'
+import { deepCopy } from 'utilities/v_array_functions'
+import SuperArray from 'utilities/SuperArray'
 
 const API_ADDRESS = process.env.VUE_APP_API_GPT_2
 
@@ -59,7 +59,7 @@ export default function useGPT_2() {
   const isTextOnlyBlank = computed(() => isOnlyBlank(state.text))
 
   // 文章の末尾の文字が、空白文字かどうか
-  const isLastCharactorBlank = computed(() => !!lastChar.value.match(/\s/))
+  const isLastCharacterBlank = computed(() => !!lastChar.value.match(/\s/))
 
   // 予測された次の単語
   const nextWord = computed(() => {
@@ -83,7 +83,7 @@ export default function useGPT_2() {
     if (
       includeFlag.value ||
       isNextWordPartialMatch.value ||
-      isLastCharactorBlank.value ||
+      isLastCharacterBlank.value ||
       nextWord.value[0] !== ' '
       //this.joinCharList1.some(c => c === this.nextWord[0]) ||
       //this.joinCharList2.some(c => c === this.lastChar)
@@ -155,7 +155,7 @@ export default function useGPT_2() {
     return {
       'text'         : preProcessedText.value,
       'lastWord'     : lastWord.value,
-      'blankFlag'    : isLastCharactorBlank.value,
+      'blankFlag'    : isLastCharacterBlank.value,
       'tabFlag'      : state.tabFlag,
       'requestNumber': state.requestNumber,
     }
@@ -164,10 +164,10 @@ export default function useGPT_2() {
   /* functions */
 
   // textのセッター
-  const setText = value => state.text = value
+  const setText = (value: string) => state.text = value
 
   // tabFlagのセッター
-  const setTabFlag = value => state.tabFlag = value
+  const setTabFlag = (value: boolean) => state.tabFlag = value
 
   // 予測単語の配列を確率順に並べ替える関数
   const sortWords = () => {
@@ -219,9 +219,9 @@ export default function useGPT_2() {
         (
           isNextWordPartialMatch.value ||
           isNextWordPerfectMatch.value
-        ) && !isLastCharactorBlank.value ||
+        ) && !isLastCharacterBlank.value ||
         (
-          isLastCharactorBlank.value &&
+          isLastCharacterBlank.value &&
           nextWord.value[0] === ' '
         )
       ) {

@@ -1,5 +1,5 @@
 import { reactive, computed, toRefs } from 'vue'
-import '@types/events'
+import 'types/events'
 
 type ElementState = {
   offsetParent: HTMLElement | Element | null

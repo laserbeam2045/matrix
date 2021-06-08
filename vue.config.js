@@ -1,4 +1,5 @@
-// const path = require('path')
+/* eslint-disable key-spacing */
+const path = require('path')
 
 module.exports = {
   css: {
@@ -13,6 +14,40 @@ module.exports = {
       },
     },
   },
+
+  configureWebpack: {
+    resolve: {
+      alias: {
+        'app': path.join(__dirname, '/'),
+        '@': path.join(__dirname, '/src'),
+        'api': path.join(__dirname, '/src/api'),
+        'types': path.join(__dirname, '/src/@types'),
+        'store': path.join(__dirname, '/src/store'),
+        'utilities': path.join(__dirname, '/src/utilities'),
+        'components': path.join(__dirname, '/src/components'),
+        'composable': path.join(__dirname, '/src/composable'),
+      },
+    },
+  },
+
+  // // https://v3.vuejs.org/guide/typescript-support.html#webpack-configuration
+  // module: {
+  //   rules: [
+  //     {
+  //       test   : /\.tsx?$/,
+  //       loader : 'ts-loader',
+  //       options: {
+  //         appendTsSuffixTo: [/\.vue$/],
+  //       },
+  //       exclude: /node_modules/,
+  //     },
+  //     {
+  //       test  : /\.vue$/,
+  //       loader: 'vue-loader',
+  //     },
+  //   ],
+  // },
+
   // // webpack4はlordersではなくなりました
   // module: {
   //   rules: [
@@ -68,6 +103,7 @@ module.exports = {
   //     }
   //   ]
   // },
+
   // // デフォルトの設定値だけでは足りないことについて解決します
   // resolve: {
   //   // モジュールを読み込むときに検索するディレクトリの設定
@@ -76,7 +112,12 @@ module.exports = {
   //   extensions: ['.js', '.ts', '.vue', 'css'],
   //   alias: {
   //     // 例えばmain.js内で `import Vue from 'vue';` と記述したときの`from vue`が表すファイルパスを指定
-  //     'vue$': 'vue/dist/vue.esm.js'
+  //     'vue$': 'vue/dist/vue.esm.js',
+  //     '@': path.resolve(__dirname, 'src'),
   //   },
   // },
+
+  // globalComponents: [
+  //   'AppVirtualWindow',
+  // ],
 }

@@ -1,12 +1,22 @@
-import { reactive, computed, readonly, provide, inject } from 'vue'
-import { DEVICE_TYPE, getDeviceType } from '@/utilities/v_event_functions'
+import { InjectionKey, reactive, computed, readonly, provide, inject } from 'vue'
+import { DEVICE_TYPE, getDeviceType } from 'utilities/v_event_functions'
 
-const storeSymbol = Symbol('matrix')
+const MatrixSymbol: InjectionKey<null> = Symbol('matrix')
 
-export const provideStore = () => provide(storeSymbol, createStore())
+// ルートコンポーネントで一度だけ実行します
+export const provideMatrix = () => provide(MatrixSymbol, createStore())
 
-export const useMatrix = () => inject(storeSymbol)
+// storeを使用するコンポーネント内で実行します
+export const useMatrix = (): any => {
+  const matrixStore = inject(MatrixSymbol)
+  if (!matrixStore) {
+    throw new Error('useMatrix() is called without provider.')
+  }
 
+  return matrixStore
+}
+
+// storeを作成する関数(呼び出し不要)
 const createStore = () => {
   const state = reactive({
     deviceType: getDeviceType(),

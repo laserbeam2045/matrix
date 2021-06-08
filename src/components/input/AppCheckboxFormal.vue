@@ -15,7 +15,7 @@
 
 <script>
 import { defineComponent } from 'vue'
-import useModelValue from '@/composables/useModelValue'
+import useModelValue from 'composable/useModelValue'
 
 export default defineComponent({
   props: {

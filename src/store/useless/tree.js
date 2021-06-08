@@ -21,7 +21,7 @@ const optionSingle = {
   sort         : false,
   animation    : 200,
   group        : {
-    name: 'treenode',
+    name: 'treeNode',
     pull: 'clone',
     put : false,
   },
@@ -34,7 +34,7 @@ const optionUnit = {
   sort         : true,
   animation    : 250,
   group        : {
-    name: 'treebranch',
+    name: 'treeBranch',
     pull: true,
     put : true,
   },

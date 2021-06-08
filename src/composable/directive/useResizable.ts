@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
-import { MOUSE_TOUCH_EVENT as TOUCH } from '@/utilities/v_event_functions'
+import { MOUSE_TOUCH_EVENT as TOUCH } from 'utilities/v_event_functions'
 import useWindow from './useWindow'
-import '@types/events'
+import 'types/events'
 
 const WEIGHT = '11px'       // 通常時の太さ
 const LENGTH = '100%'       // 通常時の長さ

@@ -44,17 +44,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, reactive, computed, onMounted, inject } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
-import { default as useQuizGame, GAME_STATE } from '@/composables/useQuizGame'
-import QuizGameTimer    from './QuizGameTimer'
-import QuizGameQuestion from './QuizGameQuestion'
-import QuizGameAnswer   from './QuizGameAnswer'
-import QuizGameInput    from './QuizGameInput'
-import QuizGameInfo     from './QuizGameInfo'
-import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
-import { shuffle }           from '@/utilities/v_array_functions'
+
+import { useAudio, AUDIOS } from 'store/useAudio'
+import { default as useQuizGame, GAME_STATE } from 'composable/useQuizGame'
+
+import QuizGameTimer    from './QuizGameTimer.vue'
+import QuizGameQuestion from './QuizGameQuestion.vue'
+import QuizGameAnswer   from './QuizGameAnswer.vue'
+import QuizGameInput    from './QuizGameInput.vue'
+import QuizGameInfo     from './QuizGameInfo.vue'
+
+import { MOUSE_TOUCH_EVENT } from 'utilities/v_event_functions'
+import { shuffle }           from 'utilities/v_array_functions'
 
 const PUSH_KEY_DELAY = 3000      // ボタンを押してからゲージが動き出すまでの待機時間
 const NEXT_QUIZ_DELAY = 2000     // 問題が終了してから次の問題までの待機時間
@@ -72,7 +75,7 @@ export default defineComponent({
   },
   emits: ['touch'],
   setup(props, { emit }) {
-    const { playAudio } = injectAudio()
+    const { playAudio } = useAudio()
 
     const windowState = reactive({
       width : '352px',

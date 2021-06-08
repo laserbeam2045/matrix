@@ -18,11 +18,11 @@
   </AppVirtualWindow>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, reactive } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
-import { injectStore as injectWindowManager, WINDOWS } from '@/store/windowManager'
-import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
+import { useAudio, AUDIOS } from 'store/useAudio'
+import { useWindowManager, WINDOWS } from 'store/useWindowManager'
+import { MOUSE_TOUCH_EVENT } from 'utilities/v_event_functions'
 
 export default defineComponent({
   name : 'TheAudios',
@@ -30,7 +30,7 @@ export default defineComponent({
     'touch',
   ],
   setup(_, { emit }) {
-    const { playAudio } = injectAudio()
+    const { playAudio } = useAudio()
 
     const windowState = reactive({
       width : '99vw',
@@ -42,7 +42,7 @@ export default defineComponent({
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
     }
 
-    const { close } = injectWindowManager()
+    const { close } = useWindowManager()
 
     // ウィンドウを閉じる処理
     const closeWindow = () => {

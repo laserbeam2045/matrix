@@ -15,11 +15,11 @@
 
 <script>
 import { defineComponent, ref, reactive, computed } from 'vue'
-import { escapeRegExp, escapeHTML } from '@/utilities/v_string_functions'
-import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
-import EditableWindow from '@/components/editor/EditableWindow'
+import { escapeRegExp, escapeHTML } from 'utilities/v_string_functions'
+import { MOUSE_TOUCH_EVENT } from 'utilities/v_event_functions'
+import EditableWindow from 'components/editor/EditableWindow'
 // eslint-disable-next-line camelcase
-import useGPT_2 from '@/composables/useGPT-2'
+import useGPT_2 from 'composable/useGPT-2'
 import _ from 'lodash'
 
 export default defineComponent({

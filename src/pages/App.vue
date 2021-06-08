@@ -1,42 +1,52 @@
 <template>
-  <div v-if="error">
-    {{ error.message }}
-  </div>
-  <ThemeContext v-else>
-    <Suspense>
-      <template #default>
-        <AppContents />
-      </template>
-      <template #fallback>
-        <AppLoading />
-      </template>
-    </Suspense>
-  </ThemeContext>
+  <MatrixContext>
+    <WindowContext>
+      <AudioContext>
+        <ThemeContext>
+          <div v-if="error">
+            {{ error.message }}
+          </div>
+          <Suspense v-else>
+            <template #default>
+              <AppContents />
+            </template>
+            <template #fallback>
+              <AppLoading />
+            </template>
+          </Suspense>
+        </ThemeContext>
+      </AudioContext>
+    </WindowContext>
+  </MatrixContext>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue'
-import { provideStore as provideAudio } from '@/store/audio'
-import { provideStore as provideMatrix } from '@/store/matrix'
-import { provideStore as provideWindowManager } from '@/store/windowManager'
+<script lang="ts">
+import { defineComponent, Ref, ref } from 'vue'
 
-import ThemeContext from '@/components/xyz/ThemeContext'
+import MatrixContext from 'components/xyz/MatrixContext.vue'
+import WindowContext from 'components/xyz/WindowContext.vue'
+import AudioContext from 'components/xyz/AudioContext.vue'
+import ThemeContext from 'components/xyz/ThemeContext.vue'
+import AppContents from '@/pages/AppContents.vue'
+import AppLoading from '@/pages/AppLoading.vue'
 
-import AppContents from '@/pages/AppContents'
-import AppLoading from '@/pages/AppLoading'
+interface ErrorObject {
+  message: string
+}
+
+type Error = Ref<null | ErrorObject>
 
 export default defineComponent({
   components: {
+    MatrixContext,
+    WindowContext,
     ThemeContext,
+    AudioContext,
     AppContents,
     AppLoading,
   },
   setup() {
-    const error = ref(null)
-
-    provideAudio()
-    provideMatrix()
-    provideWindowManager()
+    const error: Error = ref(null)
 
     // TODO: ErrorHandling
     return { error }

@@ -39,7 +39,7 @@ export default defineComponent({
       return question.value.slice(0, state.currentPosition)
     })
     // 未表示の文字があるかどうか
-    const isThereHiddenCharactor = computed(() => {
+    const isThereHiddenCharacter = computed(() => {
       return state.currentPosition < QuestionLength.value
     })
 
@@ -49,7 +49,7 @@ export default defineComponent({
     }
     // 問題文の表示を開始する関数
     const startOpen = (interval = OPEN_INTERVAL) => {
-      if (isThereHiddenCharactor.value)
+      if (isThereHiddenCharacter.value)
         state.intervalId = setInterval(showNextChar, interval)
     }
     // 問題文の表示を停止させる関数
@@ -58,7 +58,7 @@ export default defineComponent({
     }
     // 問題文の次の文字を表示させる関数
     const showNextChar = () => {
-      if (isThereHiddenCharactor.value) {
+      if (isThereHiddenCharacter.value) {
         state.currentPosition++
       } else {
         stopOpen()

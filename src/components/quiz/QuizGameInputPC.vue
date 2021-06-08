@@ -11,9 +11,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, reactive, nextTick } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
+import { useAudio, AUDIOS } from 'store/useAudio'
 
 export default defineComponent({
   props: {
@@ -32,7 +32,7 @@ export default defineComponent({
     'tab',
   ],
   setup(props, { emit }) {
-    const { playAudio } = injectAudio()
+    const { playAudio } = useAudio()
 
     const state = reactive({
       inputText  : '',      // 回答者が入力した文字列
@@ -49,7 +49,7 @@ export default defineComponent({
       state.answerIndex = 0
     }
 
-    const onPressButton = char => {
+    const onPressButton = (char: string) => {
       if (!state.isPressed) {
         state.isPressed = true
         emit('push')
@@ -68,10 +68,11 @@ export default defineComponent({
     }
 
     // 回答欄に変化が生じたときのイベント
-    const onUpdateText = value => {
+    const onUpdateText = (value: string) => {
       state.inputText = value
       nextTick(() => state.inputText = value.trim())
     }
+
     // 何らかのキー押下時のイベント
     const pressKeyEvent = () => {
       if (!state.isPressed) {
@@ -79,12 +80,14 @@ export default defineComponent({
         emit('push')
       }
     }
+
     // Enterキー押下時のイベント
     const pressEnterKeyEvent = () => {
       if (state.isPressed && state.inputText) {
         emit('enter')
       }
     }
+
     // Tabキー押下時のイベント
     const pressTabKeyEvent = () => {
       emit('tab')

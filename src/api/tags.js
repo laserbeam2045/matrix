@@ -1,4 +1,4 @@
-import { getRequest } from '@/api/request_methods'
+import { getRequest } from 'api/request_methods'
 
 const API_ADDRESS = process.env.VUE_APP_API_SELECT_TAG
 

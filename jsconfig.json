@@ -1,6 +1,59 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es6"
-  }
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "types": [
+      "webpack-env",
+      "resize-observer-browser",
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "app/*": ["./*"],
+      "@/*": ["./src/*"],
+      "api/*": ["./src/api/*"],
+      "types/*": ["./src/@types/*"],
+      "store/*": ["./src/store/*"],
+      "utilities/*": ["./src/utilities/*"],
+      "components/*": ["./src/components/*"],
+      "composable/*": ["./src/composable/*"],
+    },
+    "lib": [
+      "es5",
+      "es6",
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ],
+    "outDir": "./dist/"
+  },
+  "include": [
+    "src/*.js",
+    "src/*.ts",
+    "src/api/*.js",
+    "src/api/*.ts",
+    "src/@types/*/d.ts",
+    "src/components/**/*.vue",
+    "src/composable/**/*.js",
+    "src/composable/**/*.ts",
+    "src/pages/*.vue",
+    "src/plugins/*.ts",
+    "src/store/*.js",
+    "src/store/*.ts",
+    "tests/**/*.ts",
+    "tests/**/*.tsx",
+    "src/utilities/*.js",
+    "src/utilities/*.ts"
+, ],
+  "exclude": [
+    "node_modules"
+  ]
 }

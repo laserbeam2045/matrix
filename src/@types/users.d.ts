@@ -1,7 +1,5 @@
-declare import { Ref } from 'vue'
 
-
-export type User = {
+export interface User {
   profile: {
     name: string
     iconSource: string
@@ -10,5 +8,3 @@ export type User = {
 }
 
 export type Users = Array<User>
-
-export type UsersRef = Ref<Users | undefined>

@@ -1,6 +1,6 @@
-import { MOUSE_TOUCH_EVENT as TOUCH } from '@/utilities/v_event_functions'
+import { MOUSE_TOUCH_EVENT as TOUCH } from 'utilities/v_event_functions'
 import useWindow from './useWindow'
-import '@types/events'
+import 'types/events'
 
 export default function useDraggable(el: HTMLElement) {
   const {

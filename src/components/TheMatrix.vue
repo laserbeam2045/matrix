@@ -11,14 +11,19 @@
   </AppVirtualWindow>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue'
+<script lang="ts">
+import { defineComponent, Ref, ref } from 'vue'
 
-import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
+import { Theme } from 'types/theme'
+import { WindowName } from 'types/windows'
 
-import EditableWindow from '@/components/editor/EditableWindow'
+import useCommand from 'composable/useCommand'
 
-import useCommand from '@/composables/useCommand'
+import EditableWindow from 'components/editor/EditableWindow.vue'
+
+import { MOUSE_TOUCH_EVENT } from 'utilities/v_event_functions'
+
+type Editable = Ref<InstanceType<typeof EditableWindow> | null>
 
 export default defineComponent({
   components: {
@@ -31,7 +36,7 @@ export default defineComponent({
     'invalidCommand',
   ],
   setup(props, { emit }) {
-    const editable = ref(null)
+    const editable: Editable = ref(null)
 
     const {
       currentCommand,
@@ -46,16 +51,16 @@ export default defineComponent({
     }
 
     // ウィンドウを開くコマンド
-    const windowCommand = windowName => {
+    const windowCommand = (windowName: WindowName) => {
       emit('windowCommand', windowName)
-      editable.value.blur()
+      // editable.value.blur()
       return true
     }
 
     // ページテーマを変更するコマンド
-    const themeCommand = themeName => {
+    const themeCommand = (themeName: Theme) => {
       emit('themeCommand', themeName)
-      editable.value.blur()
+      // editable.value.blur()
       return true
     }
 
@@ -84,7 +89,8 @@ export default defineComponent({
     }
 
     // inputイベント時の処理
-    const onInput = value => {
+    type InputArgs = { event: KeyboardEvent, value: string }
+    const onInput = ({ event, value }: InputArgs) => {
       if (!(event.type === 'keydown' && event.key === 'Enter')) {
         setCommand(value)
       }

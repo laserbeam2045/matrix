@@ -10,11 +10,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
-import useUsers from '@/composables/useUsers'
-import UserData from './UserData'
+import { useAudio, AUDIOS } from 'store/useAudio'
+import useUsers from 'composable/useUsers'
+import UserData from './UserData.vue'
 
 export default defineComponent({
   name      : 'TheUser',
@@ -25,9 +25,9 @@ export default defineComponent({
   setup() {
     const userIds = computed(() => [0])
 
-    const { users } = useUsers(userIds)
+    const { users } = useUsers(userIds.value)
 
-    const { playAudio } = injectAudio()
+    const { playAudio } = useAudio()
 
     // ウィンドウを閉じる処理
     const closeWindow = () => {

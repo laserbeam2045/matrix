@@ -15,10 +15,10 @@
   </AppModalWindow>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, reactive, ref, watch, inject } from 'vue'
-import TemplateFormQuizTag from '@/components/quiz/TemplateFormQuizTag'
-import useWindowManager from '@/store/windowManager'
+import TemplateFormQuizTag from 'components/quiz/TemplateFormQuizTag'
+import { useWindowManager } from 'store/useWindowManager'
 
 export default defineComponent ({
   components: {

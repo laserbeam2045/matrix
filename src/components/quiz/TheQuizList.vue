@@ -17,13 +17,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
-import QuizListTable from './QuizListTable'
-import TheQuizCreator from './TheQuizCreator'
-import TheQuizEditor from './TheQuizEditor'
-import useWindowManager from '@/store/windowManager'
+
+import { useWindowManager } from 'store/useWindowManager'
+
+import QuizListTable from './QuizListTable.vue'
+import TheQuizCreator from './TheQuizCreator.vue'
+import TheQuizEditor from './TheQuizEditor.vue'
+
+import { MOUSE_TOUCH_EVENT } from 'utilities/v_event_functions'
 
 export default defineComponent({
   components: {
@@ -52,7 +55,7 @@ export default defineComponent({
     // 更新・削除の対象となるクイズのid
     const quizId = ref(0)
 
-    const setQuizId = id => {
+    const setQuizId = (id: number) => {
       quizId.value = id
       console.log(1, quizId.value)
     }

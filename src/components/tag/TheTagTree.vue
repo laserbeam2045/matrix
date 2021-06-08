@@ -24,19 +24,19 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, provide, inject } from 'vue'
-import { injectStore as injectAudio, AUDIOS } from '@/store/audio'
-import useWindowManager from '@/store/windowManager'
+import { useAudio, AUDIOS } from 'store/useAudio'
+import { useWindowManager } from 'store/useWindowManager'
 
-import QuizTag from '@/components/quiz/QuizTag'
-import TreeAlpha from '@/components/tree/TreeAlpha'
-import TheTagCreator from './TheTagCreator'
-import TheTagEditor from './TheTagEditor'
+import QuizTag from 'components/quiz/QuizTag.vue'
+import TreeAlpha from 'components/tree/TreeAlpha.vue'
+import TheTagCreator from './TheTagCreator.vue'
+import TheTagEditor from './TheTagEditor.vue'
 
-import { default as useTree, TREE_STATES } from '@/composables/useTree'
+import { default as useTree, TREE_STATES } from 'composable/useTree'
 
-import { MOUSE_TOUCH_EVENT } from '@/utilities/v_event_functions'
+import { MOUSE_TOUCH_EVENT } from 'utilities/v_event_functions'
 
 export default defineComponent({
   components: {
@@ -47,7 +47,7 @@ export default defineComponent({
   emits: ['touch'],
 
   setup(props, { emit }) {
-    const { playAudio } = injectAudio()
+    const { playAudio } = useAudio()
 
     const windowEvents = {
       [`${MOUSE_TOUCH_EVENT.START}Passive`]() { emit('touch') },
