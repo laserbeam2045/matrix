@@ -11,11 +11,7 @@ function uOrd($char)
 }
 
 try {
-	$pdo = new PDO(
-		"mysql:host=mysql101.phy.lolipop.lan;dbname=LAA0723421-database;",
-		"LAA0723421",
-		"hide2631"
-	);
+	$pdo = new PDO();
 	$pdo->query("SET NAMES utf8;");
 
 	$sql = "
